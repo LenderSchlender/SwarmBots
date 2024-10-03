@@ -48,7 +48,7 @@ static const uint32_t MAX_FPS = 30;
 static const uint32_t MIN_TIME = 1000 / MAX_FPS;
 
 // https://www.w3.org/Protocols/rfc1341/7_2_Multipart.html
-#define PART_BOUNDARY "SwarmBotsCamMultipartMJPEGBoundary;ReallyUnlikelyToCollide"
+#define PART_BOUNDARY "SwarmBotsCamMultipartMJPEGBoundary"
 static const char *_STREAM_CONTENT_TYPE = "multipart/x-mixed-replace;boundary=" PART_BOUNDARY;
 static const char *_STREAM_BOUNDARY = "\r\n--" PART_BOUNDARY "\r\n";
 static const char *_STREAM_PART = "Content-Type: image/jpeg\r\nContent-Length: %u\r\n\r\n";
@@ -165,7 +165,7 @@ void setup()
     }
 
     /* Setting up WLAN */
-    Serial.print("Connecting to WLAN");
+    Serial.printf("Connecting to WLAN network '%s' using password '%s'", WIFI_SSID, WIFI_PASS);
 
     // Set hostname
 #ifdef CAM_ID
@@ -174,7 +174,7 @@ void setup()
 #else
     // Set hostname based on last 3 octets of MAC address
     uint8_t mac[6];
-    char hostname[12] = { 0 };
+    char hostname[12] = {0};
     esp_read_mac(mac, ESP_MAC_WIFI_STA);
     sprintf(hostname, "sbcam-%02x%02x%02x", mac[3], mac[4], mac[5]);
     WiFi.setHostname(hostname);
@@ -191,7 +191,7 @@ void setup()
         Serial.print(".");
     }
 
-    Serial.printf("\nConnected to the WLAN Network '%s' as '%s' (MAC %s)\n", WIFI_SSID, WiFi.getHostname(), WiFi.macAddress().c_str());
+    Serial.printf("\nConnected to the WLAN network '%s' as '%s' (MAC %s)\n", WIFI_SSID, WiFi.getHostname(), WiFi.macAddress().c_str());
     Serial.print("Camera stream ready at http://");
     Serial.println(WiFi.localIP());
 
