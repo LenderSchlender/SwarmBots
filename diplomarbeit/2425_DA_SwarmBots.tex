@@ -1,0 +1,102 @@
+\documentclass[12pt]{article}
+\usepackage[margin=3cm]{geometry}
+\usepackage[german]{babel}
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage[export]{adjustbox}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{listings}
+
+% Style für inkludierten Code definieren
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{white},
+	commentstyle=\color{gray},
+	keywordstyle=\color{magenta},
+	numberstyle=\footnotesize\color{gray},
+	stringstyle=\color{purple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,
+	breaklines=true,
+	columns=fullflexible,
+	postbreak=\raisebox{0ex}[0ex][0ex]{$\hookrightarrow$\space},
+	captionpos=b,
+	keepspaces=true,
+	numbers=left,
+	numbersep=5pt,
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
+	tabsize=2
+}
+\lstset{style=mystyle}
+
+\begin{document}
+	%\setlength{\parindent}{0pt}
+	
+	% Keine Seitennummern von Titelblatt bis Inhalt
+	\pagenumbering{gobble}
+	
+	% Titelblatt
+	\begin{titlepage}
+		\centering
+		\Huge
+		\textbf{Diplomarbeit} \\
+		\huge
+		Gruppe ``SwarmBots'' \\
+		Schuljahr 2024/25 \\
+		\vspace{2cm}
+		\Large
+		\begin{tabular}{r @{: } >{\bfseries} l}
+			Betreuer & Prof. Erich Erker\\
+			Gruppenmitglieder & Arthur Burjak \\
+			& Leander Gastgeber \\
+			& Jones Soliman \\
+			& Mihael Stojkovic
+	\end{tabular}
+	\end{titlepage}
+	\newpage
+	
+	% Inhaltsverzeichnis wird hier generiert
+	\tableofcontents
+	\newpage
+	
+	\pagenumbering{arabic}
+	%% Hier beginnt der tatsächliche Inhalt
+	% TODO: Kapitel in mehrere Datein aufteilen?
+	\section{Projektstart}
+	\section{Prototyp}
+	\section{Erster Roboteraufbau}
+	\subsection{Elegoo Tumbller Kit}
+	\subsection{Guide}
+	\subsection{Tamerlan \& Bambi}
+	\section{Programmierung}
+	\subsection{ESP32-CAM}
+	\subsection{Sensoren}
+	\subsubsection{LiDAR}
+	\subsubsection{Gyroskop}
+	\subsubsection{Encoder}
+	\subsubsection{Kompass}
+	\section{Backend-Server}
+	\subsection{Datenverwaltung}
+	\subsection{Roboterpositionen}
+	\section{Web-Interface}
+	\subsection{LiDAR-Karte}
+	\subsection{Anzeigen der Sensordaten}
+	\subsection{Fernüberwachung per Kamera}
+	
+	%\lstinputlisting[language=c++]{../cam/src/main.cpp}
+
+	% Abbildungs- und Tabellenverzeichnis
+	\newpage
+	\pagenumbering{gobble}
+	\begin{appendix}
+		\addcontentsline{toc}{section}{Abbildungsverzeichnis}
+		\listoffigures
+		\addcontentsline{toc}{section}{Tabellenverzeichnis}
+		\listoftables
+	\end{appendix}
+	\vspace{1cm}
+\end{document}
