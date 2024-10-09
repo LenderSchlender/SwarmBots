@@ -1,0 +1,16 @@
+{
+    "name": "SwarmBots-commons",
+    "version": "1.0.0",
+    "description": "SwarmBots-commons is the code shared between all the SwarmBots",
+    "authors":
+    {
+        "name": "Leander Gastgeber",
+        "mail": "leander@gastgeber.at",
+        "maintainer": true
+    },
+    "frameworks": ["Arduino"],
+    "platforms": ["espressif32"],
+    "dependencies": {
+        "me-no-dev/ESP Async WebServer": "^1.2.4"
+    }
+}
