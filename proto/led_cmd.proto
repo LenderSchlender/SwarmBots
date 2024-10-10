@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package at.htlw10.swarmbots;
+
+message LedCmd {
+    /* 
+     * This is intended for use with WS2812B-ish LEDs, 
+     * but is probably applicable to others too...
+     */
+    message LedState {
+        uint32 number = 1;
+
+        /*
+         * Byte #0: Red
+         * Byte #1: Green
+         * Byte #2: Blue
+         * Byte #3: Brightness
+         */
+        bytes rgb = 2;
+    }
+
+    repeated LedState states = 1;
+}

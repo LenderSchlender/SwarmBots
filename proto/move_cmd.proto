@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package at.htlw10.swarmbots;
+
+message MoveCmd {
+    // positive = forward; negative = backwards
+    int32 speed = 1;
+    // positive = right; negative = left
+    int32 steer = 2;
+    // For how long (at most) to move like this [ms].
+    uint32 duration = 3;
+}
