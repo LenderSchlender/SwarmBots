@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package at.htlw10.swarmbots;
+
+/* 
+ * Intended for use wth the MPU6050.
+ * All int32 types actually only use 16 bits
+ */
+message ImuData {
+    int32 acceleration_x = 1;
+    int32 acceleration_y = 2;
+    int32 acceleration_z = 3;
+
+    int32 rotation_x = 4;
+    int32 rotation_y = 5;
+    int32 rotation_z = 6;
+
+    int32 temperature = 7;
+}

@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package at.htlw10.swarmbots;
+
+import "move_cmd.proto";
+import "led_cmd.proto";
+import "lidar_data.proto";
+import "encoder_data.proto";
+import "imu_data.proto";
+
+message Wrapper {
+  // Sequence number -> Ignore old commands
+  int32 seq = 1;
+
+  enum PingPong {
+    UNSPECIFIED = 0;
+    PING = 1;
+    PONG = 2;
+  };
+
+  oneof message {
+    PingPong ping_pong = 2;
+
+    /* Server -> Robot */
+    MoveCmd move_cmd = 3;
+    LedCmd led_cmd = 4;
+
+    /* Robot -> Server */
+    LidarData lidar_data = 5;
+    EncoderData encoder_data = 6;
+    // Inertial Measurement Unit -> Gyro and Accelerometer
+    ImuData imu_data = 7;
+  }
+}

@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package at.htlw10.swarmbots;
+
+message LidarData {
+    // 32 bits is the lowest supported int size for protobufs, so we use that instead of the actual variable size
+    message LidarMeasurement {
+        // actually only 16 bits
+        uint32 angle = 1;
+        // actually only 16 bits
+        uint32 distane = 2;
+        // actually only 8 bits
+        uint32 intensity = 3;
+    }
+    repeated LidarMeasurement measurements = 1;
+}

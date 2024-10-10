@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package at.htlw10.swarmbots;
+
+message EncoderData {
+    // positive = going forwards; negative = going backwards
+    int32 pulses = 1;
+    // the duration of this measurement [ms]
+    uint32 duration = 2;
+}
