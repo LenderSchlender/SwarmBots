@@ -3,6 +3,7 @@
 #include <WiFi.h>
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
+#include "Protocol.h"
 
 #ifndef Interfaces_h
 #define Interfaces_h
@@ -11,10 +12,10 @@
 class WiFiConnection : public Interface {
   uint32_t lastConnectionAttempt;
   bool connecting;
-  char *hostname, *ssid, *password;
+  char hostname[64], ssid[64], password[64];
   void attemptConnection();
 public:
-  WiFiConnection(char *hostname, char *ssid, char *password);
+  WiFiConnection(const char *hostname, const char *ssid, const char *password);
   void init();
   void tick();
 };
@@ -31,8 +32,13 @@ public:
   void init();
   void tick();
   void send(uint8_t *message, size_t len);
-  void sendText(const char *message);
+  void sendText(const char *message);const 
   void sendText(char *message);
+  //TODO implement
+  void setMoveCmdHandler(void (*handler)(int32_t seq, MoveCmd cmd));
+  //TODO implement
+  void setLedCmdHandler(void (*handler)(int32_t seq, LedCmd cmd));
+  // deprecated // TODO remove soon
   void setEventHandler(void (*eventHandler)(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len));
   bool isConnected();
   bool availableForWrite();
