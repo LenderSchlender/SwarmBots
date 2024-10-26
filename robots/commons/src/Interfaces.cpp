@@ -3,10 +3,10 @@
 #include "Interfaces.h"
 #include "Robota.h"
 
-WiFiConnection::WiFiConnection(char *hostname, char *ssid, char *password) {
-  this->hostname = hostname;
-  this->ssid = ssid;
-  this->password = password;
+WiFiConnection::WiFiConnection(const char *hostname, const char *ssid, const char *password) {
+  strncpy(this->hostname, hostname, sizeof(this->hostname));
+  strncpy(this->ssid, ssid, sizeof(this->ssid));
+  strncpy(this->password, password, sizeof(this->password));
 }
 
 void WiFiConnection::attemptConnection() {
@@ -120,9 +120,7 @@ void WebSocketControls::sendText(char *message) {
 
 void WebSocketControls::_onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len) {
   if (type == WS_EVT_CONNECT) {
-    if (server->count() >= 2) {
-      client->close(1013, "Someone is already controlling this Robot!");
-    }
+
     Serial.printf("ws[%s][%u] connect\n", server->url(), client->id());
   } else if (type == WS_EVT_DISCONNECT) {
     Serial.printf("ws[%s][%u] disconnect\n", server->url(), client->id());
@@ -134,7 +132,31 @@ void WebSocketControls::_onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient 
   } else if (type == WS_EVT_DATA) {
     // do nothing (for now?)
   }
-  eventHandler(server, client, type, arg, data, len);
+  switch (type) {
+    WS_EVT_CONNECT:
+      if (server->count() >= 2) {
+        client->close(1013, "Someone is already controlling this Robot!");
+        return;
+      }
+      Serial.printf("ws[%s][%u] connect\n", server->url(), client->id());
+      break;
+    WS_EVT_DISCONNECT:
+      Serial.printf("ws[%s][%u] disconnect\n", server->url(), client->id());
+      break;
+    WS_EVT_ERROR:
+      Serial.printf("ws[%s][%u] error(%u): %s\n", server->url(), client->id(),
+      *((uint16_t *)arg), (char *)data);
+      break;
+    WS_EVT_PONG:
+      Serial.printf("ws[%s][%u] pong[%u]: %s\n", server->url(), client->id(),
+      len, (len) ? (char *)data : "");
+      break;
+    WS_EVT_DATA:
+      //TODO decode message & process event
+      break;
+    default:
+      return; // Unrecognised event type, shoud never happen anyways
+  }
 }
 
 bool WebSocketControls::isConnected() {
