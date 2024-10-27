@@ -9,7 +9,7 @@ import "encoder_data.proto";
 import "imu_data.proto";
 
 message Wrapper {
-  // Sequence number -> Ignore old commands
+  // Sequence number -> Ignore old commands (start counting at 1)
   int32 seq = 1;
 
   enum PingPong {

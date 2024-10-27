@@ -3,6 +3,7 @@
 #include <sensors/Sensors.h>
 #include <actors/Actors.h>
 #include <Interfaces.h>
+#include <Interfaces.cpp>
 
 // Following two macros are just placeholders, in reality they're externally defined in the .env file
 #ifndef WIFI_SSID
@@ -33,8 +34,8 @@ WiFiConnection wifi("sb-guide", WIFI_SSID, WIFI_PASS);
 WebSocketControls controls;
 
 void lidarMeasurementHandler(SingleLiDARMeasurement measurement);
-void moveCmdHandler(int32_t seq, MoveCmd cmd);
-void ledCmdHandler(int32_t seq, LedCmd cmd);
+void moveCommandHandler(MoveCmd cmd);
+void ledCommandHandler(LedCmd cmd);
 
 void setup() {
   Serial.begin(115200);
@@ -56,8 +57,8 @@ void setup() {
   robota.addModule(&wifi);
 
   // Remote Controls
-  controls.setMoveCmdHandler(moveCmdHandler);
-  controls.setLedCmdHandler(ledCmdHandler);
+  controls.setMoveCmdHandler(moveCommandHandler);
+  controls.setLedCmdHandler(ledCommandHandler);
   robota.addModule(&controls);
 
   // Init
@@ -85,6 +86,8 @@ void websocketEventHandler(AsyncWebSocket *server, AsyncWebSocketClient *client,
 }
 
 void lidarMeasurementHandler(SingleLiDARMeasurement measurement) {
+  //TODO new lidar measurement handler system
+  // featuring batching of measurements and sending them as protobufs
   /*if (!controls.isConnected())
     return;
   static const uint8_t BUFFER_SIZE = 100;
@@ -98,12 +101,12 @@ void lidarMeasurementHandler(SingleLiDARMeasurement measurement) {
   }*/
 }
 
-void moveCmdHandler(int32_t seq, MoveCmd cmd) {
-
+void moveCommandHandler(MoveCmd cmd) {
+  //TODO move
 }
 
-void ledCmdHandler(int32_t seq, LedCmd cmd) {
-  
+void ledCommandHandler(LedCmd cmd) {
+  //TODO change led colors (low priority)
 }
 
 void loop() {

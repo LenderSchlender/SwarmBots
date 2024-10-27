@@ -20,26 +20,22 @@ public:
   void tick();
 };
 
-// This class can only be instantiated  one time!
+// This class should only be instantiated once!
 class WebSocketControls : public Interface {
   AsyncWebServer server;
   AsyncWebSocket ws;
-  static void (*eventHandler)(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len);
-  static void _onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len);
-  static void _handleReceivedData(AsyncWebSocketClient *client, uint8_t *data, size_t len);
+  void (*moveCmdHandler)(MoveCmd cmd) = [](MoveCmd cmd) {};
+  void (*ledCmdHandler)(LedCmd cmd) = [](LedCmd cmd) {};
+  void _onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len);
+  void _handleReceivedMessage(AsyncWebSocketClient *client, Wrapper msg);
 public:
   WebSocketControls(/* TODO add options for port and path */);
   void init();
   void tick();
   void send(uint8_t *message, size_t len);
-  void sendText(const char *message);const 
-  void sendText(char *message);
-  //TODO implement
-  void setMoveCmdHandler(void (*handler)(int32_t seq, MoveCmd cmd));
-  //TODO implement
-  void setLedCmdHandler(void (*handler)(int32_t seq, LedCmd cmd));
-  // deprecated // TODO remove soon
-  void setEventHandler(void (*eventHandler)(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len));
+  void send(Wrapper *message);
+  void setMoveCmdHandler(void (*handler)(MoveCmd cmd));
+  void setLedCmdHandler(void (*handler)(LedCmd cmd));
   bool isConnected();
   bool availableForWrite();
 };
