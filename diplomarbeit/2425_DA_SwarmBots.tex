@@ -67,7 +67,7 @@
 	
 	\pagenumbering{arabic}
 	%% Hier beginnt der tatsächliche Inhalt
-	% TODO: Kapitel in mehrere Datein aufteilen?
+	% TODO: Kapitel in mehrere Dateien aufteilen?
 	\section{Zusammenfassung}
 	Ziel dieser Diplomarbeit ist es, drei Roboter zu entwickeln,
 	welche kooperativ die Umgebung erkunden können.
@@ -90,15 +90,66 @@
 	TODO: translate
 	\section{Projektstart}
 	\section{Prototyp}
+	Im Zuge der Projektwoche im Schuljahr 2023/24 haben wir bereits begonnen,
+	einen ersten Prototypen unseres SwarmBots-Systems zu bauen.
+	%
+	Dieser Prototyp bestand aus nur zwei Robotern,
+	welche auf Basis eines fertigen Fahrgestells zu sehr wackligen Gefährten wurden.
+	%
+	Sehr viel Autonomie hatten die früheren Roboter auch noch nicht,
+	der LiDAR war noch nicht funktionstüchtig,
+	stattdessen wurden die Roboter mittels Videospiel-Controller ferngesteuert.
+	%
+	Diese Fernsteuerung wurde aber auch schon damals über eine Websocket-Verbindung implementiert.
+	%
+	Außerdem wurde während der Projektwoche der Code für die ESP32-CAMs fast komplett fertiggestellt,
+	diese verwenden jetzt immer noch größtenteils das gleiche Programm.
+	%
+	Trotz der Schwächen des damaligen Systems wurde unserem Projekt
+	der erste Preis in der Kategorie ``Experten'' verliehen.
+	%TODO Bilder zu Projektwoche
 	\section{Erster Roboteraufbau}
 	\subsection{Elegoo Tumbller Kit}
+	Um den Hardwareaufbau so einfach wie möglich zu gestalten,
+	entschieden wir uns dafür,
+	fertig entwickelte Kits online zu bestellen und dann zu modifizieren.
+	%
+	Die Wahl des Kits fiel letztendlich auf den ``Tumbller'' von Elegoo (Siehe Abbildung \ref{fig:elegoo_tumbller}).
+	%
+	Der Tumbller ist ein zweirädriger Roboter, welcher auf einer Ache balanciert.
+	%
+	Zur Kontrolle des unmodifizierten Kits gibt es eine Smartphone-App,
+	welche die Roboter über Bluetooth fernsteuern kann.
+	%TODO genaue Hardwarebeschreibung des Kits
+	%
+	Da wir die Roboter über WLAN steuern wollten, 
+	und die Tumbller-Kits standardmäßig nur eine Bluetooth-Erweiterung eingebaut haben,
+	haben wir die mitgelieferten Arduino Nano durch ESP32-Boards im Arduino Nano-Format ersetzt.
+	% TODO Spannungsunterschiede Arduino Nano vs ESP
+	\begin{figure}[H]
+		\includegraphics[width=0.7\textwidth, center]{img/elegoo_tumbller.png}
+		\caption{Rendering des Elegoo Tumbller}
+		\label{fig:elegoo_tumbller}
+	\end{figure}
 	\subsection{Guide}
+	Die Aufgabe von \textit{Guide} ist es,
+	mithilfe eines LiDAR-Sensors (Siehe Kapitel \ref{lidar}) die Umgebung nach Hindernissen
+	und den anderen Robotern abzusuchen.
+	%
+	Die vom LiDAR gesammelten Abstandsdaten werden über eine TCP/IP Websocket-Verbindung
+	an einen zentralen Server weitergegeben,
+	welcher diese weiter verarbeitet.
+	%
+	Um den LiDAR-Sensor zu montieren,
+	haben wir das Fahrgestell leicht modifiziert
+	und die oberste Ebene (mit dem Akku) erhöht,
+	um Platz für Schrauben zu schaffen.
 	\subsection{Tamerlan \& Bambi}
 	\section{Programmierung}
-	Für die Programmierung der Microcontroller verwenden wir PlatformIO.
+	Für die Programmierung der Mikrocontroller verwenden wir PlatformIO.
 	%
 	PlatformIO ist eine Alternative zur Arduino-IDE,
-	welche mithilfe von Plugins in viele IDEs wie z.B. VSCode und CLion integriet werden kann.
+	welche mithilfe von Plugins in viele IDEs wie z.B. VSCode und CLion integriert werden kann.
 	%
 	Alternativ kann man PlatformIO auch über die Kommandozeile bedienen.
 	%
@@ -122,13 +173,13 @@
 	\begin{figure}[H]
 		\includegraphics[width=0.7\textwidth, center]{img/cam_erstes_bild.png}
 		\caption{Erstes empfangenes Bild der ESP32-CAM}
-		\label{cam_erstes_bild}
+		\label{fig:cam_erstes_bild}
 	\end{figure}
 	\subsection{Sensoren}
 	\subsubsection{LiDAR}
+	\label{lidar}
 	\subsubsection{Gyroskop}
 	\subsubsection{Encoder}
-	\subsubsection{Kompass}
 	\section{Backend-Server}
 	\subsection{Datenverwaltung}
 	\subsection{Roboterpositionen}
@@ -136,6 +187,23 @@
 	\subsection{LiDAR-Karte}
 	\subsection{Anzeigen der Sensordaten}
 	\subsection{Fernüberwachung per Kamera}
+	\section{Probleme}
+	\subsection{Docker}
+	%TODO wording?
+	Am Laptop von Herr Gastgeber war es am Beginn des Schuljahres nicht möglich,
+	jegliche Geräte im Netzwerk der HTL zu erreichen.
+	%
+	Grund dafür war eine Software namens Docker,
+	welche außerhalb dieses Projekts zur Containerisierung von anderen Anwendungen dient.
+	%
+	Docker war standardmäßig so konfiguriert,
+	dass es containerspezifische Subnets im IPv4-Adressbereich \verb|172.17.0.0/16| erstellt.
+	%
+	Diese Subnets hatten dann am Laptop eine höhere Priorität als das Schulnetzwerk,
+	was dafür sorgte,
+	dass das weltweite Internet noch erreichbar war, 
+	nicht aber das lokale Schulnetzwerk.
+	%TODO Config für Docker
 
 	% Abbildungs- und Tabellenverzeichnis
 	\newpage
