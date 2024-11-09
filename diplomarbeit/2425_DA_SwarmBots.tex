@@ -11,6 +11,8 @@
 \usepackage[export]{adjustbox}
 \usepackage[dvipsnames]{xcolor}
 \usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage{ragged2e}
 
 % Style für inkludierten Code definieren
 \lstdefinestyle{mystyle}{
@@ -35,6 +37,8 @@
 }
 \lstset{style=mystyle}
 
+%\fancyhead[R]{test} 
+
 \begin{document}
 	%\setlength{\parindent}{0pt}
 	
@@ -45,22 +49,55 @@
 	\begin{titlepage}
 		\centering
 		\Huge
+		\begin{figure}[H]
+			\includegraphics[width=1\textwidth, center]{img/HTL_Logo.png}
+		\end{figure}
 		\textbf{Diplomarbeit} \\
+		\vspace{5mm}
 		\huge
-		Gruppe ``SwarmBots'' \\
+		SwarmBots \\ 
+		\vspace{5mm} 
 		Schuljahr 2024/25 \\
 		\vspace{2cm}
 		\Large
-		\begin{tabular}{r @{: } >{\bfseries} l}
-			Betreuer & Prof. Erich Erker\\
-			Gruppenmitglieder & Arthur Burjak \\
-			& Leander Gastgeber \\
-			& Jones Soliman \\
-			& Mihael Stojkovic
+		\begin{tabular}{r @{: } >{\bfseries} l r}
+			\vspace{3mm}
+			Betreuer & Dipl.-Ing Erich Erker\\
+			Gruppenmitglieder & Arthur Burjak & | 5AHEL\\
+			& Leander Gastgeber & | 5AHEL\\
+			& Jones Soliman & | 5AHEL\\
+			& Mihael Stojkovic & | 5AHEL 
 	\end{tabular}
 	\end{titlepage}
 	\newpage
+	\centering
+	\LARGE
+	\textbf{Erklärung über die eigenständige Verfassung der Diplomarbeit}
+
+	\justify 
+	\Large
+	Wir, die Herren Arthur Burjak, Leander Gastgeber, Jones Soliman und Mihael Stojkovic, Schüler
+	der Klasse 5AHEL der Höheren Technischen Bundeslehranstalt Wien 10, erklären hiermit an
+	Eides statt, dass wir die vorliegende Diplomarbeit selbständig und ohne fremde Hilfe verfasst
+	haben, einschließlich auch andere als die angegebenen Quellen und Hilfsmittel nicht benutzt
+	und die benutzten Quellen, wörtlich und inhaltlich entnommenen Stellen, als solche
+	erkenntlich in der Diplomarbeit gekennzeichnet haben
+	\\
+	\vspace{5mm}
+	\\
+	Wien, am 11.04.2025
+	\vspace{8mm} \\
+
+	\begin{tabular}{l c r}
+		\vspace{3mm}
+		Verfasser: \\
+		Arthur Burjak & | 5AHEL & U:\rule{5cm}{0.4pt}	\\
+		Leander Gastgeber & | 5AHEL & U:\rule{5cm}{0.4pt} 	\\
+		Jones Soliman & | 5AHEL & U:\rule{5cm}{0.4pt}	\\
+		Mihael Stojkovic & | 5AHEL & U:\rule{5cm}{0.4pt}
+	\end{tabular}
 	
+	\newpage
 	% Inhaltsverzeichnis wird hier generiert
 	\tableofcontents
 	\newpage
