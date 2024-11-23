@@ -61,9 +61,13 @@
       {]}{{{\color{delim}{]}}}}{1},
 }
 
-%\fancyhead[R]{test} 
+% header configuration
+\renewcommand{\headrulewidth}{0pt}
 
 \begin{document}
+	% Für fancy headers
+	\pagestyle{fancy}
+	\fancyhf{}
 	%\setlength{\parindent}{0pt}
 	
 	% Keine Seitennummern von Titelblatt bis Inhalt
@@ -128,6 +132,10 @@
 	\newpage
 	
 	\pagenumbering{arabic}
+	\fancyhead[L]{5AHEL 2024/25}
+	\fancyhead[R]{SwarmBots}
+	\fancyfoot[C]{\thepage/\pageref{_LASTPAGE}}
+
 	%% Hier beginnt der tatsächliche Inhalt
 	% TODO: Kapitel in mehrere Dateien aufteilen?
 	\section{Zusammenfassung}
@@ -372,12 +380,12 @@
 
 	% Abbildungs- und Tabellenverzeichnis
 	\newpage
-	\pagenumbering{gobble}
 	\begin{appendix}
 		\addcontentsline{toc}{section}{Abbildungsverzeichnis}
 		\listoffigures
 		\addcontentsline{toc}{section}{Tabellenverzeichnis}
 		\listoftables
 	\end{appendix}
-	\vspace{1cm}
+	% Special label used for the page counter on the footer
+	\label{_LASTPAGE}
 \end{document}
