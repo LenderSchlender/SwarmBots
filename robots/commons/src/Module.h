@@ -52,12 +52,6 @@ class Sensor : public Module {
 class Actor : public Module {
 };
 
-class MotorOutput : public Actor {
-public:
-  virtual void setSpeed(int16_t speed);  // negative speed for backward, 0 for stop
-  virtual int16_t getSpeed();
-};
-
 class Interface : public Module {
 };
 #endif

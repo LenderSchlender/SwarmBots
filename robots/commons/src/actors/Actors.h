@@ -1,4 +1,3 @@
-#include <cstdint>
 #include "Arduino.h"
 #include "Module.h"
 
@@ -52,16 +51,14 @@ public:
   void terminate();
 };
 
-class SingleMotorLN298NOutput : public MotorOutput {
+class SingleMotorOutput : public Actor {
   static const uint16_t SIGN_BIT_MASK = 0x8000;
   PwmOutput *enable;
   GenericDigitalOutput *forward, *backward;
 public:
-  SingleMotorLN298NOutput(PwmOutput* enable, GenericDigitalOutput* forward, GenericDigitalOutput* backward);
+  SingleMotorOutput(PwmOutput* enable, GenericDigitalOutput* forward, GenericDigitalOutput* backward = nullptr);
   uint16_t getType();
   void init();
-  //TODO maybe implement this one day
-  //static SingleMotorLN298NOutput create(Robota robota, uint8_t pinEnable, uint8_t pinForward, uint8_t pinBackward);
   void setSpeed(int16_t speed);
   int16_t getSpeed();
 };

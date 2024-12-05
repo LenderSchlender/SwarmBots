@@ -92,7 +92,7 @@ uint8_t PwmOutput::nextBestChannel(uint32_t frequency) {
 
 uint8_t PwmOutput::maxResolution(uint32_t frequency) {
   // res_max = log2(clk_speed / f)
-  return min((uint8_t)(log(80000000 / frequency) / log(2)), (uint8_t)16);
+  return min((uint8_t)(log(getCpuFrequencyMhz() * 1000000 / frequency) / log(2)), (uint8_t)16);
 }
 
 PwmOutput::PwmOutput(uint8_t pin) {
@@ -168,33 +168,37 @@ void PwmOutput::terminate() {
   usedChannels &= ~(1 << channel);
 }
 
-SingleMotorLN298NOutput::SingleMotorLN298NOutput(PwmOutput* enable, GenericDigitalOutput* forward, GenericDigitalOutput* backward) {
+SingleMotorOutput::SingleMotorOutput(PwmOutput* enable, GenericDigitalOutput* forward, GenericDigitalOutput* backward) {
   this->enable = enable;
   this->forward = forward;
   this->backward = backward;
 }
 
-uint16_t SingleMotorLN298NOutput::getType() {
+uint16_t SingleMotorOutput::getType() {
   return ACTOR_SINGLE_MOTOR_LN298N_OUTPUT;
 }
 
-void SingleMotorLN298NOutput::init() {
+void SingleMotorOutput::init() {
   setSpeed(0);
 }
 
-void SingleMotorLN298NOutput::setSpeed(int16_t speed) {
+void SingleMotorOutput::setSpeed(int16_t speed) {
   enable->writeDutyCycle(((uint16_t)abs(speed)) << 1);  // Take absolute value and shift left by one (since it's a signed int we can only use 15 bits, but the pwm function takes 16)
   if (speed == 0) {
-    forward->disable();
-    backward->disable();
+    if (forward != nullptr)
+      forward->disable();
+    if (backward != nullptr)
+      backward->disable();
   } else {
     // We only care about the sign bit here
-    forward->write(~((uint16_t)speed) >> 15 & 1);
-    backward->write(((uint16_t)speed) >> 15 & 1);
+    if (forward != nullptr)
+      forward->write(~((uint16_t)speed) >> 15 & 1);
+    if (backward != nullptr)
+      backward->write(((uint16_t)speed) >> 15 & 1);
   }
 }
 
-int16_t SingleMotorLN298NOutput::getSpeed() {
+int16_t SingleMotorOutput::getSpeed() {
   if (forward->getState() == backward->getState()) {
     return 0;
   } else {
