@@ -1,0 +1,102 @@
+% Allgemeine Probleme (Hard- und Software)
+
+\section{Probleme}
+\label{sec:probleme}
+\subsection{Docker}
+\label{subsec:probleme_docker}
+%TODO wording?
+Am Laptop von Herr Gastgeber war es am Beginn des Schuljahres nicht möglich,
+jegliche Geräte im Netzwerk der HTL zu erreichen.
+%
+Grund dafür war eine Software namens Docker,
+welche außerhalb dieses Projekts zur Containerisierung von anderen Anwendungen dient.
+%
+Docker war standardmäßig so konfiguriert,
+dass es containerspezifische Subnets im IPv4-Adressbereich \allowbreak\texttt{172.117.0.0/16} erstellt.
+%
+Diese Subnets hatten dann am Laptop eine höhere Priorität als das Schulnetzwerk,
+was dafür sorgte,
+dass das weltweite Internet noch erreichbar war, 
+nicht aber das lokale Schulnetzwerk.
+%
+Um Docker einen anderen IP-Adressbereich zuzuweisen,
+wurde der Docker-Daemon mithilfe der Datei \texttt{/etc/docker/daemon.json}
+wie in Listing \ref{lst:docker_address_pools} konfiguriert.
+\begin{lstlisting}[language=json,gobble=4,
+    label=lst:docker_address_pools,caption=Konfiguration für den Docker-Daemon]
+    {
+          "default-address-pools":
+          [
+            {"base":"10.10.0.0/16","size":24}
+          ]
+    }
+\end{lstlisting}
+
+\subsection{Modifikationen am Tumbller}
+\label{subsec:problem_tumbbler_mods}
+Als wir das Projekt geplant haben,
+war die Idee,
+einfach ein fertiges Kit ein bisschen zu modifizieren,
+fast schon zu schön um wahr zu sein.
+%
+Und das war es dann auch.
+%
+Bei den Hardware-Modifikationen am Tumbller (siehe Kapitel \ref{subsec:elegoo_tumbller}) gab es zwei relativ große Probleme:
+
+\subsubsection{Falsche Betriebsspannungen}
+\label{subsec:problem_betriebsspannungen}
+Beim Austausch des mitgelieferten Arduino Nano mit einem ESP32 im Nano-Format haben wir einen wichtigen Faktor übersehen:
+%
+Der Arduino Nano hat eine Betriebsspannung von 5V,
+während der ESP32 mit 3.3V arbeitet.
+%
+Glücklicherweise funktionieren die meisten Komponenten des Elegoo Tumbllers auch mit 3.3V.
+%
+Die einzigen Bauteile,
+welche eine höhere Spannung benötigen,
+sind die auf der Platine angelöteten farbigen Leuchtdioden.
+%
+Um nicht das ganze Projekt von Grund auf neu aufbauen zu müssen,
+haben wir uns entschieden,
+dieses kleine optische Detail fürs Erste auszulassen.
+%
+%TODO schaltplan
+In der originalen Beschaltung (siehe Abbildung \ref{fig:elegoo_tumbller_original_circuit})
+wurde das Bluetooth-Modul mithilfe des Spannungswandlers \texttt{U3} mit 3.3V versorgt.
+%
+Diesen Spannungswandler haben wir ausgebaut und mittels einer Lötbrücke $V_{in}$ mit $V_{out}$ verbunden.
+Allerdings erwies sich das Bluetooth Modul später als problematisch (siehe Abschnitt \ref{subsec:problem_bluetooth_serial}),
+weshalb die Überbrückung eigentlich nicht notwendig ist.
+\\\\
+Außerdem war es beim Guide-Roboter aufgrund des Wechsels auf 3.3V nicht mehr möglich,
+den LiDAR-Sensor direkt mit dem Spannungswandler des Mikrocontroller-Boards zu versorgen.
+%
+Deshalb haben wir für den Guide einen zusätzlichen Step-Down-Konverter eingebaut,
+welcher die Versorgungsspannung des Akkus auf 5V für den LiDAR herunterregelt.
+\subsection{Blockierte UART-Schnittstelle}
+\label{subsec:problem_bluetooth_serial}
+Als das Problem der inkompatiblen Spannungen gelöst,
+und die erste Version des Programmes zum Testen der einzelnen Komponenten geschrieben war,
+%TODO Formulierung: "großes Problem" hab ich schon vorher verwendet
+sind wir auch schon auf das nächste nennenswerte Problem gestoßen:
+%
+Das externe Bluetooth-Modul,
+was bereits auf der Platine verlötet war,
+belegt die UART-Schnittstelle des eingebauten ESP32.
+%
+Das führte dazu, dass der ESP32 nur neu programmiert werden konnte,
+wenn das ESP32-Devboard aus dem Roboter ausgebaut war.
+%
+Außerdem wurde dadurch das Debuggen mittels UART über USB unmöglich gemacht.
+\\
+Da wir die Roboter über WLAN steuern,
+und der ESP32 auch ohne externe Erweiterungen bereits sowohl über WLAN- als auch Bluetooth-Kapazitäten verfügt,
+haben wir entschlossen,
+die mitgelieferte Platine weiter zu modifizieren,
+indem wir das Bluetooth-Modul entfernen.
+%
+Außerdem haben wir den Transistor \texttt{Q1} und den Spannungsteiler,
+welcher aus \texttt{R9} und \texttt{R10} besteht entfernt,
+um sicherzustellen, das die UART-Verbindung keinesfalls beeinflusst wird
+(siehe Original-Schaltplan in Abbildung \ref{fig:elegoo_tumbller_original_circuit}).
+%TODO Bilder und Erläuterung zu Entfernen des Bluetooth Moduls
