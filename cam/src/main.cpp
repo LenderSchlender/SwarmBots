@@ -122,7 +122,8 @@ void setup()
 
     // Get rid of that weird flimmer of the flash led
     pinMode(4, OUTPUT);
-    digitalWrite(4, LOW);
+    // turn it off once it's ready
+    analogWrite(4, 50);
 
     /* Camera setup */
 
@@ -194,6 +195,8 @@ void setup()
     Serial.printf("\nConnected to the WLAN network '%s' as '%s' (MAC %s)\n", WIFI_SSID, WiFi.getHostname(), WiFi.macAddress().c_str());
     Serial.print("Camera stream ready at http://");
     Serial.println(WiFi.localIP());
+    // Connection has been established
+    digitalWrite(4, LOW);
 
     /* Start serving the stream */
 
