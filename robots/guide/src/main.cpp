@@ -4,6 +4,7 @@
 #include <actors/Actors.h>
 #include <Interfaces.h>
 #include <Interfaces.cpp>
+#include <TumbllerConstants.h>
 
 // Following two macros are just placeholders, in reality they're externally defined in the .env file
 #ifndef WIFI_SSID
@@ -14,20 +15,20 @@
 #define WIFI_PASS ""
 #endif
 
+using namespace TumbllerConstants;
+
 Robota robota;
 
 LD20Sensor lidar(&Serial2);
 
 // Left Motor controls
-PwmOutput leftMotorEnable(14, 2000);
-GenericDigitalOutput leftMotorForward(26);
-GenericDigitalOutput leftMotorBackward(27);
-SingleMotorLN298NOutput leftMotor(&leftMotorEnable, &leftMotorForward, &leftMotorBackward);
+PwmOutput leftMotorEnable(PIN_LM_PWM, 2000, 14);
+GenericDigitalOutput leftMotorForward(PIN_LM_DIR);
+SingleMotorOutput leftMotor(&leftMotorEnable, &leftMotorForward);
 // Right Motor controls TODO set pins
-PwmOutput rightMotorEnable(32, 2000);
-GenericDigitalOutput rightMotorForward(25);
-GenericDigitalOutput rightMotorBackward(33);
-SingleMotorLN298NOutput rightMotor(&rightMotorEnable, &rightMotorForward, &rightMotorBackward);
+PwmOutput rightMotorEnable(PIN_RM_PWM, 2000, 14);
+GenericDigitalOutput rightMotorForward(PIN_RM_DIR);
+SingleMotorOutput rightMotor(&rightMotorEnable, &rightMotorForward);
 
 WiFiConnection wifi("sb-guide", WIFI_SSID, WIFI_PASS);
 // Remote Control Interface
@@ -39,18 +40,19 @@ void ledCommandHandler(LedCmd cmd);
 
 void setup() {
   Serial.begin(115200);
+  Serial.println("Starting...");
   lidar.setCallback(lidarMeasurementHandler);
   robota.addModule(&lidar);
+  pinMode(PIN_MOTOR_EN, OUTPUT);
+  digitalWrite(PIN_MOTOR_EN, HIGH);
 
   // Left Motor
   robota.addModule(&leftMotorEnable);
   robota.addModule(&leftMotorForward);
-  robota.addModule(&leftMotorBackward);
   robota.addModule(&leftMotor);
   // Right motor
   robota.addModule(&rightMotorEnable);
   robota.addModule(&rightMotorForward);
-  robota.addModule(&rightMotorBackward);
   robota.addModule(&rightMotor);
 
   // WiFi Connection
@@ -64,6 +66,8 @@ void setup() {
   // Init
   robota.init();
   Serial.println("Setup done!");
+  leftMotor.setSpeed(INT16_MAX/2);
+  rightMotor.setSpeed(INT16_MAX/2);
 }
 
 void websocketEventHandler(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len) {
@@ -110,6 +114,7 @@ void ledCommandHandler(LedCmd cmd) {
 }
 
 void loop() {
+  delay(500);
   static uint32_t longestTickTime = 0;
   uint32_t start = micros();
   robota.tick();  // This iterates through all modules and executes their tick() function
@@ -117,6 +122,4 @@ void loop() {
     longestTickTime = micros() - start;
     Serial.printf("NEW LONGEST TICK: %d\n", longestTickTime);
   }
-
-  delay(1000);
 }
