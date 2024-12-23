@@ -8,7 +8,7 @@ message LidarData {
         // actually only 16 bits
         uint32 angle = 1;
         // actually only 16 bits
-        uint32 distane = 2;
+        uint32 distance = 2;
         // actually only 8 bits
         uint32 intensity = 3;
     }
