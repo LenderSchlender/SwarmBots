@@ -14,6 +14,27 @@
 
 \subsubsection{Protocol Buffers}
 \label{subsec:ueberblick_protobufs}
+Protocol Buffers (``protobufs'') sind ein binäres Übertragungsformat,
+welches von von Google entwickelt und veröffentlicht wurde.
+%
+Gegenüber Datenformaten wie JSON und XML gibt es drei wesentliche Vorteile:
+\begin{enumerate}
+    \item Da Protocol Buffers auf Binärdaten anstatt von Text basieren,
+    ist die Übertragung viel effizienter.
+    %
+    Insbesondere bei der Verwendung mit Mikrocontrollern ist das ein enormer Vorteil.
+    % TODO Vergleich Effizienz & QUELLEN!
+
+    \item Bei Protocol Buffers gibt es explizit definierte Datenstrukturen.
+    %
+    Diese Datenstrukturen sind (bei korrekter Verwendung) mit älteren Versionen rückwärts-kompatibel.
+
+    \item Für wie Verwendung mit unterschiedlichen Programmiersprachen kann (und soll) man aus protobuf-Definitionen
+    Wrapper-Bibliotheken generieren.
+    %
+    Diese Wrapper-Bibliotheken können ohne weiteren Aufwand direkt verwendet werden,
+    um auf die Datenstrukturen zuzugreifen.
+\end{enumerate}
 
 \subsection{Sensoren}
 \label{subsec:ueberblick_sensors}
