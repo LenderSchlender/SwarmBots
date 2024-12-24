@@ -14,6 +14,11 @@
 \usepackage{listings}
 \usepackage{fancyhdr}
 \usepackage{ragged2e}
+\usepackage{biblatex}
+\usepackage{csquotes}
+
+% Quellenangabe
+\addbibresource{sources.bib}
 
 % Style für inkludierten Code definieren
 \lstdefinestyle{mystyle}{
@@ -155,6 +160,8 @@
 		\listoffigures
 		\addcontentsline{toc}{section}{Tabellenverzeichnis}
 		\listoftables
+		\addcontentsline{toc}{section}{Literatur}
+		\printbibliography
 	\end{appendix}
 	% Special label used for the page counter on the footer
 	\label{_LASTPAGE}
