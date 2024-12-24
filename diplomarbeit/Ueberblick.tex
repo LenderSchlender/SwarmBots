@@ -13,6 +13,7 @@
 Zur Versionskontrolle der Software und der Diplomarbeit selber (siehe Abschnitt \ref{subsec:latex}) haben wir Git eingesetzt.
 %
 Das Repository ist auf GitHub, aber aktuell privat.
+
 \subsubsection{Syncthing}
 Zum Teilen von anderen Dateien (Weekly Reports, Zeiterfassung, etc.) zwischen Personen und Geräten
 haben wir ein FOSS\footnote{Free and Open Source Software} Programm names Syncthing \cite{syncthing} genutzt.
@@ -34,10 +35,58 @@ kann es (selten, aber doch) zu Konflikten der Dateiversionen kommen (z.B. wenn z
 Bei solchen Konflikten erstellt Syncthing eine Kopie von einer der Versionen der Datei,
 und der Nutzer muss selber entscheiden,
 welche Version die ``richtige'' ist.
-\subsubsection{VSCode}
+
+\subsubsection{Visual Studio Code}
+Zur Bearbeitung der Quellcodes und der Diplomarbeit verwenden wir Visual Studio Code (auch VSC oder VSCode) mit einigen Erweiterungen.
+%
+Nützlich ist für uns auch die Git-Integration zur Versionskontrolle.
+\begin{table}[H]
+    \centering
+    \begin{tabular}{r|l}
+        Erweiterung         & Verwendungszweck \\ \hline
+        Python              & Programmierung des Backends \\
+        PlatformIO IDE      & Programmierung der Roboter \\
+        vscode-proto3       & Syntax-Highlighting für Protocol Buffers \\
+        LaTeX Workshop      & LaTeX Unterstützung für VSC \\
+        Code Spell Checker  & Rechtschreibprüfung \\
+    \end{tabular}
+    \caption{Verwendete VSCode-Erweiterungen}
+    \label{tab:vsc_plugins}
+\end{table}
 \subsubsection{PlatformIO}
+Für die Programmierung der Mikrocontroller verwenden wir PlatformIO \cite{platformio} in Verbindung mit dem PlatformIO-Plugin für VSCode.
+%
+PlatformIO ist eine Alternative zur Arduino-IDE,
+welche mithilfe von Plugins in viele IDEs wie z.B. VSCode oder CLion integriert werden kann.
+%
+Alternativ kann man PlatformIO auch über die Kommandozeile bedienen.
+%
+Vorteile von PlatformIO gegenüber der Arduino-IDE sind u.A. schnelleres Kompilieren,
+ordentliche Auto-Vervollständigung,
+statische Code-Analyse (Linting),
+und ein schön geregeltes System für externe Bibliotheken.
+
 \subsubsection{\LaTeX}
 \label{subsec:latex}
+Anstatt von WYSIWYG\footnote{What You See Is What You Get}-Editoren
+wie Microsoft Word oder LibreOffice Writer verwenden wir zum Erstellen dieser Diplomarbeit
+ein plattformunabhängiges Plaintext-Format namens \LaTeX.
+% TODO not happy with wording above
+Eine LaTeX-Datei ist (ähnlich wie Markdown) einfach nur eine Textdatei mit zusätzlichen Befehlen.
+Deshalb können wir \texttt{.tex}-Dateien sehr gut mit Versionskontrollsoftware wie Git verwenden
+und somit genau Änderungen rückverfolgen und gegebenenfalls zurücksetzen.
+%
+Weiters können wir mit LaTeX unsere Arbeit in mehrere Dateien aufteilen,
+was das Ganze um einiges übersichtlicher macht.
+%
+Der größte Vorteil von LaTeX ist aber wohl,
+dass die Formatierung einheitlich für den Nutzer übernommen wird,
+sodass sich dieser besser auf den Inhalt konzentrieren kann.
+%
+Wenn man aber dann doch mal selber etwas anders formatieren will,
+ist das mit LaTeX durch die Verwendung von Textbefehlen
+aber immer noch schneller als in MS Word zur Maus zu greifen
+und sich durch GUIs durchzuklicken. 
 
 \subsection{Kommunikationswege}
 \label{subsec:ueberblick_comms}
