@@ -9,6 +9,36 @@
 \subsection{Unterstützende Programme}
 \label{subsec:ueberblick_programs}
 
+\subsubsection{Git}
+Zur Versionskontrolle der Software und der Diplomarbeit selber (siehe Abschnitt \ref{subsec:latex}) haben wir Git eingesetzt.
+%
+Das Repository ist auf GitHub, aber aktuell privat.
+\subsubsection{Syncthing}
+Zum Teilen von anderen Dateien (Weekly Reports, Zeiterfassung, etc.) zwischen Personen und Geräten
+haben wir ein FOSS\footnote{Free and Open Source Software} Programm names Syncthing \cite{syncthing} genutzt.
+%
+Syncthing synchronisiert Dateien in einem Ordner dezentralisiert mittels Peer-to-Peer Verbindungen zwischen den Geräten.
+%
+Dadurch ist das Teilen von Dateien nicht von zentralisierter proprietärer Infrastruktur abhängig,
+kann aber durch ``zentrale'' (und gut erreichbare) Server unterstützt werden.
+%
+Weiters stellt Syncthing eine rudimentäre Art der Versionskontrolle dar,
+da es die Möglichkeit gibt,
+bei Änderungen der Dateien eine alte Version der Datei für eine gewisse Zeit zu behalten.
+
+
+Da Syncthing dezentralisiert ist,
+und es somit keinen SPOT\footnote{Single Point of Truth} gibt,
+kann es (selten, aber doch) zu Konflikten der Dateiversionen kommen (z.B. wenn zwei Personen die selbe Datei gleichzeitig bearbeiten). 
+%
+Bei solchen Konflikten erstellt Syncthing eine Kopie von einer der Versionen der Datei,
+und der Nutzer muss selber entscheiden,
+welche Version die ``richtige'' ist.
+\subsubsection{VSCode}
+\subsubsection{PlatformIO}
+\subsubsection{\LaTeX}
+\label{subsec:latex}
+
 \subsection{Kommunikationswege}
 \label{subsec:ueberblick_comms}
 
