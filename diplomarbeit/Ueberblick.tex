@@ -85,9 +85,57 @@ sodass sich dieser besser auf den Inhalt konzentrieren kann.
 Wenn man aber dann doch mal selber etwas anders formatieren will,
 ist das mit LaTeX durch die Verwendung von Textbefehlen
 aber immer noch schneller als in MS Word zur Maus zu greifen
-und sich durch GUIs durchzuklicken. 
+und sich durch GUIs durchzuklicken.
 
-\subsection{Kommunikationswege}
+\subsection{Funktionsbeschreibung}
+\label{subsec:funktionsbeschreibung}
+
+\subsubsection{Guide}
+Der Guide hat die Aufgabe,
+mit dem nachgerüsteten LiDAR-Sensor die Umgebung nach Hindernissen abzusuchen.
+%
+Hierbei ist allerdings zu beachten,
+dass der Guide die Datenverarbeitung nicht selbständig durchführt,
+sondern die rohen Sensordaten einfach an das Backend weiterleitet.
+%
+In diesem Kontext sind Tamerlan und Bambi also nichts anderes als Hindernisse.
+
+\subsubsection{Tamerlan \& Bambi}
+Tamerlan und Bambi sind ``blind'' im dem Sinne,
+dass sie über keine Sensoren zur Hinderniserkennung verfügen.
+%
+Sie sind komplett von Anweisungen des Backends abhängig.
+
+\subsubsection{Backend}
+Das Backend ist das ``Gehirn'' des Projekts.
+%
+Es empfangt die LiDAR-Daten vom Guide,
+verarbeitet sie,
+und sendet Befehle an die Roboter.
+%
+Die LiDAR-Daten und die Ergebnisse der Verarbeitung werden auch
+über eine Websocket-Verbindung ans Frontend weitergeleitet.
+%
+Außerdem empfängt es die Sensordaten der Gyroskope und Accelerometer der Roboter, und auch ans Frontend weiter. 
+%
+Gegebenenfalls empfängt das Backend auch Befehle vom Frontend, und leitet diese an die Roboter weiter.
+
+\subsubsection{Frontend}
+Das Frontend empfängt Sensordaten vom Backend und stellt diese dar.
+%
+LiDAR-Daten werden auf einer Karte dargestellt,
+auf der auch die Ergebnisse der Hinderniserkennung am Backend zu sehen ist.
+%
+Die Daten der Gyroskope und Accelerometer werden in einem sich laufend aktualisierendem X/Y Diagramm dargestellt.
+%
+Zusätzlich gibt es im Frontend die Möglichkeit für Nutzer,
+einen oder mehrere Roboter auf manuelle Steuerung umzuschalten,
+und diese(n) dann fernzusteuern.
+%
+Das Frontend ist eigentlich zum autonomen Betrieb nicht nötig,
+es wird nur für Debugging-Zwecke und menschliche Intervention benötigt.
+
+\subsubsection{Kommunikationswege}
 \label{subsec:ueberblick_comms}
 TODO bessere Grafik(!!!) \& Beschreibung
 \begin{figure}[H]
@@ -125,7 +173,7 @@ TODO bessere Grafik(!!!) \& Beschreibung
     \label{fig:kommunikationswege}
 \end{figure}
 
-\subsubsection{Protocol Buffers}
+\subsection{Protocol Buffers}
 \label{subsec:ueberblick_protobufs}
 Protocol Buffers \cite{protobufs} (``protobufs'') sind ein binäres Übertragungsformat,
 welches von von Google entwickelt und veröffentlicht wurde.
