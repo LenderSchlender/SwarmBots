@@ -1,22 +1,42 @@
 \documentclass[12pt]{article}
+% set document margin
 \usepackage[margin=3cm]{geometry}
+% proper utf8 support
 \usepackage[utf8]{inputenc}
+% good wrapping for german
 \usepackage[T1]{fontenc}
+% german typesetting & translation for words like "Inhaltsverzeichnis"
 \usepackage[german]{babel}
+% needed for \bfseries on the title page
 \usepackage{array}
+% mathematical typesetting (formulas)
 \usepackage{amsmath}
+% better \includegraphics
 \usepackage{graphicx}
+% fig:elegoo_tumbller_original_circuit is a rotated figure so it fits on the page better
 \usepackage{rotating}
+% figure positioning
 \usepackage{float}
+% better control over enumerate and itemize
 \usepackage{enumitem}
+% adjust boxed content (images)
 \usepackage[export]{adjustbox}
+% colors used for code highlighting (not sure if this is needed)
 \usepackage[dvipsnames]{xcolor}
+% code listings
 \usepackage{listings}
+% fancy headers / footers
 \usepackage{fancyhdr}
+% text alignment (title page)
 \usepackage{ragged2e}
+% citations
 \usepackage{biblatex}
+% babel X biblatex compatibility
 \usepackage{csquotes}
+% drawings
 \usepackage{tikz}
+% "glue" footnotes at the bottom of the page
+\usepackage[bottom]{footmisc}
 
 % tikz (grafik) bibliotheken
 \usetikzlibrary{shapes, arrows}
