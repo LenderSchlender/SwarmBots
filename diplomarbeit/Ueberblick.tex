@@ -89,6 +89,41 @@ und sich durch GUIs durchzuklicken.
 
 \subsection{Kommunikationswege}
 \label{subsec:ueberblick_comms}
+TODO bessere Grafik(!!!) \& Beschreibung
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+        shorten >=1pt,
+        node distance=2cm,
+        auto
+        ]
+        \node (guide) [] {Guide};
+        \node (tamerlan) [below of=guide] {Tamerlan};
+        \node (bambi) [below of=tamerlan] {Bambi};
+        \node (backend) [right of=tamerlan, node distance=4cm] {Backend};
+        \node (frontend) [right of=backend, node distance=4cm] {Frontend};
+
+        % paths with "uplink" data robots>backend>frontend
+        \path[->]
+        (guide)     edge [bend left]  	node {}     (backend)
+        (tamerlan)  edge []             node {}     (backend)
+        (bambi)     edge [bend right]  	node {}     (backend)
+        (backend)   edge []             node {}    (frontend)
+        ;
+
+        % paths with "downlink" data frontend>backend>robots
+        \begin{scope}[transform canvas={yshift=.3em}]
+            \path[<-]
+            (guide)     edge [bend left]  	node {}     (backend)
+            (tamerlan)  edge []             node {}     (backend)
+            (bambi)     edge [bend right]  	node {}     (backend)
+            (backend)   edge []             node {}    (frontend)
+            ;
+        \end{scope}
+    \end{tikzpicture}
+    \caption{Kommunikationswege}
+    \label{fig:kommunikationswege}
+\end{figure}
 
 \subsubsection{Protocol Buffers}
 \label{subsec:ueberblick_protobufs}
