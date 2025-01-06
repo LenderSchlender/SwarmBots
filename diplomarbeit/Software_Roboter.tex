@@ -51,6 +51,22 @@ obwohl wir einen ganz anderen Hardwareaufbau verwenden.
 
 \subsection{Guide}
 \label{subsec:software_guide}
+Die Software von \textit{Guide} ist in diesem Projekt in dem Sinne einzigartig,
+dass,
+zusätzlich zur Steuerung des Roboters selber,
+die gemessen LiDAR-Werte empfangen,
+aufbereitet,
+und mit möglichst wenig Verzögerung an den Server weitergeleitet werden müssen.
+%
+Der Erfolg des ganzen Projekts ist also von der Verlässlichkeit dieser Software abhängig.
+%
+Abgesehen davon verhält sich der Guide eigentlich genau gleich wie Tamerlan und Bambi:
+%
+Befehle werden vom Server empfangen und ausgeführt,
+Messwerte werden an den Server weitergeleitet.
+%
+Da auch die Aufbereitung der LiDAR-Daten bereits in der Core-Bibliothek realisiert wurde,
+ist die Software für den Guide ebenso wie bei den anderen Robotern größtenteils Plug\&Play.
 
 \subsection{Tamerlan}
 \label{subsec:software_tamerlan}
