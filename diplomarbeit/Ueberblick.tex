@@ -141,15 +141,19 @@ TODO bessere Grafik(!!!) \& Beschreibung
 \begin{figure}[H]
     \centering
     \begin{tikzpicture}[
-        shorten >=1pt,
-        node distance=2cm,
-        auto
+        shorten >= 5pt,
+        shorten <= 5pt,
+        node distance=3cm,
+        auto,
+        robot/.style={shape=circle, draw=black, line width=1,minimum size=2cm},
+        backend/.style={{shape=rectangle, draw=black, line width=2}},
+        frontend/.style={{shape=rectangle, draw=red, line width=2}},
         ]
-        \node (guide) [] {Guide};
-        \node (tamerlan) [below of=guide] {Tamerlan};
-        \node (bambi) [below of=tamerlan] {Bambi};
-        \node (backend) [right of=tamerlan, node distance=4cm] {Backend};
-        \node (frontend) [right of=backend, node distance=4cm] {Frontend};
+        \node (guide) [robot] {Guide};
+        \node (tamerlan) [robot, below of=guide] {Tamerlan};
+        \node (bambi) [robot, below of=tamerlan] {Bambi};
+        \node (backend) [backend, right of=tamerlan, node distance=4cm] {Backend};
+        \node (frontend) [frontend, right of=backend, node distance=4cm] {Frontend};
 
         % paths with "uplink" data robots>backend>frontend
         \path[->]
@@ -160,7 +164,7 @@ TODO bessere Grafik(!!!) \& Beschreibung
         ;
 
         % paths with "downlink" data frontend>backend>robots
-        \begin{scope}[transform canvas={yshift=.3em}]
+        \begin{scope}[transform canvas={yshift=.5em,xshift=-.2em}]
             \path[<-]
             (guide)     edge [bend left]  	node {}     (backend)
             (tamerlan)  edge []             node {}     (backend)
@@ -218,7 +222,21 @@ TODO
 \label{subsec:ueberblick_lidar}
 
 \subsubsection{Gyroskop}
-\label{subsec:ueberblick_gyro}
+Jeder der drei Roboter ist mit einem Gyroskop/Accelerometer vom Typ \texttt{MPU6050} ausgestattet.
+%
+Dieser Sensor ist bereits im originalen Tumbller-Kit inkludiert, also ist die Installation entsprechend einfach.
+%
+Der \texttt{MPU6050} versorgt den Mikrocontroller über I2C mit Messdaten zu drei Gyroskop- und drei Accelerometerachsen.
+%
+Diese Informationen werden dann vom Mikrocontroller verwendet, um den Roboter aufrecht zu halten.
+%
+Weiters leitet der Mikrocontroller die Daten zur weiteren Verarbeitung bzw. Analyse für Debugging-Zwecke an den zentralen Server weiter.
 
-\subsubsection{Dreh-Encoder}
+\subsubsection{Drehgeber}
 \label{subsec:ueberblick_rot_enc}
+In den im Tumbller-Kit mitgelieferten Motoren ist bereits ein Drehgeber mit eingebaut,
+welcher mit Hall-Sensoren funktioniert.
+%
+Mit diesem Drehgeber kann die aktuelle Motorgeschwindigkeit als Feedback zur Motorsteuerung gemessen werden.
+%
+Die Impulse des Drehgebers werden auf eine gewisse Zeitspanne im Format zusammengefasst und dann regelmäßig an den Server weitergeleitet.
