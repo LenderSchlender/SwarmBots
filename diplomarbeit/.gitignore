@@ -1,4 +1,9 @@
-From https://github.com/github/gitignore/blob/main/TeX.gitignore
+# Ignore output pdf files
+*.pdf
+# Don't ignore any figures
+!/img/*
+
+# From https://github.com/github/gitignore/blob/main/TeX.gitignore
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
