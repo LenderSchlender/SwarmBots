@@ -114,7 +114,6 @@ void ledCommandHandler(LedCmd cmd) {
 }
 
 void loop() {
-  delay(500);
   static uint32_t longestTickTime = 0;
   uint32_t start = micros();
   robota.tick();  // This iterates through all modules and executes their tick() function

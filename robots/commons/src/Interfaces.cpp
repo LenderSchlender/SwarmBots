@@ -65,7 +65,10 @@ void WiFiConnection::tick() {
     if (WiFi.status() == WL_CONNECTED) {
       connecting = false;
       Serial.printf("Connected! IP Address: %s", WiFi.localIP().toString());
+      return;
     }
+    Serial.print(WiFi.status());
+    Serial.print('.');
     return;
   }
 
@@ -98,6 +101,13 @@ void WebSocketControls::init() {
 }
 
 void WebSocketControls::tick() {
+  ImuData msg = ImuData_init_zero;
+  msg.temperature = 42;
+  Wrapper w = Wrapper_init_zero;
+  w.message.imu_data = msg;
+  w.which_message = at_htlw10_swarmbots_Wrapper_imu_data_tag;
+  //send(&w);
+  //delay(500);
   if (robota->getTicks() % 10000 == 0) {  // Only do this every now and then
     ws.cleanupClients();
   }
