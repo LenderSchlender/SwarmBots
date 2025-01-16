@@ -137,42 +137,10 @@ es wird nur für Debugging-Zwecke und menschliche Intervention benötigt.
 
 \subsubsection{Kommunikationswege}
 \label{subsec:ueberblick_comms}
-TODO bessere Grafik(!!!) \& Beschreibung
+\& Beschreibung
 \begin{figure}[H]
     \centering
-    \begin{tikzpicture}[
-        shorten >= 5pt,
-        shorten <= 5pt,
-        node distance=3cm,
-        auto,
-        robot/.style={shape=circle, draw=black, line width=1,minimum size=2cm},
-        backend/.style={{shape=rectangle, draw=black, line width=2}},
-        frontend/.style={{shape=rectangle, draw=red, line width=2}},
-        ]
-        \node (guide) [robot] {Guide};
-        \node (tamerlan) [robot, below of=guide] {Tamerlan};
-        \node (bambi) [robot, below of=tamerlan] {Bambi};
-        \node (backend) [backend, right of=tamerlan, node distance=4cm] {Backend};
-        \node (frontend) [frontend, right of=backend, node distance=4cm] {Frontend};
-
-        % paths with "uplink" data robots>backend>frontend
-        \path[->]
-        (guide)     edge [bend left]  	node {}     (backend)
-        (tamerlan)  edge []             node {}     (backend)
-        (bambi)     edge [bend right]  	node {}     (backend)
-        (backend)   edge []             node {}    (frontend)
-        ;
-
-        % paths with "downlink" data frontend>backend>robots
-        \begin{scope}[transform canvas={yshift=.5em,xshift=-.2em}]
-            \path[<-]
-            (guide)     edge [bend left]  	node {}     (backend)
-            (tamerlan)  edge []             node {}     (backend)
-            (bambi)     edge [bend right]  	node {}     (backend)
-            (backend)   edge []             node {}    (frontend)
-            ;
-        \end{scope}
-    \end{tikzpicture}
+        \includegraphics[width=\textwidth, center]{img/Kommunikationswege.png}  
     \caption{Kommunikationswege}
     \label{fig:kommunikationswege}
 \end{figure}

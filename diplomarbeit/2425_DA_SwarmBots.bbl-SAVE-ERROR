@@ -1,0 +1,166 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global/global}
+    \entry{syncthing}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=04a420e34197a9b17a72ee080692d4f9}{%
+           family={Foundation},
+           familyi={F\bibinitperiod},
+           given={Syncthing},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{04a420e34197a9b17a72ee080692d4f9}
+      \strng{fullhash}{04a420e34197a9b17a72ee080692d4f9}
+      \strng{fullhashraw}{04a420e34197a9b17a72ee080692d4f9}
+      \strng{bibnamehash}{04a420e34197a9b17a72ee080692d4f9}
+      \strng{authorbibnamehash}{04a420e34197a9b17a72ee080692d4f9}
+      \strng{authornamehash}{04a420e34197a9b17a72ee080692d4f9}
+      \strng{authorfullhash}{04a420e34197a9b17a72ee080692d4f9}
+      \strng{authorfullhashraw}{04a420e34197a9b17a72ee080692d4f9}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Syncthing}
+      \field{urlday}{24}
+      \field{urlmonth}{12}
+      \field{urlyear}{2024}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://syncthing.net/
+      \endverb
+      \verb{url}
+      \verb https://syncthing.net/
+      \endverb
+    \endentry
+    \entry{platformio}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=04acf0785fd5918b2f038e2e94b6ab22}{%
+           family={Labs},
+           familyi={L\bibinitperiod},
+           given={PlatformIO},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{04acf0785fd5918b2f038e2e94b6ab22}
+      \strng{fullhash}{04acf0785fd5918b2f038e2e94b6ab22}
+      \strng{fullhashraw}{04acf0785fd5918b2f038e2e94b6ab22}
+      \strng{bibnamehash}{04acf0785fd5918b2f038e2e94b6ab22}
+      \strng{authorbibnamehash}{04acf0785fd5918b2f038e2e94b6ab22}
+      \strng{authornamehash}{04acf0785fd5918b2f038e2e94b6ab22}
+      \strng{authorfullhash}{04acf0785fd5918b2f038e2e94b6ab22}
+      \strng{authorfullhashraw}{04acf0785fd5918b2f038e2e94b6ab22}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Your Gateway to Embedded Software Development Excellence · PlatformIO}
+      \field{urlday}{25}
+      \field{urlmonth}{12}
+      \field{urlyear}{2024}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://platformio.org/
+      \endverb
+      \verb{url}
+      \verb https://platformio.org/
+      \endverb
+    \endentry
+    \entry{protobufs}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=11bb1d2fc83a61c4b40b81c2f83149db}{%
+           family={LLC},
+           familyi={L\bibinitperiod},
+           given={Google},
+           giveni={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{11bb1d2fc83a61c4b40b81c2f83149db}
+      \strng{fullhash}{11bb1d2fc83a61c4b40b81c2f83149db}
+      \strng{fullhashraw}{11bb1d2fc83a61c4b40b81c2f83149db}
+      \strng{bibnamehash}{11bb1d2fc83a61c4b40b81c2f83149db}
+      \strng{authorbibnamehash}{11bb1d2fc83a61c4b40b81c2f83149db}
+      \strng{authornamehash}{11bb1d2fc83a61c4b40b81c2f83149db}
+      \strng{authorfullhash}{11bb1d2fc83a61c4b40b81c2f83149db}
+      \strng{authorfullhashraw}{11bb1d2fc83a61c4b40b81c2f83149db}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Protocol Buffers Documentation}
+      \field{urlday}{24}
+      \field{urlmonth}{12}
+      \field{urlyear}{2024}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://protobuf.dev/
+      \endverb
+      \verb{url}
+      \verb https://protobuf.dev/
+      \endverb
+    \endentry
+    \entry{7765670}{inproceedings}{}{}
+      \name{author}{4}{}{%
+        {{hash=956a1a32cfd72b17104b4f14a1f02819}{%
+           family={Popić},
+           familyi={P\bibinitperiod},
+           given={Srđan},
+           giveni={S\bibinitperiod}}}%
+        {{hash=3399c2bcd9aa2822f386978e521b11ad}{%
+           family={Pezer},
+           familyi={P\bibinitperiod},
+           given={Dražen},
+           giveni={D\bibinitperiod}}}%
+        {{hash=de10425bafdb2aa1028d9f3cb4506e03}{%
+           family={Mrazovac},
+           familyi={M\bibinitperiod},
+           given={Bojan},
+           giveni={B\bibinitperiod}}}%
+        {{hash=cf64f79d39a00b4f3dbd953ec2821d68}{%
+           family={Teslić},
+           familyi={T\bibinitperiod},
+           given={Nikola},
+           giveni={N\bibinitperiod}}}%
+      }
+      \strng{namehash}{bdaf81f3c886ab908a6bbee8e274aff7}
+      \strng{fullhash}{3bc549d0f74e7ff66d5952fe468d0e78}
+      \strng{fullhashraw}{3bc549d0f74e7ff66d5952fe468d0e78}
+      \strng{bibnamehash}{bdaf81f3c886ab908a6bbee8e274aff7}
+      \strng{authorbibnamehash}{bdaf81f3c886ab908a6bbee8e274aff7}
+      \strng{authornamehash}{bdaf81f3c886ab908a6bbee8e274aff7}
+      \strng{authorfullhash}{3bc549d0f74e7ff66d5952fe468d0e78}
+      \strng{authorfullhashraw}{3bc549d0f74e7ff66d5952fe468d0e78}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2016 International Conference on Smart Systems and Technologies (SST)}
+      \field{title}{Performance evaluation of using Protocol Buffers in the Internet of Things communication}
+      \field{year}{2016}
+      \field{pages}{261\bibrangedash 265}
+      \range{pages}{5}
+      \verb{doi}
+      \verb 10.1109/SST.2016.7765670
+      \endverb
+      \keyw{Protocols;Internet of Things;Automobiles;XML;Servers;encoding;Google Protocol Buffers;intelligent transportation;Internet of Things;performance}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
