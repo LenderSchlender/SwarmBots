@@ -37,6 +37,8 @@
 \usepackage{tikz}
 % "glue" footnotes at the bottom of the page
 \usepackage[bottom]{footmisc}
+% set date format for use in footer (last edit date)
+\usepackage{datetime2}
 
 % tikz (grafik) bibliotheken
 \usetikzlibrary{shapes, arrows}
@@ -164,6 +166,8 @@
 	\pagenumbering{arabic}
 	\fancyhead[L]{5AHEL 2024/25}
 	\fancyhead[R]{SwarmBots}
+	% TODO remove for final version
+	\fancyfoot[L]{Version von \today}
 	\fancyfoot[C]{\thepage/\pageref{_LASTPAGE}}
 
 	% Hier wird der tatsächliche Inhalt aus den einzelnen Kapitel-Dateien inkludiert
