@@ -66,8 +66,6 @@ void setup() {
   // Init
   robota.init();
   Serial.println("Setup done!");
-  leftMotor.setSpeed(INT16_MAX/2);
-  rightMotor.setSpeed(INT16_MAX/2);
 }
 
 void websocketEventHandler(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len) {
