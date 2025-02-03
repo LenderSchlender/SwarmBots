@@ -5,6 +5,7 @@
 #include <Interfaces.h>
 #include <Interfaces.cpp>
 #include <TumbllerConstants.h>
+#include <sensors/RotaryEncoder.h>
 
 // Following two macros are just placeholders, in reality they're externally defined in the .env file
 #ifndef WIFI_SSID

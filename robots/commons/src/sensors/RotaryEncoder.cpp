@@ -4,8 +4,16 @@ RotaryEncoder::RotaryEncoder(uint8_t pin, SingleMotorOutput *motor) {
 
 }
 
-void RotaryEncoder::init() {
+void RotaryEncoder::attachISR(void (*intRoutine)()) {
+    attachInterrupt(pin, intRoutine, RISING);
+}
 
+void RotaryEncoder::init() {
+    
+}
+
+void RotaryEncoder::terminate() {
+    detachInterrupt(pin);
 }
 
 RotationData RotaryEncoder::get(uint8_t index) {

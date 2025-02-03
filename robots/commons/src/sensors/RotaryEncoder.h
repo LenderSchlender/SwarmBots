@@ -3,10 +3,16 @@
 #include "Module.h"
 #include "actors/Actors.h"
 
+struct RotationData
+{
+    // number of pulses [#]
+    int pulses;
+    // amount of time [ms]
+    int time;
+};
+
 class RotaryEncoder : Sensor
 {
-    // for access to class members in the ISR
-    static RotaryEncoder* instances[4];
     uint8_t pin;
     SingleMotorOutput *motor;
     volatile int32_t pulseAmount[4] = { 0 };
@@ -20,7 +26,13 @@ public:
      * Providing a motor is optional, if none is provided, it'll assume that the wheel is only going forward.
      */
     RotaryEncoder(uint8_t pin, SingleMotorOutput *motor);
+    /*
+     * This should be called with a pointer to a method that
+     * only calls the pulse() function.
+     */
+    void attachISR(void (*intRoutine)());
     void init();
+    void terminate();
     /*
      * Gets the latest rotational data.
      * The `index` should be a value from 0 to 3.
@@ -32,14 +44,8 @@ public:
      * 1: Sending the encoder data to the control server
      */
     RotationData get(uint8_t index);
-};
 
-struct RotationData
-{
-    // number of pulses [#]
-    int pulses;
-    // amount of time [ms]
-    int time;
+    void pulse();
 };
 
 #endif
