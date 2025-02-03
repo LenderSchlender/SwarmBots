@@ -51,43 +51,111 @@ was eine schöne Abstrahierung ermöglicht.
 
 \subsection{LiDAR-Karte}
 \label{subsec:frontend_lidar_map}
-Die LiDAR-Karte wird mithilfe von Vue.js auf dem Frontend, der Webseite generiert und soll Hindernisse wie Wände, Säulen oder auch Menschen mit farbigen Punkten anzeigen. 
-Neben der verschiedenen Hindernisse, die auf der Karte einzusehen sind, sollen auch die Position der Roboter markiert werden. 
+Die LiDAR-Karte wird mithilfe von Vue.js auf dem Frontend,
+der Webseite,
+generiert und soll Hindernisse wie Wände,
+Säulen oder auch Menschen mit farbigen Punkten anzeigen.
+%
+Hierbei gibt es aber keine Klassifikation des Hindernistyps,
+abgesehen von der Erkennung von Tamerlan und Bambi.
+%
+Neben der verschiedenen Hindernisse,
+die auf der Karte einzusehen sind,
+sollen auch die Position der Roboter markiert werden.
+
 \begin{figure}[H]
     \includegraphics[width=0.4\textwidth, center]{img/LiDARMessungZeichnung_alt.png}
     \caption{LiDAR-Messung}
     \label{fig:LiDAR-Messung}
 \end{figure}
-Das Bild zeigt die generierte Punktwolke des LiDAR-Sensors. Die Punktwolke zeigt ideal die Funktionsweise des LiDARs und ist leicht zu interpretieren. 
-Die unterschiedlichen Laserimpulse, welche gesendet werden, reflektieren an der Oberfläche und werden gemessen. Nicht nur ist die Entfernung, sondern auch die Tiefenwahrnehmung somit feststellbar.
 
-Um die Punktwolke genauer zu verstehen, wurden Sektionen eingezeichnet. 
-Die Grüne Sektion zeigt Objekte, welche unmittelbar vor dem LiDAR standen, in dem Fall waren es Büromaterialien wie etwa Kugelschreiber, Hefte, etc.
-Die blaue Sektion befindet sich ca. 1-2 m vom LiDAR entfernt. Die aufgenommenen Punkte sind einfach nur eine Person sowie ein Sessel.
-Die gelbe Sektion war ca. 3 m entfernt und zeigt die Umrandung des Raumes, interessanterweise sind die Lücken die Fenster, wo die Laserimpulse nicht reflektiert worden sind
-und somit konnten keine Punkte an der Stelle der Wolke generiert werden konnten.
+Das Bild zeigt die generierte Punktwolke des LiDAR-Sensors.
+%
+Die Punktwolke zeigt ideal die Funktionsweise des LiDARs
+und ist leicht zu interpretieren.
+%
+Die unterschiedlichen Laserimpulse,
+welche gesendet werden,
+reflektieren an der Oberfläche und werden gemessen.
+% TODO @Arthur was hast du da gemeint???
+Nicht nur ist die Entfernung, sondern auch die Tiefenwahrnehmung somit feststellbar.
+
+Zur einfacheren Interpretation des Beispiels
+wurden von Herrn Burjak Bereiche eingezeichnet:
+%
+Der grüne Bereich zeigt Objekte,
+welche unmittelbar vor dem LiDAR standen.
+%
+In dem Fall waren es Büromaterialien wie etwa Kugelschreiber, Hefte, etc.
+%
+Blau markiert ist eine Person (links),
+die ungefähr in 2.5 m Entfernung vom Sensor
+neben einem Sessel (rechts) steht.
+%
+Im gelbem ``L'' kann man die Wände bzw. Bücherregale erkennen,
+welche den Testraum abgegrenzt haben.
+Die beiden großen Lücken im gelbem Bereich wurden
+durch die Hindernisse im blauem Bereich verursacht,
+an denen der Laser bereits schon frühzeitig abgeprallt ist.
+%
+Die beiden nicht markierten Punkte-``Cluster'' stellen Dachstützen dar.
+
 
 \subsection{Fernüberwachung per Kamera}
 \label{subsec:frontend_cam_stream}
-Auf allen drei Robotern befinden sich fest montierte ESP32-Kameras zur Überwachung, welche auf dem Frontend, der Webseite gestreamet werden.
-Die Kameras dienen vor allem nur der Überwachung der Roboter und sollen der Gruppe nur helfen, Gefahren rechtzeitig zu identifizieren, um die Sicherheit des Projektes zu gewährleisten. Eingriffe erfolgen nur sofern die Roboter nicht selbst auf die Gefahr reagieren.
-Sollte jedoch ein Fehler bei einem Roboter unterlaufen sein, so können wir mithilfe der Fernsteuerung (Siehe Abschnitt \ref{subsec:frontend_control}) probieren, die Roboter aus der Gefahrenzone zu entfernen.
+Auf allen drei Robotern befinden sich fest montierte
+\texttt{ESP32-CAM}-Kameramodule zur Überwachung,
+welche dem Frontend via MJPEG ein Live-Bild bereitstellen.
+%
+Die Kameras dienen vor allem der Überwachung der Roboter und sollen der Gruppe nur helfen,
+mögliche Probleme (z.B. Stiegen) rasch zu identifizieren,
+um die Sicherheit der Roboter zu gewährleisten.
+%
+Eingriffe erfolgen nur falls die Roboter nicht selbstständig erfolgreich die Gefahrensituation vermeiden.
+%
+Sollte ein Fehler bei der autonomen Steuerung von einem der Roboter aufgetreten sein,
+helfen uns die Kameras zusätzlich bei der manuellen Fernsteuerung.
+%
+So können wir mithilfe der Fernsteuerung (Siehe Abschnitt \ref{subsec:frontend_control}) probieren,
+die Roboter z.B. aus einer Gefahrenzone zu entfernen.
 
 \subsection{Fernsteuerung}
 \label{subsec:frontend_control}
-Die Idee der Fernsteuerung wurde aus den Prototypen der Projektwoche aus dem Jahr 2023/2024 übernommen. Diese hatten eine Fernsteuerungsfunktion, die hier in der Diplomarbeit nur in Notfällen oder Testzwecken verwendet wird.  
+Das Konzept der Fernsteuerung wurde aus den Prototypen der Projektwoche aus dem Jahr 2023/2024 übernommen.
+%
+Diese hatten eine Fernsteuerungsfunktion,
+welche hier in der Diplomarbeit nur zu Testzwecken oder in Gefahrensituationen verwendet wird.  
 
 \subsection{Anzeigen der Sensordaten}
 \label{subsec:frontend_sensors}
-Die Sensordaten werden alle auf dem Frontend dargestellt und stetig aktualisiert. Die Sensoren, welche die Gruppe verwendet, sind der LiDAR, die Beschleunigungssensoren und die Kompasse.
-Der LiDAR erstellt eine Karte mithilfe von einer Punktwolke, um die Hindernisse und Entfernungen feststellen zu können. Für mehr Informationen siehe Abschnitt \ref{subsec:frontend_lidar_map}.
+Die Sensordaten werden alle auf dem Frontend dargestellt und stetig aktualisiert.
+%
+Jeder Tumbller-Roboter ist ab Werk mit Beschleunigungssensoren und Drehgebern ausgerüstet,
+welche wir gleich für unsere Zwecke wiederverwendet haben.
+%
+Als Modifikationen haben wir jedem Roboter ein Kompass-Modul
+und Guide zusätzlich noch den LiDAR installiert.
+%
+Der LiDAR erstellt eine Karte in Form einer Punktwolke,
+um eventuelle Hindernisse erkennen zu können.
+%
+Für mehr Informationen zum LiDAR-Sensor siehe Abschnitt \ref{subsec:frontend_lidar_map}.
+
 %TODO BILD ÄNDERN
 \begin{figure}[H]
     \includegraphics[width=0.4\textwidth, center]{img/Sensor_Anzeige_LOESCHEN.png}
     \caption{Anzeige der Sensordaten}
     \label{fig:Sensordaten}
 \end{figure}
-Die Beschleunigungssensoren werden in Graphen abhängig von der Zeit angezeigt, um die aktuellen Werte mit den vergangenen Werten vergleichen zu können. Nicht nur werden die Werte in Graphen abgebildet, sondern auch "normal" als Dezimalzahl
-um schnell den aktuellsten Wert lesen zu können.
-\\
-Die Kompasse zeigen die aktuelle Fahrtrichtung der Roboter an. Geplant ist ein "realer" 2D-Kompass, wo die jedoch die Nadel die Fahrtrichtung anzeigt, statt wie gewohnt den Norden.
+
+Die Werte der Beschleunigungssensoren werden,
+neben der einfachen Anzeige als Dezimalzahl,
+zusätzlich in Graphen abhängig von der Zeit angezeigt,
+um die aktuellen Werte mit der Vergangenheit vergleichen zu können.
+
+Die Kompasse zeigen die aktuelle Fahrtrichtung der Roboter an.
+% TODO @Arthur wie soll die Nadel auf einem vertikalen Bildschirm eine horizontale Richtung anzeigen?
+%  Woher wissen wir, in welche Richtung der Bildschirm zeigt?
+Geplant ist ein ``realer'' 2D-Kompass,
+wobei jedoch die Nadel die Fahrtrichtung anzeigt,
+statt wie gewohnt den Norden.
