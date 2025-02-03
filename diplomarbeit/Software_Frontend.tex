@@ -3,16 +3,51 @@
 
 \section{Software - Frontend}
 \label{sec:software_frontend}
-Das Frontend ist eine Webseite und dient zur Visualisierung der gesammelten Daten vom Server.
-Darunter zählen die Daten vom LiDAR-Sensor, vom Beschleunigungssensor und die Geschwindigkeit der Roboter
-mithilfe der Encoder. Um das ganze geschehen der Roboter mitverfolgen zu können, ohne hinterherrennen zu müssen
-werden auch die Kamerabilder der unterschiedlichen Roboter angezeigt.
+Das Frontend wurde als Webanwendung realisiert,
+welche die vom Server gesammelten Daten visualisiert.
+%
+Dazu zählen z.B. die Daten vom LiDAR-Sensor,
+vom Beschleunigungssensor
+und die Geschwindigkeit der Roboter,
+welche mithilfe der Encoder ausgelesen wird.
+%
+Um die Aktivitäten der Roboter mitverfolgen zu können,
+ohne vor Ort anwesend sein zu müssen,
+werden auch die Livestreams von Kameras,
+welche auf den Robotern angebracht sind,
+angezeigt.
 
-Das Frontend wird mithilfe von Vue.js programmiert. Vue.js ist ein JavaScript Framework und bietet 
-verschiedene Möglichkeiten, an die Webseite zu programmieren. Bei Vue.js kann man zwischen den Möglichkeiten "Options" und "Composition" unterscheiden.
-Das Verhalten des Codes bleibt gleich, bietet aber eine andere Syntax. Der große Vorteil des Vue.js Frameworks ist, dass es einem bietet 
-HTML, CSS und JavaScript in eine sogenannte "SFC"\footnote{Single-File Components} einzubinden. Durch eine SFC schreibt man HTML, CSS und JavaScript in einer Datei, anstatt in vielen unterschiedlichen
-Dateien, die alle zueinander finden müssen.  
+Das Frontend wird mithilfe von Vue.js programmiert.
+%
+Vue.js ist ein JavaScript-Framework zur Webentwicklung
+und bietet verschiedene Möglichkeiten,
+Webseiten zu programmieren.
+%
+Bei Vue.js kann man zwischen der ``Options'' oder
+der neueren ``Composition'' API unterscheiden.
+%
+Die Composition API ist etwas flexibler in der Anwendung,
+während die Options API eine klar definierte Struktur verfolgt.
+%
+Letztlich ist es dem Entwickler überlassen,
+je nach seinen Präferenzen zu wählen.
+%
+Wir verwenden für unsere Anwendung die Composition API,
+da diese etwas intuitiver ist
+und ``normalem'' JavaScript etwas näher kommt. 
+%
+Der große Vorteil des Vue.js Frameworks ist,
+dass man einzelne Komponenten einer Website
+als sogenannte SFC\footnote{Single-File Components}s definiert.
+%
+Wie der Name schon impliziert ist in diesem SFC alles enthalten,
+was diese Komponente braucht: HTML, CSS und Type-/JavaScript.
+%
+Dadurch wird der Code schön strukturiert und klar aufgeteilt.
+%
+Des Weiteren können Vue-Komponenten auch
+in anderen Komponenten wiederverwendet werden,
+was eine schöne Abstrahierung ermöglicht.
 
 \subsection{LiDAR-Karte}
 \label{subsec:frontend_lidar_map}
