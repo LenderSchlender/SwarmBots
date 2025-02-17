@@ -199,9 +199,17 @@ void SingleMotorOutput::setSpeed(int16_t speed) {
 }
 
 int16_t SingleMotorOutput::getSpeed() {
-  if (forward->getState() == backward->getState()) {
-    return 0;
-  } else {
+  if (forward != nullptr && backward != nullptr) {
+    if (forward->getState() == backward->getState()) {
+      return 0;
+    } else {
+      return forward->getState() == HIGH ? enable->getDutyCycle() >> 1 : -(enable->getDutyCycle() >> 1);
+    }
+  } else if (forward != nullptr) {
     return forward->getState() == HIGH ? enable->getDutyCycle() >> 1 : -(enable->getDutyCycle() >> 1);
+  } else if (backward != nullptr) {
+    return backward->getState() == LOW ? enable->getDutyCycle() >> 1 : -(enable->getDutyCycle() >> 1);
   }
+
+  return 0;
 }
