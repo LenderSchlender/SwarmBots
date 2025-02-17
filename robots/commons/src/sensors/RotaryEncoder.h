@@ -11,12 +11,15 @@ struct RotationData
     int time;
 };
 
-class RotaryEncoder : Sensor
+class RotaryEncoder : public Sensor
 {
+    // How many "output channels" the encoder should have.
+    static const uint8_t N = 4;
+
     uint8_t pin;
     SingleMotorOutput *motor;
-    volatile int32_t pulseAmount[4] = { 0 };
-    volatile int32_t startTime[4] = { 0 };
+    volatile int32_t pulseAmount[N] = { 0 };
+    volatile int32_t startTime[N] = { 0 };
 
 public:
     /*
@@ -35,7 +38,7 @@ public:
     void terminate();
     /*
      * Gets the latest rotational data.
-     * The `index` should be a value from 0 to 3.
+     * The `index` should be a value from 0 to N-1.
      * Since the rotary encoder's stored values reset after each read,
      * there are four "registers" with values.
      * This makes it possible to use the same encoder up to 4 times within the codebase.
@@ -45,7 +48,14 @@ public:
      */
     RotationData get(uint8_t index);
 
+    /*
+     * To be called in the attached ISR
+     * Processes the encoder "event" by incrementing all of the related counters.
+     */
     void pulse();
+
+
+    static float pulsesToRotations(uint32_t pulses);
 };
 
 #endif

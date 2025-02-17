@@ -1,7 +1,8 @@
 #include "RotaryEncoder.h"
 
 RotaryEncoder::RotaryEncoder(uint8_t pin, SingleMotorOutput *motor) {
-
+    this->pin = pin;
+    this->motor = motor;
 }
 
 void RotaryEncoder::attachISR(void (*intRoutine)()) {
@@ -9,7 +10,7 @@ void RotaryEncoder::attachISR(void (*intRoutine)()) {
 }
 
 void RotaryEncoder::init() {
-    
+    pinMode(pin, INPUT);
 }
 
 void RotaryEncoder::terminate() {
@@ -25,4 +26,14 @@ RotationData RotaryEncoder::get(uint8_t index) {
     startTime[index] = millis();
 
     return data;
+}
+
+void IRAM_ATTR RotaryEncoder::pulse() {
+    for (int i= 0; i < N; i++) {
+        pulseAmount[i]++;
+    }
+}
+
+float RotaryEncoder::pulsesToRotations(uint32_t pulses) {
+    return pulses / 330.0;
 }

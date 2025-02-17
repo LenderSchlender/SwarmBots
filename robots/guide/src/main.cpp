@@ -16,6 +16,15 @@
 #define WIFI_PASS ""
 #endif
 
+// Global function definitions
+void leftEncoderISR();
+void rightEncoderISR();
+void websocketEventHandler(AsyncWebSocket *server, AsyncWebSocketClient *client,
+  AwsEventType type, void *arg, uint8_t *data, size_t len);
+void lidarMeasurementHandler(SingleLiDARMeasurement measurement);
+void moveCommandHandler(MoveCmd cmd);
+void ledCommandHandler(LedCmd cmd);
+
 using namespace TumbllerConstants;
 
 Robota robota;
@@ -31,13 +40,13 @@ PwmOutput rightMotorEnable(PIN_RM_PWM, 2000, 14);
 GenericDigitalOutput rightMotorForward(PIN_RM_DIR);
 SingleMotorOutput rightMotor(&rightMotorEnable, &rightMotorForward);
 
+// Motor speed measuring
+RotaryEncoder leftEncoder(PIN_LM_ENC, &leftMotor);
+RotaryEncoder rightEncoder(PIN_RM_ENC, &rightMotor);
+
 WiFiConnection wifi("sb-guide", WIFI_SSID, WIFI_PASS);
 // Remote Control Interface
 WebSocketControls controls;
-
-void lidarMeasurementHandler(SingleLiDARMeasurement measurement);
-void moveCommandHandler(MoveCmd cmd);
-void ledCommandHandler(LedCmd cmd);
 
 void setup() {
   Serial.begin(115200);
@@ -56,6 +65,13 @@ void setup() {
   robota.addModule(&rightMotorForward);
   robota.addModule(&rightMotor);
 
+  robota.addModule(&leftEncoder);
+  robota.addModule(&rightEncoder);
+
+  // Attach encoder ISRs
+  leftEncoder.attachISR(leftEncoderISR);
+  rightEncoder.attachISR(rightEncoderISR);
+
   // WiFi Connection
   robota.addModule(&wifi);
 
@@ -67,6 +83,14 @@ void setup() {
   // Init
   robota.init();
   Serial.println("Setup done!");
+}
+
+void leftEncoderISR() {
+  leftEncoder.pulse();
+}
+
+void rightEncoderISR() {
+  rightEncoder.pulse();
 }
 
 void websocketEventHandler(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len) {
