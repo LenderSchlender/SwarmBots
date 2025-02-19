@@ -22,11 +22,6 @@ void Robota::tick() {
       modules[i]->tick();
     }
   }
-  ticks++;
-}
-
-uint32_t Robota::getTicks() {
-  return ticks;
 }
 
 int16_t Robota::addModule(Module* module) {
