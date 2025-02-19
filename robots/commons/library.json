@@ -12,7 +12,8 @@
     "platforms": ["espressif32"],
     "dependencies": {
         "me-no-dev/ESP Async WebServer": "^1.2.4",
-        "nanopb/Nanopb": "^0.4.9"
+        "nanopb/Nanopb": "^0.4.9",
+        "adafruit/Adafruit MPU6050": "^2.2.6"
     },
     "build": {
         "extraScript": "generate-protos.py"

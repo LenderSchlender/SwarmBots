@@ -7,6 +7,7 @@
 #include <TumbllerConstants.h>
 #include <sensors/RotaryEncoder.h>
 #include <actors/balance/BalanceController.h>
+#include <sensors/MPU6050.h>
 
 // Following two macros are just placeholders, in reality they're externally defined in the .env file
 #ifndef WIFI_SSID
@@ -45,8 +46,10 @@ SingleMotorOutput rightMotor(&rightMotorEnable, &rightMotorForward);
 RotaryEncoder leftEncoder(PIN_LM_ENC, &leftMotor);
 RotaryEncoder rightEncoder(PIN_RM_ENC, &rightMotor);
 
+MPU6050 mpu;
+
 // Balancing
-BalanceController balancer(&leftMotor, &rightMotor, &leftEncoder, &rightEncoder);
+BalanceController balancer(&leftMotor, &rightMotor, &leftEncoder, &rightEncoder, &mpu);
 
 WiFiConnection wifi("sb-guide", WIFI_SSID, WIFI_PASS);
 // Remote Control Interface
@@ -75,6 +78,8 @@ void setup() {
   // Attach encoder ISRs
   leftEncoder.attachISR(leftEncoderISR);
   rightEncoder.attachISR(rightEncoderISR);
+
+  robota.addModule(&mpu);
 
   // Balancing
   robota.addModule(&balancer);
