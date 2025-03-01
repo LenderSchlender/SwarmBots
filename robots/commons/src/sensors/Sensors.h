@@ -1,6 +1,6 @@
 #include "Arduino.h"
-#include "Module.h"
 #include "LD20Sensor.h"
+#include "Module.h"
 
 #ifndef Sensors_h
 #define Sensors_h

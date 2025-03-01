@@ -1,13 +1,13 @@
 #include <Arduino.h>
-#include <Robota.h>
-#include <sensors/Sensors.h>
-#include <actors/Actors.h>
-#include <Interfaces.h>
 #include <Interfaces.cpp>
+#include <Interfaces.h>
+#include <Robota.h>
 #include <TumbllerConstants.h>
-#include <sensors/RotaryEncoder.h>
+#include <actors/Actors.h>
 #include <actors/balance/BalanceController.h>
 #include <sensors/MPU6050.h>
+#include <sensors/RotaryEncoder.h>
+#include <sensors/Sensors.h>
 
 // Following two macros are just placeholders, in reality they're externally defined in the .env file
 #ifndef WIFI_SSID
@@ -22,7 +22,7 @@
 void leftEncoderISR();
 void rightEncoderISR();
 void websocketEventHandler(AsyncWebSocket *server, AsyncWebSocketClient *client,
-  AwsEventType type, void *arg, uint8_t *data, size_t len);
+                           AwsEventType type, void *arg, uint8_t *data, size_t len);
 void lidarMeasurementHandler(SingleLiDARMeasurement measurement);
 void moveCommandHandler(MoveCmd cmd);
 void ledCommandHandler(LedCmd cmd);
@@ -115,18 +115,18 @@ void websocketEventHandler(AsyncWebSocket *server, AsyncWebSocketClient *client,
   }
 
   switch (data[0]) {
-    case 0x00:
-      leftMotor.setSpeed((data[1] << 8) | data[2]);
-      rightMotor.setSpeed((data[3] << 8) | data[4]);
-      break;
-    default:
-      client->printf("I don't know what message type 0x%x means :(", data[0]);
+  case 0x00:
+    leftMotor.setSpeed((data[1] << 8) | data[2]);
+    rightMotor.setSpeed((data[3] << 8) | data[4]);
+    break;
+  default:
+    client->printf("I don't know what message type 0x%x means :(", data[0]);
   }
 }
 
 void lidarMeasurementHandler(SingleLiDARMeasurement measurement) {
-  //TODO new lidar measurement handler system
-  // featuring batching of measurements and sending them as protobufs
+  // TODO new lidar measurement handler system
+  //  featuring batching of measurements and sending them as protobufs
   /*if (!controls.isConnected())
     return;
   static const uint8_t BUFFER_SIZE = 100;
@@ -141,17 +141,17 @@ void lidarMeasurementHandler(SingleLiDARMeasurement measurement) {
 }
 
 void moveCommandHandler(MoveCmd cmd) {
-  //TODO move
+  // TODO move
 }
 
 void ledCommandHandler(LedCmd cmd) {
-  //TODO change led colors (low priority)
+  // TODO change led colors (low priority)
 }
 
 void loop() {
   static uint32_t longestTickTime = 0;
   uint32_t start = micros();
-  robota.tick();  // This iterates through all modules and executes their tick() function
+  robota.tick(); // This iterates through all modules and executes their tick() function
   if (micros() - start > longestTickTime) {
     longestTickTime = micros() - start;
     Serial.printf("NEW LONGEST TICK: %d\n", longestTickTime);

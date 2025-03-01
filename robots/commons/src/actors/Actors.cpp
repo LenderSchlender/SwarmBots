@@ -1,11 +1,11 @@
-#include "driver/ledc.h"
-#include "hal/ledc_types.h"
-#include <cstdint>
-#include <cmath>
-#include "esp32-hal-ledc.h"
-#include "Arduino.h"
 #include "Actors.h"
+#include "Arduino.h"
+#include "driver/ledc.h"
+#include "esp32-hal-ledc.h"
+#include "hal/ledc_types.h"
 #include "math.h"
+#include <cmath>
+#include <cstdint>
 
 GenericDigitalOutput::GenericDigitalOutput(uint8_t pin) {
   this->pin = pin;
@@ -48,7 +48,6 @@ void GenericDigitalOutput::toggle() {
 
   *portOutputRegister(port) ^= bit;
 }
-
 
 uint16_t PwmOutput::getType() {
   return ACTOR_PWM_OUTPUT;
@@ -98,14 +97,14 @@ uint8_t PwmOutput::maxResolution(uint32_t frequency) {
 PwmOutput::PwmOutput(uint8_t pin) {
   this->pin = pin;
   this->frequency = 2000;
-  this->channel = 0xFF;  // placeholder value
+  this->channel = 0xFF; // placeholder value
   this->resolution = maxResolution(frequency);
 }
 
 PwmOutput::PwmOutput(uint8_t pin, uint32_t frequency, uint8_t resolution) {
   this->pin = pin;
   this->frequency = frequency;
-  this->channel = 0xFF;  // placeholder value
+  this->channel = 0xFF; // placeholder value
   if (resolution == 0) {
     this->resolution = maxResolution(frequency);
   } else {
@@ -129,11 +128,11 @@ void PwmOutput::init() {
 }
 
 uint16_t PwmOutput::getTrueDutyCycle() {
-  return (uint16_t) ledcRead(channel);
+  return (uint16_t)ledcRead(channel);
 }
 
 uint16_t PwmOutput::getDutyCycle() {
-  return ((uint16_t) ledcRead(channel)) << resolution;
+  return ((uint16_t)ledcRead(channel)) << resolution;
 }
 
 uint16_t PwmOutput::getPulseWidth() {
@@ -164,11 +163,11 @@ void PwmOutput::writeServoAngle(int8_t angle) {
 
 void PwmOutput::terminate() {
   ledcDetachPin(pin);
-  //TODO stop timer
+  // TODO stop timer
   usedChannels &= ~(1 << channel);
 }
 
-SingleMotorOutput::SingleMotorOutput(PwmOutput* enable, GenericDigitalOutput* forward, GenericDigitalOutput* backward) {
+SingleMotorOutput::SingleMotorOutput(PwmOutput *enable, GenericDigitalOutput *forward, GenericDigitalOutput *backward) {
   this->enable = enable;
   this->forward = forward;
   this->backward = backward;
@@ -183,7 +182,7 @@ void SingleMotorOutput::init() {
 }
 
 void SingleMotorOutput::setSpeed(int16_t speed) {
-  enable->writeDutyCycle(((uint16_t)abs(speed)) << 1);  // Take absolute value and shift left by one (since it's a signed int we can only use 15 bits, but the pwm function takes 16)
+  enable->writeDutyCycle(((uint16_t)abs(speed)) << 1); // Take absolute value and shift left by one (since it's a signed int we can only use 15 bits, but the pwm function takes 16)
   if (speed == 0) {
     if (forward != nullptr)
       forward->disable();

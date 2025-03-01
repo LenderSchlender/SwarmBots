@@ -1,19 +1,20 @@
-#include <Arduino.h>
 #include "Module.h"
-#include <WiFi.h>
+#include "Protocol.h"
+#include <Arduino.h>
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
-#include "Protocol.h"
+#include <WiFi.h>
 
 #ifndef Interfaces_h
 #define Interfaces_h
 
-//TODO wait until https://github.com/espressif/arduino-esp32/issues/7921 (wifi roaming) gets implemented
+// TODO wait until https://github.com/espressif/arduino-esp32/issues/7921 (wifi roaming) gets implemented
 class WiFiConnection : public Interface {
   uint32_t lastConnectionAttempt;
   bool connecting;
   char hostname[64], ssid[64], password[64];
   void attemptConnection();
+
 public:
   WiFiConnection(const char *hostname, const char *ssid, const char *password);
   void init();
@@ -28,6 +29,7 @@ class WebSocketControls : public Interface {
   void (*ledCmdHandler)(LedCmd cmd) = [](LedCmd cmd) {};
   void _onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len);
   void _handleReceivedMessage(AsyncWebSocketClient *client, Wrapper msg);
+
 public:
   WebSocketControls(/* TODO add options for port and path */);
   void init();

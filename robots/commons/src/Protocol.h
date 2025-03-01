@@ -8,8 +8,8 @@
 #define Protocol_h
 
 #include <pb_common.h>
-#include <pb_encode.h>
 #include <pb_decode.h>
+#include <pb_encode.h>
 #include <wrapper.pb.h>
 
 // Shorter type names

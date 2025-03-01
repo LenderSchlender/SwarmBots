@@ -1,5 +1,5 @@
-#include <Arduino.h>
 #include "Module.h"
+#include <Arduino.h>
 
 #ifndef Robota_h
 #define Robota_h
@@ -12,19 +12,19 @@ class Robota : Module {
   uint32_t ticks;
   // Stored modules & types for quick type checking
   uint16_t moduleTypes[MAX_MODULE_AMOUNT];
-  Module* modules[MAX_MODULE_AMOUNT];
+  Module *modules[MAX_MODULE_AMOUNT];
 
 public:
-  Robota(); //TODO constructors with size
+  Robota(); // TODO constructors with size
   void init();
   void tick();
   uint32_t getTicks();
   // returns the module index if successful, or -1 if failed
-  int16_t addModule(Module* module);
+  int16_t addModule(Module *module);
 
-  Module* getModule(int16_t index);
-  Module* getModule(int16_t type, int16_t index);
-  Module* getFirstModule(int16_t type);
+  Module *getModule(int16_t index);
+  Module *getModule(int16_t type, int16_t index);
+  Module *getFirstModule(int16_t type);
 };
 
 #endif
