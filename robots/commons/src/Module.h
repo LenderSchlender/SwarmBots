@@ -40,15 +40,7 @@ public:
   virtual void terminate() {}
 };
 
-struct Position {
-  // 0;0;0 is at the back left corner on the level of the base board
-  int32_t x, y, z; // in µm
-  // 0;0;0 is horizontal looking straight towards the front
-  int16_t yaw, pitch, roll; // in tens of degrees
-};
-
 class Sensor : public Module {
-  // TODO positioning
 };
 
 class Actor : public Module {
