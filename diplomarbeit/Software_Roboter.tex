@@ -49,6 +49,71 @@ die Bibliothek so modular und wiederverwendbar wie möglich zu gestalten,
 konnten wir diese mit nur wenigen Modifikationen für unsere Diplomarbeit nutzen,
 obwohl wir einen ganz anderen Hardwareaufbau verwenden.
 
+\subsubsection{Module}
+\label{subsec:software_common_modules}
+Wie schon erwähnt,
+wurde die Core-Bibiliothek so modular wie nur möglich gestaltet,
+um so viele Anwendungsfälle wie möglich abzudecken.
+%
+Jedes Modul implementiert eine der folgenden Klassen:
+\begin{itemize}
+    \item \texttt{Sensor}: Ein Sensor bzw. eine Sensorgruppe
+    \item \texttt{Actor}: Ein Aktor bzw. eine Aktorgruppe
+    \item \texttt{Interface}: Ein Interface zur Steuerung, z.B. WLAN
+\end{itemize}
+Theoretisch ist es damit möglich,
+gemeinsame Funktionalität für alle Sensoren/Aktoren/Interfaces zu definieren,
+wobei dies aber nicht tatsächlich realisiert wurde.
+%
+Jede dieser Klassen implementiert wiederum die Klasse \texttt{Module},
+welche die folgenden Funktionen definiert:
+\begin{itemize}
+    \item \lstinline[language=c]|void init()|:
+        Ähnlich wie \texttt{setup()} beim Arduino, nur im Kontext eines einzelnen Moduls.
+        Wird verwendet um das Modul zu initialisieren.
+    \item \lstinline[language=c]|void tick()|:
+        Ähnlich wie \texttt{loop()} beim Arduino, nur im Kontext eines einzelnen Moduls.
+        Sobald der Roboter alle Module fertig initialisiert hat,
+        wird ständig durch ebendiese Module iteriert,
+        wobei deren \texttt{tick()}-Funktionen aufgerufen werden. 
+    \item \lstinline[language=c]|void terminate()|:
+        Wird eigentlich nicht verwendet,
+        da die meisten Module nicht zur mehrfachen Initialisierung gedacht sind.
+        Im Sinne der Vollständigkeit gibt es trotzdem die Möglichkeit,
+        diese Funktion zu implementieren.
+\end{itemize}
+
+\subsection{Robota}
+Die Klasse \texttt{Robota}%
+\footnote{Dieser Name wurde in der Anfangsphase des Projekts (Ende 2023) gewählt, 
+        um Konflikte mit der veralteten ``Arduino Robot Library'',
+        welche standardmäßig von der Arduino IDE inkludiert wird,
+        zu vermeiden.
+        %
+        Seit dem Wechsel von der Arduino IDE auf PLatformIO stellt dieser potentielle Konflikt kein Problem mehr da}
+ist für das Management der Module zuständig.
+%
+Hierzu gibt es drei Variablen, welche für die vollständige Funktion relevant sind:
+\begin{itemize}
+    \item \lstinline[language=c]|uint32_t ticks|:
+        Eine globaler Zähler, welche einmal pro Tick ausgeführt wird.
+        Dieser kann von Modulen verwendet werden, um bestimmte Tätigkeiten nur alle $n$ Ticks auszuführen.
+        % TODO check if 100ns is realistic: ((2^32) - 1) / (t * (10^-9)) / (60 * 60 * 24 * 365.25)
+        Bei einer durchschnittlichen Zeit von $t_{tick}=100ns$ pro Tick reichen 32 Bits aus,
+        um die Roboter für etwas mehr als $t_{overflow}=1.36*10^{-9}$ Jahre zu betreiben,
+        was für unsere Zwecke mehr als ausreichend sein sollte.
+    \item \lstinline[language=c]|uint16_t moduleTypes[MAX_MODULE_AMOUNT]|:
+        Hier wird Typeninformation zu den Modulen gespeichert.
+        %
+        Diese wird in den Funktionen \texttt{getModule} und \texttt{getFirstModule} verwendet,
+        um die Module nach Typ zu filtern.
+    \item \lstinline[language=c]|Module *modules[MAX_MODULE_AMOUNT]|:
+        Dies ist die gesamte Liste an registrierten Modulen.
+        %
+        Mit \texttt{addModule} können Einträge hinzugefügt werden.
+\end{itemize}
+%TODO: Robota funktionen; insb. init() und tick()
+
 \subsection{Guide}
 \label{subsec:software_guide}
 Die Software von \textit{Guide} ist in diesem Projekt in dem Sinne einzigartig,
