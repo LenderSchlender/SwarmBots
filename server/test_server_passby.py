@@ -26,8 +26,24 @@ from protobuf.wrapper_pb2 import Wrapper
 import print_wrapper_content as print_wrp  # used for console prints
 
 
-ip = socket.gethostbyname(socket.gethostname())
+def get_local_ip():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        # doesn't even have to be reachable
+        s.connect(('10.255.255.255', 1))
+        IP = str(s.getsockname()[0])
+    except Exception as b:
+        print("error at figuring out local ip")
+        print(b)
+        exit
+    finally:
+        s.close()
+    return IP
+
+
+# ip = socket.gethostbyname(socket.gethostname())
 # print(ip)
+ip = get_local_ip()
 DNSinfo = socket.gethostbyaddr(ip)
 print(DNSinfo)
 del DNSinfo  # not used anywhere so might as well
