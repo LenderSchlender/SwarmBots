@@ -64,7 +64,7 @@ void WiFiConnection::tick() {
   if (connecting) {
     if (WiFi.status() == WL_CONNECTED) {
       connecting = false;
-      Serial.printf("Connected! IP Address: %s", WiFi.localIP().toString());
+      Serial.printf("Connected! IP Address: %s\n", WiFi.localIP().toString());
       return;
     }
     Serial.print(WiFi.status());
