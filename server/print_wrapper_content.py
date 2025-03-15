@@ -1,6 +1,19 @@
 """prints out defined wrapper data to the console
 
+print_wrp.*(wrapper)
+
 used for debug/testing (nothing fancy)
+
+Example from print_wrp.all():
+seq             0
+ping_pong       0
+move_cmd        0 0 0ms
+---led_cmd:
+[]
+encoder_data    0 0ms
+---lidar_data:
+[]
+imu_data        acc:000 rot:000 tmp:0
 """
 # from pprint import pprint
 
