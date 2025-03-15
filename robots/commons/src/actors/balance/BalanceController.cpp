@@ -15,7 +15,7 @@ void BalanceController::init() {
 
 void BalanceController::tick() {
   updateAngle();
-  Serial.printf("Angle: %f\n", angle);
+  //Serial.printf("Angle: %f\n", angle);
 }
 
 // Heavily inspired by https://github.com/TKJElectronics/KalmanFilter/blob/master/examples/MPU6050/MPU6050.ino
