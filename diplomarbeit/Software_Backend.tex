@@ -3,9 +3,39 @@
 
 \section{Software - Backend}
 \label{sec:software_backend}
+Das Backend ist die Zentrale Rechenstelle welches in drei Komponenten aufgeteilt.
+% generell zum backend
+
+Weshalb es verantwortlich für die Kommunikation und Datenerfassung zwischen allen Teilnehmer. 
+Dazu gehören die drei Roboter, welche uns die Daten liefern wie LiDAR, Beschleunigungssensor etc., 
+und das Frontend zu dem die Daten zur Visualisierung und Mitverfolgung gesendet werden.
+
+Weiters findet hier die Zentrale Datenverarbeitung und Verwaltung statt, 
+dies ist verantwortlich für die Erstellung der LiDAR Map, 
+der Ermittlung der Roboter Positionen 
+und gegeben falls Berechnung der Messwerte. 
+% im falle ineffizient etc
+
+Und Steuerung der Roboter
+
+TODO
+
+Es wurde mit Python programmiert
+% Gelaber über python
+% wegen math Funktionen...
+% schnelle Modifizierung 
 
 \subsection{Datenverwaltung}
 \label{subsec:backend_data}
+% asyncio - warum
+% main task überblick (server und drei clients) warum so aufgeteilt?
+% subtask
+
+% FIFO Queues
+% Wichtigkeit nicht blockierendes verhalten
 
 \subsection{Steuerung der Roboter}
 \label{subsec:backend_robot_detection}
+TODO 
+% spätester schritt weil funktionierende Strategie benötigt wird zur Erkennung
+% Datenbank/ Datenbearbeitung
