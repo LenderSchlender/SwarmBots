@@ -1,4 +1,7 @@
 <script lang="ts"> // indicates that we are using typescript
+export default {
+  
+}
 </script>
 
 <template>

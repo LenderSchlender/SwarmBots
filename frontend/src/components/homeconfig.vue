@@ -79,3 +79,9 @@ h3 {
   }
 }
 </style>
+
+<script lang="ts">
+export default {
+  name: "HomeConfig"
+}
+</script>

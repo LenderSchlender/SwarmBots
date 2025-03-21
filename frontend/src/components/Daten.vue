@@ -1,7 +1,7 @@
-<script lang="ts">
+<script setup lang="ts">
 import socket from './websocket.vue'
 import { ref } from "vue" // standard import from vue for references
-import Chart from './websocket.vue'
+import Chart from './charts.vue'
 
 const Nachricht = ref('') // reactive reference, used for input, empty string
 const output = ref([] as string[])  // stores the string from 'Nachricht'

@@ -1,19 +1,21 @@
 <script lang="ts"> // indicates that we are using typescript
-  import { ref, onMounted } from "vue" // standard import from vue for references  
-  import * as ED from  '../lib/encoder_data'
-  import * as message from  '../lib/encoder_data'
-  import Chart from './charts.vue'
+import { ref } from "vue" // standard import from vue for references  
+import { EncoderData } from  '../lib/encoder_data'
+import Chart from './charts.vue'
 
 export default {
+  name: "Websocket",
   components: {
     Chart,
   },
   setup(){
     const Nachricht = ref('') // reactive reference, used for input, empty string
     const output = ref([] as string[])  // stores the string from 'Nachricht'
+    const series = ref<{ name: string; data: number[] }[]>([
+      { name: "Encoder Data", data: [] },
+    ]);
 
   // initialize chart data
-  const series = ref([{ name: 'Encoder Data', data: [] }]); 
     const chartOptions = ref({
       chart: {
         id: 'basic-bar',
@@ -32,31 +34,39 @@ export default {
   socket.onclose = () => {
     console.log("Geschlossen")
     }
+    
+    socket.binaryType = "arraybuffer";
 
-  // eventlistener, when an event happens (message received), it is shown in the console
-  socket.addEventListener("message", (event) => {
-    output.value.push("server Nachricht", event.data);
-    // deseralize binary data
-    ED.at.htlw10.swarmbots.EncoderData
-    const encoderData = ED.at.htlw10.swarmbots.EncoderData.deserializeBinary(event.data);
-    // convert binary into something readable
-    
-    
-    
-    const pulses = message.pulses;
-    const duration = message.duration;
-    const msg = 'Pulses: ${pulses}, Duration: ${duration}';
-    output.value.push(msg);
 
-    // Update the chart data
-  series.value[0].data.push(pulses); // Add new data point to the series
-    if (series.value[0].data.length > 8) {
-      series.value[0].data.shift(); // Remove the oldest data point if more than 8
-    }
-  });
+    // auf ne typescript datei auslagern
+    socket.addEventListener("message", (event) => {
+      try {
+      const binaryData = new Uint8Array(event.data); // Konvertiere ArrayBuffer zu Uint8Array
+
+        // deseralize data
+        const decodedData = EncoderData.fromBinary(binaryData);
+
+        // extract pulses and duration from EncoderData
+        const pulses = decodedData.pulses;
+        const duration = decodedData.duration;
+
+        // output
+        console.log(`Pulses: ${pulses}, Duration: ${duration} ms`);
+        output.value.push(`Pulses: ${pulses}, Duration: ${duration} ms`);
+
+        // update chart
+        series.value[0].data.push(pulses);
+        if (series.value[0].data.length > 8) {
+          series.value[0].data.shift(); // Entferne den ältesten Datenpunkt, wenn mehr als 8 vorhanden sind
+        }
+      }
+        catch (error) {
+        console.error("Fehler beim Deserialisieren der Nachricht:", error);
+      }
+    });
 
   socket.onmessage = (event) => {
-    output.value.push(event.data) //event data is pushed to the output for to display it in the ui
+    output.value.push(event.data) //event data is pushed to the output for display it in the ui
     }
 
     return {
