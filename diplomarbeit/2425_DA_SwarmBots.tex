@@ -1,4 +1,4 @@
-\documentclass[12pt]{article}
+\documentclass[a4paper,12pt,DIV15,oneside,normalheadings,headsepline]{scrreprt}
 % set document margin
 \usepackage[margin=3cm]{geometry}
 % proper utf8 support
@@ -6,7 +6,7 @@
 % good wrapping for german
 \usepackage[T1]{fontenc}
 % german typesetting & translation for words like "Inhaltsverzeichnis"
-\usepackage[german]{babel}
+\usepackage[austrian]{babel}
 % needed for \bfseries on the title page
 \usepackage{array}
 % mathematical typesetting (formulas)
@@ -41,9 +41,12 @@
 \usepackage{datetime2}
 % arrange images and text side by side 
 \usepackage{wrapfig}
-
 % packages for Projekthandbuch
 \usepackage{longtable}
+% euro symbol
+\usepackage[right]{eurosym}
+% file querying
+\usepackage{l3sys-query}
 
 % tikz (grafik) bibliotheken
 \usetikzlibrary{shapes, arrows}
@@ -117,6 +120,11 @@
 \renewcommand{\headrulewidth}{0pt}
 \setlength{\headheight}{15pt}
 
+% Disable single lines at the start of a paragraph (Schusterjungen)
+\clubpenalty = 10000
+% Disable single lines at the end of a paragraph (Hurenkinder)
+\widowpenalty = 10000 \displaywidowpenalty = 10000
+
 \begin{document}
 	% Für fancy headers
 	\pagestyle{fancy}
@@ -177,7 +185,7 @@
 		Jones Soliman & | 5AHEL & U:\rule{5cm}{0.4pt}	\\
 		Mihael Stojkovic & | 5AHEL & U:\rule{5cm}{0.4pt}
 	\end{tabular}
-	
+
 	\normalsize
 	\newpage
 	% Inhaltsverzeichnis wird hier generiert
@@ -189,7 +197,7 @@
 	\fancyhead[R]{SwarmBots}
 	% TODO remove for final version
 	\fancyfoot[L]{Version von \today}
-	\fancyfoot[C]{\thepage/\pageref{_LASTPAGE}}
+	\fancyfoot[C]{\thepage}
 
 	% Hier wird der tatsächliche Inhalt aus den einzelnen Kapitel-Dateien inkludiert
 	\include{Zusammenfassung}
@@ -204,14 +212,14 @@
 
 	% Abbildungs- und Tabellenverzeichnis
 	\newpage
-	\begin{appendix}
-		\addcontentsline{toc}{section}{Abbildungsverzeichnis}
-		\listoffigures
-		\addcontentsline{toc}{section}{Tabellenverzeichnis}
-		\listoftables
-		\addcontentsline{toc}{section}{Literatur}
-		\printbibliography
-	\end{appendix}
-	% Special label used for the page counter on the footer
-	\label{_LASTPAGE}
+	\appendix
+	\addcontentsline{toc}{part}{Anhang}
+	\addcontentsline{toc}{chapter}{Abbildungsverzeichnis}
+	\listoffigures
+	\addcontentsline{toc}{chapter}{Tabellenverzeichnis}
+	\listoftables
+	\addcontentsline{toc}{chapter}{Literatur}
+	\printbibliography
+	\include{Projekthandbuch}
+	%TODO \include{Code}
 \end{document}

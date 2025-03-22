@@ -1,8 +1,8 @@
 % Allgemeine Probleme (Hard- und Software)
 
-\section{Probleme}
+\chapter{Probleme}
 \label{sec:probleme}
-\subsection{Docker}
+\section{Docker}
 \label{subsec:probleme_docker}
 %TODO wording?
 Am Laptop von Herr Gastgeber war es am Beginn des Schuljahres nicht möglich,
@@ -32,7 +32,7 @@ wie in Listing \ref{lst:docker_address_pools} konfiguriert.
     }
 \end{lstlisting}
 
-\subsection{Modifikationen am Tumbller}
+\section{Modifikationen am Tumbller}
 \label{subsec:problem_tumbbler_mods}
 Als wir das Projekt geplant haben,
 war die Idee,
@@ -43,7 +43,7 @@ Und das war es dann auch.
 %
 Bei den Hardware-Modifikationen am Tumbller (siehe Kapitel \ref{subsec:elegoo_tumbller}) gab es zwei relativ große Probleme:
 
-\subsubsection{Falsche Betriebsspannungen}
+\subsection{Falsche Betriebsspannungen}
 \label{subsec:problem_betriebsspannungen}
 Beim Austausch des mitgelieferten Arduino Nano mit einem ESP32 im Nano-Format haben wir einen wichtigen Faktor übersehen:
 %
@@ -73,7 +73,7 @@ den LiDAR-Sensor direkt mit dem Spannungswandler des Mikrocontroller-Boards zu v
 %
 Deshalb haben wir für den Guide einen zusätzlichen Step-Down-Konverter eingebaut,
 welcher die Versorgungsspannung des Akkus auf 5V für den LiDAR herunterregelt.
-\subsection{Blockierte UART-Schnittstelle}
+\section{Blockierte UART-Schnittstelle}
 \label{subsec:problem_bluetooth_serial}
 Als das Problem der inkompatiblen Spannungen gelöst,
 und die erste Version des Programmes zum Testen der einzelnen Komponenten geschrieben war,
@@ -101,10 +101,10 @@ um sicherzustellen, das die UART-Verbindung keinesfalls beeinflusst wird
 (siehe Original-Schaltplan in Abbildung \ref{fig:elegoo_tumbller_original_circuit}).
 %TODO Bilder und Erläuterung zu Entfernen des Bluetooth Moduls
 
-\subsection{Webseitenprobleme}
+\section{Webseitenprobleme}
 \label{subsec:problem_Webseite}
 
-\subsubsection{Pfadfindung}
+\subsection{Pfadfindung}
 \label{subsubsec:problem_Pfadfindung}
 Um bei Vue.js Module zu importieren muss die Funktion \texttt{Import from 'PFAD'} verwendet werden.
 %

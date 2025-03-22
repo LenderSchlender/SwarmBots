@@ -1,12 +1,12 @@
 % Software Roboter (C++)
 % Zuständig: Leander
 
-\section{Software - Roboter}
+\chapter{Software - Roboter}
 \label{sec:software_robots}
 Was die Ansteuerung der einzelnen Roboter angeht, folgen wir so gut wie möglich dem DRY-Prinzip (``Don't repeat yourself''),
 um Redundanzen zu vermeiden und dadurch den Wartungsaufwand möglichst gering zu halten.
 
-\subsection{Kameras}
+\section{Kameras}
 \label{subsec:robots_cams}
 Wir verwenden jeweils ein ESP32-CAM AI-Thinker Modul zur erweiterten
 Fernüberwachung der Roboter.
@@ -25,7 +25,7 @@ sondern dienen nur als weiterer Input für die Bediener.
     \label{fig:cam_erstes_bild}
 \end{figure}
 
-\subsection{Core-Bibliothek}
+\section{Core-Bibliothek}
 \label{subec:robots_core}
 Die Core-Bibliothek bildet eine weiter Abstrahierungsschicht zu den Funktionalitäten der Roboter-Hardware.
 %
@@ -49,7 +49,7 @@ die Bibliothek so modular und wiederverwendbar wie möglich zu gestalten,
 konnten wir diese mit nur wenigen Modifikationen für unsere Diplomarbeit nutzen,
 obwohl wir einen ganz anderen Hardwareaufbau verwenden.
 
-\subsubsection{Module}
+\subsection{Module}
 \label{subsec:software_common_modules}
 Wie schon erwähnt,
 wurde die Core-Bibiliothek so modular wie nur möglich gestaltet,
@@ -83,7 +83,7 @@ welche die folgenden Funktionen definiert:
         diese Funktion zu implementieren.
 \end{itemize}
 
-\subsection{Robota}
+\section{Robota}
 Die Klasse \texttt{Robota}%
 \footnote{Dieser Name wurde in der Anfangsphase des Projekts (Ende 2023) gewählt, 
         um Konflikte mit der veralteten ``Arduino Robot Library'',
@@ -114,7 +114,7 @@ Hierzu gibt es drei Variablen, welche für die vollständige Funktion relevant s
 \end{itemize}
 %TODO: Robota funktionen; insb. init() und tick()
 
-\subsection{Guide}
+\section{Guide}
 \label{subsec:software_guide}
 Die Software von \textit{Guide} ist in diesem Projekt in dem Sinne einzigartig,
 dass,
@@ -133,8 +133,9 @@ Messwerte werden an den Server weitergeleitet.
 Da auch die Aufbereitung der LiDAR-Daten bereits in der Core-Bibliothek realisiert wurde,
 ist die Software für den Guide ebenso wie bei den anderen Robotern größtenteils Plug\&Play.
 
-\subsection{Tamerlan}
+\lstinputlisting[language=c]{../robots/guide/src/main.cpp}
+\section{Tamerlan}
 \label{subsec:software_tamerlan}
 
-\subsection{Bambi}
+\section{Bambi}
 \label{subsec:software_bambi}

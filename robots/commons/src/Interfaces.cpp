@@ -106,8 +106,8 @@ void WebSocketControls::tick() {
   Wrapper w = Wrapper_init_zero;
   w.message.imu_data = msg;
   w.which_message = at_htlw10_swarmbots_Wrapper_imu_data_tag;
-  // send(&w);
-  // delay(500);
+  send(&w);
+  delay(500);
   if (robota->getTicks() % 10000 == 0) { // Only do this every now and then
     ws.cleanupClients();
   }

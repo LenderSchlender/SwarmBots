@@ -1,19 +1,19 @@
 % Überblick zur technischen Struktur des Projektes
 % z.B. Aufgaben der einzelnen Roboter, Kommunikationswege (protobufs!), Übersicht zu Algorithmen und Steuerung, etc.
 
-\section{Technischer Überblick}
+\chapter{Technischer Überblick}
 \label{sec:ueberblick}
 
 
-\subsection{Unterstützende Programme}
+\section{Unterstützende Programme}
 \label{subsec:ueberblick_programs}
 
-\subsubsection{Git}
+\subsection{Git}
 Zur Versionskontrolle der Software und der Diplomarbeit selber (siehe Abschnitt \ref{subsec:latex}) haben wir Git eingesetzt.
 %
 Das Repository ist auf GitHub, aber aktuell privat.
 
-\subsubsection{Syncthing}
+\subsection{Syncthing}
 Zum Teilen von anderen Dateien (Weekly Reports, Zeiterfassung, etc.) zwischen Personen und Geräten
 haben wir ein FOSS\footnote{Free and Open Source Software} Programm names Syncthing \cite{syncthing} genutzt.
 %
@@ -35,7 +35,7 @@ Bei solchen Konflikten erstellt Syncthing eine Kopie von einer der Versionen der
 und der Nutzer muss selber entscheiden,
 welche Version die ``richtige'' ist.
 
-\subsubsection{Visual Studio Code}
+\subsection{Visual Studio Code}
 Zur Bearbeitung der Quellcodes und der Diplomarbeit verwenden wir Visual Studio Code (auch VSC oder VSCode) mit einigen Erweiterungen.
 %
 Nützlich ist für uns auch die Git-Integration zur Versionskontrolle.
@@ -52,7 +52,7 @@ Nützlich ist für uns auch die Git-Integration zur Versionskontrolle.
     \caption{Verwendete VSCode-Erweiterungen}
     \label{tab:vsc_plugins}
 \end{table}
-\subsubsection{PlatformIO}
+\subsection{PlatformIO}
 Für die Programmierung der Mikrocontroller verwenden wir PlatformIO \cite{platformio} in Verbindung mit dem PlatformIO-Plugin für VSCode.
 %
 PlatformIO ist eine Alternative zur Arduino-IDE,
@@ -65,7 +65,7 @@ ordentliche Auto-Vervollständigung,
 statische Code-Analyse (Linting),
 und ein schön geregeltes System für externe Bibliotheken.
 
-\subsubsection{\LaTeX}
+\subsection{\LaTeX}
 \label{subsec:latex}
 Anstatt von WYSIWYG\footnote{What You See Is What You Get}-Editoren
 wie Microsoft Word oder LibreOffice Writer verwenden wir zum Erstellen dieser Diplomarbeit
@@ -87,10 +87,10 @@ ist das mit LaTeX durch die Verwendung von Textbefehlen
 aber immer noch schneller als in MS Word zur Maus zu greifen
 und sich durch GUIs durchzuklicken.
 
-\subsection{Funktionsbeschreibung}
+\section{Funktionsbeschreibung}
 \label{subsec:funktionsbeschreibung}
 
-\subsubsection{Guide}
+\subsection{Guide}
 Der Guide hat die Aufgabe,
 mit dem nachgerüsteten LiDAR-Sensor die Umgebung nach Hindernissen abzusuchen.
 %
@@ -100,13 +100,13 @@ sondern die rohen Sensordaten einfach an das Backend weiterleitet.
 %
 In diesem Kontext sind Tamerlan und Bambi also nichts anderes als Hindernisse.
 
-\subsubsection{Tamerlan \& Bambi}
+\subsection{Tamerlan \& Bambi}
 Tamerlan und Bambi sind ``blind'' im dem Sinne,
 dass sie über keine Sensoren zur Hinderniserkennung verfügen.
 %
 Sie sind komplett von Anweisungen des Backends abhängig.
 
-\subsubsection{Backend}
+\subsection{Backend}
 Das Backend ist das ``Gehirn'' des Projekts.
 %
 Es empfangt die LiDAR-Daten vom Guide,
@@ -120,7 +120,7 @@ Außerdem empfängt es die Sensordaten der Gyroskope und Accelerometer der Robot
 %
 Gegebenenfalls empfängt das Backend auch Befehle vom Frontend, und leitet diese an die Roboter weiter.
 
-\subsubsection{Frontend}
+\subsection{Frontend}
 Das Frontend empfängt Sensordaten vom Backend und stellt diese dar.
 %
 LiDAR-Daten werden auf einer Karte dargestellt,
@@ -135,7 +135,7 @@ und diese(n) dann fernzusteuern.
 Das Frontend ist eigentlich zum autonomen Betrieb nicht nötig,
 es wird nur für Debugging-Zwecke und menschliche Intervention benötigt.
 
-\subsubsection{Kommunikationswege}
+\subsection{Kommunikationswege}
 \label{subsec:ueberblick_comms}
 \& Beschreibung
 \begin{figure}[H]
@@ -145,7 +145,7 @@ es wird nur für Debugging-Zwecke und menschliche Intervention benötigt.
     \label{fig:kommunikationswege}
 \end{figure}
 
-\subsection{Protocol Buffers}
+\section{Protocol Buffers}
 \label{subsec:ueberblick_protobufs}
 Protocol Buffers \cite{protobufs} (``protobufs'') sind ein binäres Übertragungsformat,
 welches von von Google entwickelt und veröffentlicht wurde.
@@ -168,7 +168,7 @@ Gegenüber Datenformaten wie JSON und XML gibt es drei wesentliche Vorteile:
     um auf die Datenstrukturen zuzugreifen.
 \end{enumerate}
 
-\paragraph{Effizienz}
+\subsubsection{Effizienz}
 Wie schon oben erwähnt erreichen Protocol Buffers,
 insbesondere bei kleinen Nachrichten,
 einen viel kleineren Overhead als textbasierte Formate wie JSON oder XML.
@@ -177,19 +177,19 @@ einen viel kleineren Overhead als textbasierte Formate wie JSON oder XML.
 TODO mehr infos; Tatsächlicher Vergleich mit Zahlen.
 
 
-\paragraph{Datenstrukturen}
+\subsubsection{Datenstrukturen}
 TODO
 
-\paragraph{Wrapper-Bibliotheken}
+\subsubsection{Wrapper-Bibliotheken}
 TODO
 
-\subsection{Sensoren}
+\section{Sensoren}
 \label{subsec:ueberblick_sensors}
 
-\subsubsection{LiDAR}
+\subsection{LiDAR}
 \label{subsec:ueberblick_lidar}
 
-\subsubsection{Gyroskop}
+\subsection{Gyroskop}
 Jeder der drei Roboter ist mit einem Gyroskop/Accelerometer vom Typ \texttt{MPU6050} ausgestattet.
 %
 Dieser Sensor ist bereits im originalen Tumbller-Kit inkludiert, also ist die Installation entsprechend einfach.
@@ -200,7 +200,7 @@ Diese Informationen werden dann vom Mikrocontroller verwendet, um den Roboter au
 %
 Weiters leitet der Mikrocontroller die Daten zur weiteren Verarbeitung bzw. Analyse für Debugging-Zwecke an den zentralen Server weiter.
 
-\subsubsection{Drehgeber}
+\subsection{Drehgeber}
 \label{subsec:ueberblick_rot_enc}
 In den im Tumbller-Kit mitgelieferten Motoren ist bereits ein Drehgeber mit eingebaut,
 welcher mit Hall-Sensoren funktioniert.
