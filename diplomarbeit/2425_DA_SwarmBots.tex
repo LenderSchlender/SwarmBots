@@ -116,23 +116,18 @@
   morestring=[b]"
 }
 
-%% header/footer configuration
-% remove separator line
 \KOMAoptions{
 	headsepline=false
 }
 \pagestyle{scrheadings}
-\clearmainofpairofpagestyles
+%\clearmainofpairofpagestyles
 \automark[chapter]{chapter}
 
-\ohead{}
-\ihead{\headmark}
-\ohead{\pagemark}
-% TODO: remove compile date for final version
-\chead{\textcolor{red}{V. von \today}}
-% TODO for final version:
-\ifoot{Burjak, Gastgeber, Stojkovic, Soliman: SwarmBots}
-\ofoot{5AHEL 2024/25}
+% make chapter beginnings also have proper header/footers
+\RedeclareSectionCommand[
+	pagestyle=scrheadings
+]{chapter}
+\clearpairofpagestyles
 
 % Disable single lines at the start of a paragraph (Schusterjungen)
 \clubpenalty = 10000
@@ -217,11 +212,15 @@
 	\newpage
 	
 	\pagenumbering{arabic}
-	%\fancyhead[L]{5AHEL 2024/25}
-	%\fancyhead[R]{SwarmBots}
-	% TODO remove for final version
-	%\fancyfoot[L]{Version von \today}
-	%\fancyfoot[C]{\thepage}
+
+	%% header/footer configuration
+	\ohead{}
+	\ihead{\headmark}
+	\ohead{\pagemark}
+	% TODO: remove compile date for final version
+	\chead{\textcolor{red}{V. von \today}}
+	\ifoot{Burjak, Gastgeber, Stojkovic, Soliman: SwarmBots}
+	\ofoot{5AHEL 2024/25}
 
 	% Hier wird der tatsächliche Inhalt aus den einzelnen Kapitel-Dateien inkludiert
 	\include{Zusammenfassung}
@@ -229,9 +228,9 @@
 	\include{Projektmanagement}
 	\include{Ueberblick}
 	\include{Hardware}
-	\include{Software_Roboter}%
-	\include{Software_Backend}%
-	\include{Software_Frontend}%
+	\include{Software_Roboter}
+	\include{Software_Backend}
+	\include{Software_Frontend}
 	\include{Probleme}
 
 	% Abbildungs- und Tabellenverzeichnis
