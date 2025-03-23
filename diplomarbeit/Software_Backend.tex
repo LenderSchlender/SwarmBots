@@ -8,7 +8,8 @@ Das Backend ist die Zentrale Rechenstelle welches in drei Komponenten aufgeteilt
 
 Weshalb es verantwortlich für die Kommunikation und Datenerfassung zwischen allen Teilnehmer. 
 Dazu gehören die drei Roboter, welche uns die Daten liefern wie LiDAR, Beschleunigungssensor etc., 
-und das Frontend zu dem die Daten zur Visualisierung und Mitverfolgung gesendet werden.
+und das Frontend zu dem die Daten zur Visualisierung und Mitverfolgung gesendet werden 
+und gegebenenfalls auch Befehle empfingt.
 
 Weiters findet hier die Zentrale Datenverarbeitung und Verwaltung statt, 
 dies ist verantwortlich für die Erstellung der LiDAR Map, 
@@ -24,15 +25,63 @@ Es wurde mit Python programmiert
 % Gelaber über python
 % wegen math Funktionen...
 % schnelle Modifizierung 
+% packet/ Bibliothek Fokussierung auf Einfachheit  
 
 \section{Datenverwaltung}
 \label{subsec:backend_data}
+% übersicht über die drei komponenten und wie ungefähr der datenfluss aussieht?
+
+% Datenbank für lidar?
+
+\section{Kommunikation}
+\label{subsec:Kommunikation}
+Die drei Roboter sind aktive Teilnehmer in der Kommunikation, 
+das heißt es ist zu erwarten, dass die Verbindung konstant aufrechtzuerhalten ist,
+bidirektional und dies auch in einem zeitlichen verhalten geschieht. 
+Insofern muss weiter sichergestellt werden das ein konstanter Kommunikationsfluss ermöglicht bleibt.
+
+Zur Verbindung entschieden wir uns für das Kommunikations-Protokoll Websocket gewählt, 
+diese ermöglicht eine bidirektionale, persistente Verbindung zwischen einem Client und einem Server,
+welches im Vergleich zu gewöhnlichen HTTP-Anfragen offen bleibt, wodurch Echtzeitkommunikation möglich ist.
+% könnte man mehr ausschreiben aber schau ma später
+
+
+% welche python packet verwendet wurden
+Für Python ist ein Websocket Packet namens 'websockets' vorhanden welches die Client-Server Kommunikation
+um ein Vielfaches vereinfacht da man sich keine Sorge über Handshakes, Ping Pongs, oder anderes verhalten
+der Websocket Spezifikation, da es alles von dem Paket behandelt wird 
+und man sich mehr auf die Applikation fokussieren kann. 
+Es sind dennoch einige Parameter zum zur Verfügung gestellt zur Modifizierung, falls benötigt.
+% code beispiele?
+
+Websockets Standard Implementierung basiert auf asyncio.
+%  
+Asyncio ist die eingebaute Implementierung von Koroutinen in Python,
+dies erlaubt das Schreiben von asynchronen Frameworks, 
+öfters verwendet für I/O limitierte Netzwerk Codes.
+% snippet zu asyncio, könnte mehr schreiben?
+Alternative ist eine threading Implementierung verfügbar für Websockets, 
+die üblichere Implementierung von mehreren Tasks, 
+jedoch haben wir uns für den zum zeitigen Prototyp Entwicklung-Stand dagegen entschieden,
+aufgrund der möglichen erweiterten Komplexität von Thread sicheren code Ausführung.
+% warum nicht? kann später bei optimierungsmöglichkeiten erklärt werden
+Eine Sans-I/O Implementierung ist auch vorhanden jedoch für dieses Projekt zurzeit irrelevant.
+
+
+% übersichtsgrafik über teilnehmer und wie datenablauf funktioniert
 % asyncio - warum
 % main task überblick (server und drei clients) warum so aufgeteilt?
 % subtask
 
 % FIFO Queues
 % Wichtigkeit nicht blockierendes verhalten
+
+
+% Optimierungs möglichkeiten
+% uvloop drop in replacement
+% threading warum nicht streng nötig (hauptsächlich limitiert über Wifi I/O nicht anzahl an geräten)
+% falls anzahl größer wird dann villeicht
+% compelierung python code
 
 \section{Steuerung der Roboter}
 \label{subsec:backend_robot_detection}
