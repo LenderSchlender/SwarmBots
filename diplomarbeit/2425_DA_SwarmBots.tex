@@ -1,4 +1,4 @@
-\documentclass[a4paper,12pt,DIV15,oneside,normalheadings,headsepline]{scrreprt}
+\documentclass[a4paper,12pt,oneside,headsepline]{scrreprt}
 % set document margin
 \usepackage[margin=3cm]{geometry}
 % proper utf8 support
@@ -26,7 +26,7 @@
 % code listings
 \usepackage{listings}
 % fancy headers / footers
-\usepackage{fancyhdr}
+\usepackage{scrlayer-scrpage}
 % text alignment (title page)
 \usepackage{ragged2e}
 % citations
@@ -116,19 +116,43 @@
   morestring=[b]"
 }
 
-% header configuration
-\renewcommand{\headrulewidth}{0pt}
-\setlength{\headheight}{15pt}
+%% header/footer configuration
+% remove separator line
+\KOMAoptions{
+	headsepline=false
+}
+\pagestyle{scrheadings}
+\clearmainofpairofpagestyles
+\automark[chapter]{chapter}
+
+\ohead{}
+\ihead{\headmark}
+\ohead{\pagemark}
+% TODO: remove compile date for final version
+\chead{\textcolor{red}{V. von \today}}
+% TODO for final version:
+\ifoot{Burjak, Gastgeber, Stojkovic, Soliman: SwarmBots}
+\ofoot{5AHEL 2024/25}
 
 % Disable single lines at the start of a paragraph (Schusterjungen)
 \clubpenalty = 10000
 % Disable single lines at the end of a paragraph (Hurenkinder)
 \widowpenalty = 10000 \displaywidowpenalty = 10000
 
+\parindent0em	% Einzug bei neuen Absätzen
+\parskip1mm		% Abstand zwischen Absätzen
+\sloppy			% nicht soooo genau mit dem Blocksatz
+
+% toc customization
+\RedeclareSectionCommand[
+	% TODO not sure if this is nice
+	tocnumwidth=1.2cm
+]{section}
+
 \begin{document}
 	% Für fancy headers
-	\pagestyle{fancy}
-	\fancyhf{}
+	%\pagestyle{fancy}
+	%\fancyhf{}
 	%\setlength{\parindent}{0pt}
 	
 	% Keine Seitennummern von Titelblatt bis Inhalt
@@ -193,11 +217,11 @@
 	\newpage
 	
 	\pagenumbering{arabic}
-	\fancyhead[L]{5AHEL 2024/25}
-	\fancyhead[R]{SwarmBots}
+	%\fancyhead[L]{5AHEL 2024/25}
+	%\fancyhead[R]{SwarmBots}
 	% TODO remove for final version
-	\fancyfoot[L]{Version von \today}
-	\fancyfoot[C]{\thepage}
+	%\fancyfoot[L]{Version von \today}
+	%\fancyfoot[C]{\thepage}
 
 	% Hier wird der tatsächliche Inhalt aus den einzelnen Kapitel-Dateien inkludiert
 	\include{Zusammenfassung}
