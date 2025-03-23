@@ -1,0 +1,65 @@
+% Macros to include code from files
+% technically this should go into the preamble, but it fits in better here
+% THIS REQUIRES SHELL ESCAPE TO BE ENABLED!!
+% enable using the latexmk argument --shell-escape
+
+\makeatletter
+
+\def\app@exe{\immediate\write18}
+\NewDocumentCommand{\lstinputdir}{om}{%
+    % Find files
+    \IfFileExists{/dev/null}{% unix check
+        % unix system
+        \typeout{Unix system detected!}%
+        \app@exe{ls #2/* >> \jobname.tmp}%
+    } {
+        % windows version (TODO test)
+        \typeout{Windows system detected!}%
+        \app@exe{cmd /c dir /b * > \jobname.tmp}%
+    }%
+%
+    % create file reader
+    \newread\myread
+    % open file with reader
+    \openin\myread=\jobname.tmp
+%
+    % iterate until end of file (eof)
+    \@whilesw\unless\ifeof\myread\fi{%
+        \read\myread to \filename
+
+        \typeout{"\filename"}%
+        \def\filename ../proto/encoder_data.proto
+        % need to fuck with expansion order
+        % otherwise \lstinputlisting would get expanded first
+        % (and we don't want that)
+        
+        \lstinputlisting\expandafter{../robots/guide/src/main.cpp}
+        %\expanded{%
+        %  \unexpanded{\lstinputlisting[#1]}%
+        %  \unexpanded\expandafter{../proto/encoder_data.proto}%
+        %}%
+    }%
+
+    \closein\myread
+%
+    % Create listing
+    %\IfNoValueTF{#1}
+    % Default parameters
+    %{\lstinputlisting{\jobname.tmp}}
+    % Optional parameters provided
+    %{\lstinputlisting[#1]{\jobname.tmp}}
+%
+    % Delete temp file
+    \IfFileExists{/dev/null}{% unix check
+        % unix version
+        \AtEndDocument{\app@exe{rm -f \jobname.tmp}}
+    } {
+        % windows version  (TODO test)
+        \AtEndOfDocument{\app@exe{rm -f \jobname.tmp}}
+    }%
+}
+\makeatother
+
+\chapter{Code}
+Es folgt die aktuelle Version der Sourcecodes vom \today.
+\lstinputdir{../proto}
