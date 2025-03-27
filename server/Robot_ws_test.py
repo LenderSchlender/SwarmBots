@@ -10,7 +10,7 @@ import asyncio
 import socket
 
 import websockets
-from websockets.asyncio.server import serve
+# from websockets.asyncio.server import serve
 from websockets.asyncio.client import connect
 # from websockets.exceptions import ConnectionClosedOK
 from websockets.exceptions import ConnectionClosed
