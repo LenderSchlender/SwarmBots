@@ -64,7 +64,7 @@ die auf der Karte einzusehen sind,
 sollen auch die Position der Roboter markiert werden.
 
 \begin{figure}[H]
-    \includegraphics[width=0.4\textwidth, center]{img/LiDARMessungZeichnung_alt.png}
+    \includegraphics[width=0.7\textwidth, center]{img/LiDARMessungZeichnung_alt.png}
     \caption{LiDAR-Messung}
     \label{fig:LiDAR-Messung}
 \end{figure}
@@ -100,6 +100,30 @@ an denen der Laser bereits schon frühzeitig abgeprallt ist.
 %
 Die beiden nicht markierten Punkte-``Cluster'' stellen Dachstützen dar.
 
+\section{Anzeigen der Sensordaten}
+\label{subsec:frontend_sensors}
+Die Sensordaten werden alle auf dem Frontend dargestellt und stetig aktualisiert.
+%
+Jeder Tumbller-Roboter ist ab Werk mit Beschleunigungssensoren und Drehgebern ausgerüstet,
+welche wir gleich für unsere Zwecke wiederverwendet haben.
+%
+Als Modifikationen haben wir jedem Roboter ein Kompass-Modul
+und Guide zusätzlich noch den LiDAR installiert.
+%
+Der LiDAR erstellt eine Karte in Form einer Punktwolke,
+um eventuelle Hindernisse erkennen zu können.
+%
+Für mehr Informationen zum LiDAR-Sensor siehe Abschnitt \ref{subsec:ueberblick_lidar} oder \ref{subsec:frontend_lidar_map}.
+
+\begin{figure}[H]
+    \includegraphics[width=0.8\textwidth, center]{img/encoder_chart.png}
+    \caption{Anzeige der Encoderdaten}
+    \label{fig:Encoderdaten}
+\end{figure}
+
+Die Werte der Beschleunigungssensoren werden,
+im Graphen abhängig von der Zeit angezeigt, 
+um die aktuellen Werte mit der Vergangenheit vergleichen zu können.
 
 \section{Fernüberwachung per Kamera}
 \label{subsec:frontend_cam_stream}
@@ -123,39 +147,64 @@ die Roboter z.B. aus einer Gefahrenzone zu entfernen.
 \label{subsec:frontend_control}
 Das Konzept der Fernsteuerung wurde aus den Prototypen der Projektwoche aus dem Jahr 2023/2024 übernommen.
 %
-Diese hatten eine Fernsteuerungsfunktion,
-welche hier in der Diplomarbeit nur zu Testzwecken oder in Gefahrensituationen verwendet wird.  
-
-\section{Anzeigen der Sensordaten}
-\label{subsec:frontend_sensors}
-Die Sensordaten werden alle auf dem Frontend dargestellt und stetig aktualisiert.
+Diese hatten eine Fernsteuerungsfunktion per Playstation 4 Controller. Einfachkeitshalber wurden die Roboter über 
+den Laptop mittels Playstation 4-Controller angesteuert. 
 %
-Jeder Tumbller-Roboter ist ab Werk mit Beschleunigungssensoren und Drehgebern ausgerüstet,
-welche wir gleich für unsere Zwecke wiederverwendet haben.
+Das größte Problem der Playstation 4-Controller besteht darin, dass sie jedes mal ihre MAC-Adresse ändern sofern
+man sie über die Roboter verbindet.  
 %
-Als Modifikationen haben wir jedem Roboter ein Kompass-Modul
-und Guide zusätzlich noch den LiDAR installiert.
+Die Fernsteuerungsfunktion sollte aber nur zu Testzwecken dienen um die Roboter 
+vor potentiellen Gefahrensituation zu Retten. 
+
+\section{Webseitenprobleme}
+\label{subsec:problem_Webseite}
+
+\subsection{Pfadfindung}
+\label{subsubsec:problem_Pfadfindung}
+Um bei Vue.js Module zu importieren muss die Funktion \texttt{Import from 'PFAD'} verwendet werden.
 %
-Der LiDAR erstellt eine Karte in Form einer Punktwolke,
-um eventuelle Hindernisse erkennen zu können.
+Um die Encoder Daten welche vom Server geschickt werden verarbeiten zu können, 
+müssen erstmals die generierten Protobufdateien gefunden werden.
 %
-Für mehr Informationen zum LiDAR-Sensor siehe Abschnitt \ref{subsec:frontend_lidar_map}.
-
-%TODO BILD ÄNDERN
-\begin{figure}[H]
-    \includegraphics[width=0.4\textwidth, center]{img/Sensor_Anzeige_LOESCHEN.png}
-    \caption{Anzeige der Sensordaten}
-    \label{fig:Sensordaten}
-\end{figure}
-
-Die Werte der Beschleunigungssensoren werden,
-neben der einfachen Anzeige als Dezimalzahl,
-zusätzlich in Graphen abhängig von der Zeit angezeigt,
-um die aktuellen Werte mit der Vergangenheit vergleichen zu können.
-
-Die Kompasse zeigen die aktuelle Fahrtrichtung der Roboter an.
-% TODO @Arthur wie soll die Nadel auf einem vertikalen Bildschirm eine horizontale Richtung anzeigen?
-%  Woher wissen wir, in welche Richtung der Bildschirm zeigt?
-Geplant ist ein ``realer'' 2D-Kompass,
-wobei jedoch die Nadel die Fahrtrichtung anzeigt,
-statt wie gewohnt den Norden.
+\begin{lstlisting}[language=JavaScript,gobble=4]
+  {
+    Import EncoderData from './lib/encoder_data'
+    ...
+    const encoderData = EncoderData.deserializeBinary(event.data);
+    ...
+  }
+\end{lstlisting}
+Es sollte "EncoderData" aus der generierten JavaScript-Protobuf Datei gelesen werden und im Hauptmodul verwendet werden.
+Dieser Ansatz wie er oben steht, führt jedoch dazu, dass der Pfad nicht gefunden wird. 
+%
+Nach viel Recherche viel auf, dass nicht nur JavaScript dateien generiert werden müssen, sonder auch TypeScript.
+Sobald die benötigte TypeScript Datei hinzugefügt wurde, verschwand die Fehlermeldung.
+%
+Nach dem die vorherigen Fehlermeldungen beseitigt worden waren, kam eine neue auf. 
+Der Fehler lag, daran, dass die neuen generierten Files das "google-Protobuf" Packet brauchten um zu funktionieren.
+% 
+\begin{lstlisting}[language=JavaScript,gobble=4]
+  {
+    import * as pb_1 from "google-protobuf";
+    ...
+  }
+\end{lstlisting}
+Dies war leicht zu beheben mit dem Befehl:\\ \textbf{npm install -D @types/google-protobuf} \\ wurden die Packete schnell
+heruntergeladen.
+%
+Nun jedoch zum größten Problem, nach all den strapatzen gab es immer noch eine Fehlermeldung: 
+\\ \textbf{'"./lib/encoder\_data"' has no exported member 'EncoderData'.}\\
+Im Code wird die variable ``EncoderData'' verwendet um die pulse verarbeiten zu können. 
+Der Fehler nun ist, das die Dateien wo angeblich EncoderData herausgelesen werden soll, nicht als EncoderData herausgelesen wird. 
+%
+Nach viel Recherche und langem herumprobieren sind wird zu dieser Lösung gekommen:
+\begin{lstlisting}[language=JavaScript,gobble=4]
+  {
+    ...
+    ED.at.htlw10.swarmbots.EncoderData
+    const encoderData = ED.at.htlw10.swarmbots.EncoderData.deserializeBinary(event.data); 
+    ...
+  }
+\end{lstlisting}
+Mit dieser etwas umständlichen Art konnte der Fehler behoben werden und das Programm Funktioniert,
+auch wenn die programmierung nicht die schönste ist.
