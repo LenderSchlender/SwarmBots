@@ -1,8 +1,9 @@
 <script lang="ts">
 import VueApexCharts from 'vue3-apexcharts'
+import pulses from './daten.vue'
 
 export default {
-  name: 'Chart',
+  name: 'encoder_Chart',
   components: {
     apexcharts: VueApexCharts,
   },
@@ -10,15 +11,23 @@ export default {
     return {
       chartOptions: {
         chart: {
-          id: 'basic-bar'
+          id: 'encoder_bar'
         },
         xaxis: {
+          title: {
+            text: 't [s]',  
+          },
           categories: [1, 2, 3, 4, 5, 6, 7, 8]
+        },
+        yaxis: {
+          title: {
+            text: 'v [m/s]',
+          },
         }
       },
       series: [{
         name: 'series-1',
-        data: [0, 4, 1, 8, 4, 5, 6, 6]
+        data: [pulses]
       }]
     }
   },
