@@ -49,6 +49,35 @@ Des Weiteren können Vue-Komponenten auch
 in anderen Komponenten wiederverwendet werden,
 was eine schöne Abstrahierung ermöglicht.
 
+\section{Webseite}
+\label{subsec:frontend_Webseite}
+Nach der Einführung des Frontendes in Kapitel \ref{sec:software_frontend} folgt eine detaillierte
+Beschreibung der Webseite sowie ihrer Funktionen. 
+%
+Wie bereits erwähnt, dient die Webseite der Veranschaulichung 
+und bearbeitung der Daten die vom Server empfangen werden. 
+%
+Diese Daten werden als rohe Binärwerte empfangen und dann im Code der Webseite,
+genauer im Modul ``websockets.vue'' deserialisiert werden. 
+Das Deserialisieren stellt sicher, dass die übertragenen Informationen in einer für den Benutzer 
+verständlichen und brauchbaren Form bereitgestellt werden. 
+%
+Das Hauptziel der Webseite ist es, die empfangenenen Daten des Servers in brauchbare Werte umzuwandeln. 
+Diese umgewandelten Daten werden dann für weitere Berechnungen verwendet sodass eine sinvolle grafische Darstellung
+erstellt werden kann.
+%
+Die grafische Darstellung der verschiedenen unterteilten Sensorwerte ermöglicht dem Nutzer Muster sowie 
+Zusammenhänge zu erkennen. 
+%
+Die grafische Darstellung soll für jeden Sensor unterschiedlich erfolgen. So können potentielle Schwierigkeiten 
+der Roboter grafisch analysiert werden. Dies kann beim interpretieren helfen und zukünftige Fehler vorbeugen. 
+%
+Nicht nur sollen die Daten angezeigt werden, dass wichtigste ist es die empfangen Daten 
+in Echtzeit anzeigen zu lassen, sodass stets die neusten und aktuellsten Informationen präsentiert werden können.
+%
+Die Webseite ist so aufgebaut, dass sofern ein weitere Sensor implementiert werden sollte, 
+der Code mit leichtigkeid erweiter werden kann und es zu keinen weiteren Schwierigkeiten kommen kann.  
+
 \section{LiDAR-Karte}
 \label{subsec:frontend_lidar_map}
 Die LiDAR-Karte wird mithilfe von Vue.js auf dem Frontend,
@@ -117,7 +146,7 @@ Für mehr Informationen zum LiDAR-Sensor siehe Abschnitt \ref{subsec:ueberblick_
 
 \begin{figure}[H]
     \includegraphics[width=0.8\textwidth, center]{img/encoder_chart.png}
-    \caption{Anzeige der Encoderdaten}
+    \caption{Diagramm der Encoderdaten}
     \label{fig:Encoderdaten}
 \end{figure}
 
@@ -156,6 +185,17 @@ man sie über die Roboter verbindet.
 Die Fernsteuerungsfunktion sollte aber nur zu Testzwecken dienen um die Roboter 
 vor potentiellen Gefahrensituation zu Retten. 
 
+\section{Frontend - Code}
+\label{subsec:frontend_Code}
+Dieses Kapitel wird sich hauptsächlich mit der Beschreibung der unterschiedlichen Module des
+Frontend-Codes beschäftigen. Der beschrieben Code wird mit der Methode ``4+1 architectual view model'' beschrieben.
+%
+Diese Methode wird bei Softwarelastigen Projekten verwendet,
+um den Code auf verschieden Art und weisen zu beschreiben. 
+
+\subsection{websocket.vue}
+\label{subsec:frontend_websocket.vue}
+
 \section{Webseitenprobleme}
 \label{subsec:problem_Webseite}
 
@@ -168,19 +208,19 @@ müssen erstmals die generierten Protobufdateien gefunden werden.
 %
 \begin{lstlisting}[language=JavaScript,gobble=4]
   {
-    Import EncoderData from './lib/encoder_data'
+    import { EncoderData } from  '../lib/encoder_data'
     ...
-    const encoderData = EncoderData.deserializeBinary(event.data);
+    const decodedData = EncoderData.fromBinary(binaryData);
     ...
   }
 \end{lstlisting}
-Es sollte "EncoderData" aus der generierten JavaScript-Protobuf Datei gelesen werden und im Hauptmodul verwendet werden.
+Es sollte ``EncoderData`` aus der generierten TypeScript-Protobuf Datei gelesen werden und im Modul ``websocket.vue'' verwendet werden.
 Dieser Ansatz wie er oben steht, führt jedoch dazu, dass der Pfad nicht gefunden wird. 
 %
-Nach viel Recherche viel auf, dass nicht nur JavaScript dateien generiert werden müssen, sonder auch TypeScript.
+Nach viel Recherche viel auf, dass nicht nur JavaScript dateien generiert werden müssen, sondern auch TypeScript Dateien.
 Sobald die benötigte TypeScript Datei hinzugefügt wurde, verschwand die Fehlermeldung.
 %
-Nach dem die vorherigen Fehlermeldungen beseitigt worden waren, kam eine neue auf. 
+Nachdem die vorherigen Fehlermeldungen beseitigt worden waren, kam eine neue auf. 
 Der Fehler lag, daran, dass die neuen generierten Files das "google-Protobuf" Packet brauchten um zu funktionieren.
 % 
 \begin{lstlisting}[language=JavaScript,gobble=4]
@@ -191,20 +231,3 @@ Der Fehler lag, daran, dass die neuen generierten Files das "google-Protobuf" Pa
 \end{lstlisting}
 Dies war leicht zu beheben mit dem Befehl:\\ \textbf{npm install -D @types/google-protobuf} \\ wurden die Packete schnell
 heruntergeladen.
-%
-Nun jedoch zum größten Problem, nach all den strapatzen gab es immer noch eine Fehlermeldung: 
-\\ \textbf{'"./lib/encoder\_data"' has no exported member 'EncoderData'.}\\
-Im Code wird die variable ``EncoderData'' verwendet um die pulse verarbeiten zu können. 
-Der Fehler nun ist, das die Dateien wo angeblich EncoderData herausgelesen werden soll, nicht als EncoderData herausgelesen wird. 
-%
-Nach viel Recherche und langem herumprobieren sind wird zu dieser Lösung gekommen:
-\begin{lstlisting}[language=JavaScript,gobble=4]
-  {
-    ...
-    ED.at.htlw10.swarmbots.EncoderData
-    const encoderData = ED.at.htlw10.swarmbots.EncoderData.deserializeBinary(event.data); 
-    ...
-  }
-\end{lstlisting}
-Mit dieser etwas umständlichen Art konnte der Fehler behoben werden und das Programm Funktioniert,
-auch wenn die programmierung nicht die schönste ist.
