@@ -246,9 +246,19 @@ und mittels \texttt{RotaryEncoder\#attachISR()} mit dem Trigger-Pin des Drehgebe
 %
 Beim Auslesen eines Kanals werden sowohl der Zeitstempel als auch der Zähler automatisch zurückgesetzt.
 
-
-
 \subsubsection{MPU6050}
+Da für das Auslesen der Rohdaten des eingebautem Gyroskop/Accelerometer
+\texttt{MPU6050} einer externe Bibliothek \cite{adafruit-mpu6050} verwendet wurde,
+war der Aufwand hierfür eher gering.
+%
+Das \texttt{MPU6050}-Modul sorgt also lediglich dafür,
+dass die Werte nicht mehrmals pro Tick schnell hintereinander ausgelesen werden.
+%
+Erreicht wird das, indem ausgelesene Werte zwischengespeichert werden,
+bis der aktuelle Tick vorbei ist.
+%
+Werden die Werte also mehrmals pro Tick abgefragt,
+wird einfach der zuletzt ausgelesene Wert zurückgegeben.
 
 \subsection{Aktoren}
 \subsection{Interfaces}
