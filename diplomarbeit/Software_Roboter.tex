@@ -261,6 +261,84 @@ Werden die Werte also mehrmals pro Tick abgefragt,
 wird einfach der zuletzt ausgelesene Wert zurückgegeben.
 
 \subsection{Aktoren}
+\subsubsection{GenericDigitalOutput}
+Das Modul \texttt{GenericDigitalOutput} dient als Grundlage zur Verwendung von anderen Modulen,
+um einen digitalen Ausgang anzusteuern.
+
+\subsubsection{PwmOutput}
+Das Modul \texttt{PWMOutput} dient als Grundlage zur Verwendung von anderen Modulen,
+um einen PWM-Ausgang anzusteuern.
+%
+Hierzu wird anstatt den standardmäßigen Arduino-Funktionen
+direkt die ESP32 \texttt{ledc}-API verwendet,
+um bestmögliche Konfigurationsoptionen zu erreichen\cite{esp32-ledc}. %TODO not sure if this sounds good
+%
+Weiters gibt es sowohl die Möglichkeit den Duty-Cycle direkt einzustellen,
+oder anhand der erwünschten Breite des Impulses (in Mikrosekunden) zu berechnen;
+dies ist insbesondere zum Einstellen vom Servomotoren nützlich.
+%
+Das Modul wählt automatisch den bestmöglichen PWM-Kanal:
+%
+Da beim ESP32 sich jeweils zwei PWM-Kanäle einen Timer teilen,
+müssen diese die gleiche Frequenz haben.
+%
+Beim Initialisieren des PWM-Moduls wird automatisch nach einem Timer mit gleicher Frequenz gesucht,
+welcher noch Platz für einen weiteren PWM-Kanal hat.
+%
+Wurde kein solcher Timer gefunden,
+wird ein anderer konfiguriert.
+%
+Zu guter Letzt sorgt das PWM-Modul automatisch dafür,
+dass die höchstmögliche Auflösung verwendet wird.
+%
+Die PWM-Kanäle des ESP32 haben eine zur Frequenz indirekt proportionale Auflösung \cite{esp32-technical-reference}.
+Die maximale Signalfrequenz $f_{out}$ bei gegebener Auflösung $R$ lässt sich wie folgt berechnen:
+\begin{equation}
+    f = \frac{f_{clk}}{N*2^{R}}
+\end{equation}
+Daraus ergibt sich zur Berechnung der maximalen Auflösung bei gegebener Signalfrequenz:
+\begin{equation}
+    R = \log_2\left( \frac{f_{clk}}{f_{out}*N} \right)
+\end{equation}
+Hierbei ist $f_{clk}$ das gegebene Taktsignal des Timers und $N$ der Wert des Prescalers.
+%
+$R_{max}$ wird abgerundet.
+
+Zur Berechnung der höchstmöglichen Auflösung $R_{max}$ wird $N=1$ gesetzt und das Ergebnis abgerundet.
+%
+Zu Beachten ist hierbei, das alle Ergebnisse,
+welche größer als 20 sind,
+als 20 anzunehmen sind.
+% ^ TODO komische docs
+%
+Tatsächlich gibt es auch eine minimale Auflösung,
+wobei es ja immer möglich ist,
+die Auflösung eines Signals künstlich zu verringern.
+%
+Die minimale Auflösung kann berechnet werden, indem $N=1023+\frac{255}{256}$ gesetzt wird.
+Das Ergebnis wird aufgerundet und hat einen Minimalwert von 1.
+
+Bei Verwendung der \texttt{APB\_CLK}, mit 80MHz als Taktsignal,
+ergeben sich also folgende Werte:
+\begin{table}[H]
+    \centering
+    \begin{tabular}{r|l|l}
+    $f_{sig}$ [Hz]  & $R_{max}$ [bits] & $R_{min}$ [bits] \\ \hline
+    1k        & 16 & 7 \\
+    2k        & 15 & 6 \\
+    5k        & 13 & 4 \\
+    10k       & 12 & 3 \\
+    20k       & 11 & 2 \\
+    50k       & 10 & 1 \\
+    100k      & 9  & 1 \\
+    1M        & 6  & 1 \\
+    2M        & 5  & 1 \\
+    5M        & 4  & 1 \\
+    \end{tabular}
+    \caption{PWM-Auflösungen bei gewählten Frequenzen}
+    \label{tab:pwm-resolution}
+\end{table}
+
 \subsection{Interfaces}
 
 \section{Guide}
