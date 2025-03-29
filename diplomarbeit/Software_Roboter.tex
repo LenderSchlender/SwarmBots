@@ -196,13 +196,58 @@ während $\alpha_{s}$ und $\alpha_{e}$ respektive den Start- und Endwinkel der M
 $n$ steht für die Anzahl an Messungen pro Messserie und ist bei uns konstant $12$,
 weshalb $n-1$ auf $11$ vereinfacht werden kann. $i$ ist der nullbasierte Index der einzelnen Messung im Kontext der Messserie.
 
+%\begin{tikzpicture}[node distance = 3cm]
+%    \node [terminator, fill=blue!20] (start) {\textbf{Komplettes Packet empfangen}};
+%    \node [process, below of=start] (crcCalc) {CRC berechnen};
+%    \node [data, fill=blue!20, below of=crcCalc] (data) {Provide data};
+%    \node [decision, fill=blue!20, below of=data] (crcCheck) {Daten gültig?};
+%    \node [process, fill=red!20, right of=crcCheck, node distance=5cm] (error) {Paket verwerfen};
+%    \node [process, fill=green!20, below of=crcCheck] (success) {Success};
+%    \node [terminator, fill=blue!20, below of=success] (end) {\textbf{End}};
+%    \path [connector] (start) -- (data);
+%    \path [connector] (data) -- (crcCheck);
+%    \path [connector] (crcCheck) -- node[anchor=south] {Nein} (error);
+%    \path [connector] (crcCheck) -- node[anchor=east] {Ja} (success);
+%    \path [connector] (error) |- (end);
+%    \path [connector] (success) -- (end);
+%\end{tikzpicture}
+
+
+\subsubsection{Drehgeber}
+Die beiden Drehgeber,
+welche jeweils an einen der Motoren montiert sind,
+werden von dem Modul \texttt{RotaryEncoder} ausgelesen.
+%
+Dieses Modul hat eine beim Kompilieren festgelegte Anzahl an sogenannten ``Ausgabe-Kanälen'',
+da die Daten der Drehgeber an mehreren separaten Stellen verarbeitet werden müssen.
+%
+Die verwendete Zahl an Kanälen wurde auf Vier festgelegt, kann in der Zukunft aber sehr einfach geändert werden.
+%
+Anstatt die aktuelle Geschwindigkeit zu berechnen,
+werden jeweils für jeden Kanal der Zeitpunkt des letzten Auslesens
+und die Zahl an Impulsen vom Drehgeber seit ebendiesem Zeitpunkt gespeichert.
+%
+Dadurch können Module, welche die Daten verarbeiten,
+selber wählen, über welchen Zeitraum die Geschwindigkeit berechnet wird.
+%
+Das ist ein netter Nebeneffekt, aber eigentlich wurde dieser Ansatz gewählt,
+weil das Datenformat zur Übertragung an den Server Daten in ebendiesem Format erwartet.
+%
+Da das Zählen selber durch Interrupts gelöst wurde
+und ISRs\footnote{Interrupt Service Routines}
+nicht Mitglieder einer instanziierten Klasse sein dürfen (bzw. können),
+muss zur Verwendung des \texttt{RotaryEncoder}-Moduls eine globale Funktion erstellt werden,
+welche als ISR dient.
+% TODO: function identifiers?
+Diese Funktion soll einzig und allein \texttt{RotaryEncoder\#pulse()} aufrufen
+und mittels \texttt{RotaryEncoder\#attachISR()} mit dem Trigger-Pin des Drehgebers ``verbunden'' werden.
+%
+\texttt{RotaryEncoder\#pulse()} regelt die Erhöhung der Zähler für alle Kanäle.
+%
+Beim Auslesen eines Kanals werden sowohl der Zeitstempel als auch der Zähler automatisch zurückgesetzt.
 
 
 
-
-
-
-\subsubsection{Drehencoder}
 \subsubsection{MPU6050}
 
 \subsection{Aktoren}
