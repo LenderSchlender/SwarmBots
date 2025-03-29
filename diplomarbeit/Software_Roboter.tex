@@ -115,6 +115,99 @@ Hierzu gibt es drei Variablen, welche für die vollständige Funktion relevant s
 \end{itemize}
 %TODO: Robota funktionen; insb. init() und tick()
 
+\subsection{Sensoren}
+\subsubsection{LD20 LiDAR}
+Der Code zum Auslesen des LiDAR-Sensors basiert auf zwei Informationsquellen zum Protokoll:
+%
+Die offizielle Dokumentation von youyeetoo \cite{youyeetoo-ld20},
+und einer Arduino-Bibliothek namens LD14P\_RP2040 \cite{ld20-library},
+welche sehr stark modifiziert wurde, um Teil des \textit{Robota}-Frameworks zu werden.
+
+Die Daten des LiDARs werden über eine RS-232-Schnittstelle (230400 baud 8N1) ausgelesen.
+%
+Hierbei werden nur von Seiten des LiDARs Daten gesendet,
+es gibt keine Möglichkeit diesen über die UART zu steuern.
+%
+Jede Nachricht beginnt mit einem Header-Byte \texttt{0x54},
+gefolgt von einem Info-Byte,
+welcher die Art des Pakets angibt.
+\begin{table}[H]
+    \centering
+    \begin{tabular}{r|l}
+    Info-Byte & Pakettyp   \\ \hline
+    0x2C      & Sensordaten \\
+    0xE0      & Systemstatus \\
+    0x0F      & Herstellerinfos   
+    \end{tabular}
+    \caption{Pakettypen des LD20}
+    \label{tab:ld20-packet-overview}
+\end{table}
+Jedes Paket ist von einem Prüfbyte zur Fehlererkennung mittels CRC\footnote{Cyclic Redundancy Check} gefolgt.
+%
+Nur Pakete mit Sensordaten werden tatsächlich verarbeitet,
+alle anderen werden verworfen,
+da sie für diesen Anwendungszweck nicht unbedingt nötig sind.
+%
+Ein Paket mit Sensordaten besteht (neben den oben beschriebenem Header, Info-Byte und CRC)
+aus der Geschwindigkeit des Messkopfes,
+dem Startwinkel der Messung,
+12 Messpunkten,
+dem Endwinkel der Messung,
+und einem Zeitstempel.
+%
+Die Messpunkte selber bestehen nur aus der gemessenen Entfernung und Intensität;
+der Winkel muss selber berechnet werden.
+%
+Bei allen Einträgen die mehr als einen Byte beanspruchen wird der niederwertigste Byte zuerst übertragen,
+des Protokoll ist also little-endian,
+was bedeutet das die Rohdaten direkt in den Arbeitsspeicher von z.B. einem Arduino oder ESP32 übernommen werden können.
+\begin{table}[H]
+    \centering
+    \begin{tabular}{l|l|l}
+    Name            & Typ           & Einheit  \\ \hline
+    Header          & fixed 0x54    &   \\
+    VerLen          & fixed 0x2C    &   \\
+    Geschwindigkeit & UInt16        & deg/s \\
+    Startwinkel     & UInt16        & 0.01°  \\
+    Messdaten       & 12x Messdaten &    \\
+    EndWinkel       & UInt16        & 0.01° \\
+    Zeitstempel     & UInt16        & ms \\
+    CRC             & 1 Byte        &
+    \end{tabular}
+    \caption{Paketformat des Messdatenpakets}
+    \label{tab:ld20-measurement-packet}
+\end{table}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{l|l|l}
+    Name        & Typ       & Einheit   \\ \hline
+    Distance    & UInt16    & mm        \\
+    Intensity   & Uint8     &           \\ % Einheitslos
+    \end{tabular}
+    \caption{Format der rohen Messdaten}
+    \label{tab:ld20-measurement-data}
+\end{table}
+Der Winkel einer einzelnen Messung kann mittels linearer Interpolation wie folgt berechnet werden:
+\begin{equation}
+    \alpha = \alpha_{s} + \frac{\alpha_{e}-\alpha_{s}}{n-1}*i = \alpha_{s} + \frac{\alpha_{e}-\alpha_{s}}{11}*i
+\end{equation}
+Hierbei ist $\alpha$ der Winkel einer einzelnen Messung,
+während $\alpha_{s}$ und $\alpha_{e}$ respektive den Start- und Endwinkel der Messserie repräsentieren.
+$n$ steht für die Anzahl an Messungen pro Messserie und ist bei uns konstant $12$,
+weshalb $n-1$ auf $11$ vereinfacht werden kann. $i$ ist der nullbasierte Index der einzelnen Messung im Kontext der Messserie.
+
+
+
+
+
+
+
+\subsubsection{Drehencoder}
+\subsubsection{MPU6050}
+
+\subsection{Aktoren}
+\subsection{Interfaces}
+
 \section{Guide}
 \label{subsec:software_guide}
 Die Software von \textit{Guide} ist in diesem Projekt in dem Sinne einzigartig,
