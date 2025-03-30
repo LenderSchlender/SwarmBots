@@ -18,7 +18,13 @@ welche die Roboter über Bluetooth fernsteuern kann.
 Da wir die Roboter über WLAN steuern wollten, 
 und die Tumbller-Kits standardmäßig nur eine Bluetooth-Erweiterung eingebaut haben,
 haben wir die mitgelieferten Arduino Nano durch ESP32-Boards im Arduino Nano-Format ersetzt.
-%
+% TODO Spannungsunterschiede Arduino Nano vs ESP
+\begin{figure}[H]
+    \includegraphics[width=0.7\textwidth, center]{img/elegoo_tumbller.png}
+    \caption{Rendering des Elegoo Tumbller}
+    \label{fig:elegoo_tumbller}
+\end{figure}
+
 Der unmodifizierte Elegoo Tumbler besteht aus einem Arduino Nano der zur Steuerung des gesamten Roboters verwendet wird. 
 Einem MPU6050 (Gyroskop- \& Beschleunigungssensor), der zur Erkennung der Achsen und Bewegungen verwendet wird (balancieren). 
 Des Weiteren hat er auch zwei Gleichstrommotoren mit Hall-Encodern zur Messung der Raddrehung, diese Motoren werden mit dem TB6612FNG Motortreiber gesteuert. 
@@ -219,12 +225,6 @@ Er liefert die elektrische Energie, die der Roboter benötigt, um alle Komponent
 Beim Akku handelt es sich um einen Lithium-Ionen-Akku mit einer Nennspannung von 7,4V. 
 Der Akku besitz je 2 Zellen in Serie (2S) mit je Zelle ca. 3,7V, die Kapazität des Akkus beträgt ca. 1200 mAh. Zudem ist er gegen Überladung, Tiefentladung und Kurzschlüsse geschützt. 
 %
-% TODO Spannungsunterschiede Arduino Nano vs ESP
-\begin{figure}[H]
-    \includegraphics[width=0.7\textwidth, center]{img/elegoo_tumbller.png}
-    \caption{Rendering des Elegoo Tumbller}
-    \label{fig:elegoo_tumbller}
-\end{figure}
 \begin{sidewaysfigure}
     \includegraphics[width=\textwidth, center]{img/elegoo_tumbller_original_circuit.pdf}
     \caption{Originaler Schaltplan des Tumbllers (TODO: neu zeichnen)}
