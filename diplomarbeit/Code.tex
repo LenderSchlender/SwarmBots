@@ -19,8 +19,7 @@
   {
     \typeout{\c_sys_jobname_str}
     % list all files an write the list into a file JobName.tmp
-    % TODO: switch away from ls since using it for scripting is kinda bad practice
-    \sys_shell_now:e {ls~#2~>~\c_sys_jobname_str.tmp}
+    \sys_shell_now:e {find~..~-type~f~-path~"#2"~>~\c_sys_jobname_str.tmp}
   }
   % Windows version
   {
@@ -59,6 +58,5 @@
 
 \chapter{Code}
 Es folgt die aktuelle Version der Sourcecodes vom \today.
-%\lstinputdir{../proto}
 
 \LstInputDir{../proto/*.proto}
