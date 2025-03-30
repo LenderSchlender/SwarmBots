@@ -364,7 +364,50 @@ was mehr als ausreichend ist.
 Das \texttt{SingleMotorOutput}-Modul stellt lediglich eine Steuerung dar,
 die Regelung der Motorgeschwindigkeit mit Rückkopplung durch Drehgeber wird andernorts realisiert.
 
+\subsubsection{BalanceController}
+Die Gesamtheit der Aktoren kommt im \texttt{BalanceController} zusammen:
+Hier werden die Daten vom \texttt{MPU6050} ausgelesen,
+zur Verbesserung der Genauigkeit durch den \texttt{KalmanFilter} gefiltert,
+und als Rückkopplung in einen PID-Regler eingegeben,
+welcher mittels zwei \texttt{SingleMotorOutput}s die beiden Motoren kontrolliert.
+%
+Als Führungsgröße wird hier zusätzlich die gewollte Geschwindigkeit und Auslenkung eingegeben,
+welche vom Server an die Roboter gesendet wird.
+
+TODO mehr Beschreibung 
+
 \subsection{Interfaces}
+TODO
+
+\subsection{Hilfsklassen}
+Der Robota-Framework stellt zwei Hilfsklassen (engl. ``Utilities''/``Utils'') zur Verfügung:
+\texttt{KalmanFilter} und \texttt{PIDController}.
+
+\subsubsection{KalmanFilter}
+Kalman-Filter werden allgemein zu Schätzung von Systemzuständen verwendet,
+welche nur ungenau gemessen werden können.
+%
+Die konkrete Anwendung in diesem Projekt beschränkt sich auf die Berechnung
+der Neigung der Roboter basierend auf den relativ ungenauen Messdaten des MPU6050.
+%
+Hierbei werden die Daten des Gyroskops mit denen des Accelerometers kombiniert,
+um eine möglichst genaue Schätzung des Neigungswinkel zu erreichen\cite{digikey-kalman}.
+%
+Diese sogenannte Sensorfusion ermöglicht es,
+die Messfehler der beiden Sensoren auszugleichen,
+um einen genauen Wert zu erreichen.
+% TODO maths?
+
+\subsubsection{PIDController}
+PID-Regler (Proportional, Integral, Differential) werden verwendet,
+um eine Regelstrecke bestmöglich zu regeln.
+%
+Im Kontext der Tumbller werden PID-Regler an zwei Stellen eingesetzt:
+\begin{itemize}
+    \item Regelung der Motorgeschwindigkeit
+    \item Regelung der Neigung und Auslenkung der Roboter
+\end{itemize}
+% TODO more elaborate description; maths?
 
 \section{Guide}
 \label{subsec:software_guide}
