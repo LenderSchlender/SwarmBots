@@ -1,6 +1,8 @@
 % Software Backend (Python)
 % Zuständig: Jones
 
+% wie/wo soll protobuff erklärt/erwähnt werden?
+
 \chapter{Software - Backend}
 \label{sec:software_backend}
 Das Backend ist die Zentrale Rechenstelle welches in drei Komponenten aufgeteilt.
@@ -19,9 +21,9 @@ und gegeben falls Berechnung der Messwerte.
 
 Und Steuerung der Roboter
 
-TODO
+TODO (Datenbank, Lidarmap)
 
-Es wurde mit Python programmiert
+Es wurde mit Python programmiert, 
 % Gelaber über python
 % wegen math Funktionen...
 % schnelle Modifizierung 
@@ -30,8 +32,9 @@ Es wurde mit Python programmiert
 \section{Datenverwaltung}
 \label{subsec:backend_data}
 % übersicht über die drei komponenten und wie ungefähr der datenfluss aussieht?
-
+TODO
 % Datenbank für lidar?
+TODO
 
 \section{Kommunikation}
 \label{subsec:Kommunikation}
@@ -40,7 +43,7 @@ das heißt es ist zu erwarten, dass die Verbindung konstant aufrechtzuerhalten i
 bidirektional und dies auch in einem zeitlichen verhalten geschieht. 
 Insofern muss weiter sichergestellt werden das ein konstanter Kommunikationsfluss ermöglicht bleibt.
 
-Zur Verbindung entschieden wir uns für das Kommunikations-Protokoll Websocket gewählt, 
+Zur Verbindung entschieden wir uns für das Kommunikations-Protokoll Websocket, 
 diese ermöglicht eine bidirektionale, persistente Verbindung zwischen einem Client und einem Server,
 welches im Vergleich zu gewöhnlichen HTTP-Anfragen offen bleibt, wodurch Echtzeitkommunikation möglich ist.
 % könnte man mehr ausschreiben aber schau ma später
@@ -54,6 +57,7 @@ und man sich mehr auf die Applikation fokussieren kann.
 Es sind dennoch einige Parameter zum zur Verfügung gestellt zur Modifizierung, falls benötigt.
 % code beispiele?
 
+% erklärung zu den packet Webscoket
 Websockets Standard Implementierung basiert auf asyncio.
 %  
 Asyncio ist die eingebaute Implementierung von Koroutinen in Python,
@@ -68,20 +72,45 @@ aufgrund der möglichen erweiterten Komplexität von Thread sicheren code Ausfü
 Eine Sans-I/O Implementierung ist auch vorhanden jedoch für dieses Projekt zurzeit irrelevant.
 
 
+
+% erklärung zu asyncio
+Asyncio funktioniert, indem Tasks sich den Event loop nehmen und mit dem 'await' 
+Befehl anderen tasks erlaubt sich den event loop zu nehmen, im vergleich zu üblichen multitasking
+wo jeder task eine feste zeit zugeschrieben bekommt vom Betriebsystem.
+
+TODO
+
+\subsection{}
 % übersichtsgrafik über teilnehmer und wie datenablauf funktioniert
 % asyncio - warum
 % main task überblick (server und drei clients) warum so aufgeteilt?
 % subtask
 
 % FIFO Queues
-% Wichtigkeit nicht blockierendes verhalten
+% Wichtigkeit nicht blockierendes verhalten um asynchrones workflow zu gewährleisten
+Damit die Prozesse im Backend nicht gezwungen sind immer zu bearbeiten, 
+wenn und falls Einkommen Nachrichten zu bearbeiten sind, 
+wird der Empfang von Websockets abgekoppelt von den backend Logik.
+Dafür wurden Queues, realisiert als FIFO, verwendet, also ein zwischen speicher 
+wo die erhaltenen Daten von den Websockets landen, um dann entsprechen weiter zu bearbeiten.
+Somit können wir einen Prozess starten, welches auf eingehende Nachrichten warten kann, 
+während unser Backend andere Prozesse ausführt.
+% kann mehr dazu schreiben
+% ermöglicht auch sachen etc.
 
-
-% Optimierungs möglichkeiten
-% uvloop drop in replacement
-% threading warum nicht streng nötig (hauptsächlich limitiert über Wifi I/O nicht anzahl an geräten)
+\section{Optimierungsmöglichkeiten}
+\label{subsec:Optimierungsmöglichkeiten}
+% uvloop - drop in replacement
+% https://github.com/MagicStack/uvloop
+uvloop ist ein schneller drop-in ersetzung von der eingebauten asyncio event loop, 
+dieser ist entsprechend in Cython entwickelt (Cython ist entsprechend Python aber als Performanten C code compiliert).
+Ziel dieser Ersetzung ist es asyncio um einiges schneller zu machen aber nicht von der Referenz verhalten von asyncio abzuweichen. 
+% TODO threading warum nicht streng nötig 
+% (hauptsächlich limitiert über Wifi I/O nicht anzahl an geräten & )
 % falls anzahl größer wird dann villeicht
 % compelierung python code
+Es ist möglich Python code genau so wie jedes andere Programm zu kompilieren,
+jedoch ist dies standardmäßig nicht nötig da der Interpreter Cpython automatisch Python byte code kompeliert (in PYC Dateien).
 
 \section{Steuerung der Roboter}
 \label{subsec:backend_robot_detection}
