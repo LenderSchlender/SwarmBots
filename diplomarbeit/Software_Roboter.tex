@@ -339,6 +339,31 @@ ergeben sich also folgende Werte:
     \label{tab:pwm-resolution}
 \end{table}
 
+\subsubsection{SingleMotorOutput}
+Das Modul \texttt{SingleMotorOutput} verwendet die bereits beschriebenen Module
+\texttt{GenericDigitalOutput} und \texttt{PWMOutput},
+um einen einzelnen Motor mittels eines Motortreibers anzusteuern.
+Um die Verwendung mit möglichst vielen unterschiedlichen Motortreibern zu gewährleisten,
+gibt es drei unterschiedliche Möglichkeiten, die \texttt{GenericDigitalOutput}s zu konfigurieren:
+\begin{itemize}
+    \item Verwendung eines Pins für \texttt{forward}
+    \item Verwendung eines Pins für \texttt{backward}
+    \item Verwendung beider Pins
+\end{itemize}
+In Kombination mit dem Tumbller wurde die erste der drei Möglichkeiten gewählt.
+%
+Der eingebaute Motortreiber erwartet zwar sowohl ein \texttt{forward}- als auch ein \texttt{backward}-Signal,
+jedoch wird das \texttt{backward}-Signal hardwaremäßig durch Inversion von \texttt{forward} generiert.
+%
+Die Richtung und Geschwindigkeit werden als signierte 16-Bit Integer gegeben,
+wobei negative Werte als Rückwärtsfahren interpretiert werden.
+%
+Es bleiben also 15 Bits Genauigkeit für die Geschwindigkeit,
+was mehr als ausreichend ist.
+%
+Das \texttt{SingleMotorOutput}-Modul stellt lediglich eine Steuerung dar,
+die Regelung der Motorgeschwindigkeit mit Rückkopplung durch Drehgeber wird andernorts realisiert.
+
 \subsection{Interfaces}
 
 \section{Guide}
