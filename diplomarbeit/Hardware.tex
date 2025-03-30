@@ -19,28 +19,28 @@ Da wir die Roboter über WLAN steuern wollten,
 und die Tumbller-Kits standardmäßig nur eine Bluetooth-Erweiterung eingebaut haben,
 haben wir die mitgelieferten Arduino Nano durch ESP32-Boards im Arduino Nano-Format ersetzt.
 %
-Der unmodifizierte Elegoo Tumbler besteht aus einem Arduino Nano der zur Steuerung des gesamten Roboters verwendet wird. Einem MPU6050 (Gyroskop- & Beschleunigungssensor), der zur Erkennung der Achsen und Bewegungen verwendet wird (balancieren). Des Weiteren hat er auch zwei Gleichstrommotoren mit Hall-Encodern zur Messung der Raddrehung, diese Motoren werden mit dem TB6612FNG Motortreiber gesteuert. Zudem verfügt der Elegoo Tumbler über ein HC-06 Bluetooth-Modul, das zur Kommunikation mit dem Smartphone verwendet wird. Mithilfe des SR04 Ultraschallsensor ist der Roboter in der Lage, Abstände zu messen, was es ihm ermöglicht, Hindernisse zu erkennen und zu umgehen.  Zudem besitzt der Tumbler Infrarot-Sensoren (IR204C-A und IRM-56384), die es ihm ermöglichen, Hindernisse und Linien zu erkennen oder zu verfolgen. Durch den AMS1117 3.3V Spannungswandler wird die Spannung von dem Li-Ion-Akku, der als Hauptstromversorgung dient, heruntergestuft, sodass sie auch für das Bluetooth-Modul und die Sensoren verwendbar ist. Des Weiteren ist der Elegoo Tumbler mit mehreren Modi ausgestattet. Diese kann man entweder über die App oder direkt am Roboter über einen Taster steuern, zur Visualisierung der Modi hat der Elegoo Tumbler mehrere LEDs eingebaut.
+Der unmodifizierte Elegoo Tumbler besteht aus einem Arduino Nano der zur Steuerung des gesamten Roboters verwendet wird. Einem MPU6050 (Gyroskop- \& Beschleunigungssensor), der zur Erkennung der Achsen und Bewegungen verwendet wird (balancieren). Des Weiteren hat er auch zwei Gleichstrommotoren mit Hall-Encodern zur Messung der Raddrehung, diese Motoren werden mit dem TB6612FNG Motortreiber gesteuert. Zudem verfügt der Elegoo Tumbler über ein HC-06 Bluetooth-Modul, das zur Kommunikation mit dem Smartphone verwendet wird. Mithilfe des SR04 Ultraschallsensor ist der Roboter in der Lage, Abstände zu messen, was es ihm ermöglicht, Hindernisse zu erkennen und zu umgehen.  Zudem besitzt der Tumbler Infrarot-Sensoren (IR204C-A und IRM-56384), die es ihm ermöglichen, Hindernisse und Linien zu erkennen oder zu verfolgen. Durch den AMS1117 3.3V Spannungswandler wird die Spannung von dem Li-Ion-Akku, der als Hauptstromversorgung dient, heruntergestuft, sodass sie auch für das Bluetooth-Modul und die Sensoren verwendbar ist. Des Weiteren ist der Elegoo Tumbler mit mehreren Modi ausgestattet. Diese kann man entweder über die App oder direkt am Roboter über einen Taster steuern, zur Visualisierung der Modi hat der Elegoo Tumbler mehrere LEDs eingebaut.
 \section{Subkomponenten}
 \label{subsec:subkomponenten}
 %
 \subsection{PCB}
 %
-\subsection{MPU6050 (Gyroskop- & Beschleunigungssensor)}
+\subsection{MPU6050 (Gyroskop- \& Beschleunigungssensor)}
 %
-4.2.1.1. Allgemein
+\subsubsection{Allgemein}
 Der MPU6050 ist ein 6-Achsen-Sensor, der aus einem Drehratensensor (Gyroskop, welcher Drehbewegungen in 3 Achsen) und einem Beschleunigungssensor (Accelerometer, welcher lineare Beschleunigungen in 3 Achsen misst).
-4.2.1.2. Technische Daten
+\subsubsection{Technische Daten}
 Als Betriebsspannung verwendet der MPU6050 2,3V bis 3,4V, als Kommunikationsprotokoll verwendet er I2C oder SPI (I2C Standard: 0x68 Adresse). Der Messbereich des Gyroskops und Accelerometers kann konfiguriert werden (Gyroskop:  ±250, ±500, ±1000, ±2000 °/s, Accelerometer: ±2g, ±4g, ±8g, ±16g), durch die Konfigurationsmöglichkeit ergeben sich auch unterschiedliche Empfindlichkeiten der beiden (Gyroskop: 131 LSB/°/s (bei ±250 °/s), Accelerometer: 16.384 LSB( least significant bit/ niedrigstes Bit)/g (bei ±2g)).  Die Genauigkeit der beiden liegt bei ca. ±0,01 °/s für den Gyroskop-Sensor und ca. ±0,005g für den Accelerometer. Zudem verfügt der MPU6050 über eine Abtastrate von bis zu 1kHz und über einen integrierten DMP (Digital Motion Processor), welcher es ermöglicht, Datenfusion durchzuführen.
-4.2.1.3. Einschränkungen
+\subsubsection{Einschränkungen}
 Der Gyroskop-Sensor hat einen Drift, der dazu führt, dass sich die Messwerte bei längerer Laufzeit verschieben. Zudem reagiert der MPU6050 empfindlich auf Vibrationen, wodurch Messfehler entstehen können.
 %
 \subsection{TB6612FNG (Motortreiber)}
 %
-4.2.1.1. Allgemein
+\subsubsection{Allgemein}
 Der TB6612FNG ist ein Dual-H-Brücke-Motortreiber, welcher verwendet wird, um einen Schrittmotor oder zwei Gleichstrommotoren wie beim Tumbler zu steuern. Der Motortreiber ermöglicht es, Gleichstrommotoren in zwei Richtungen zu betreiben.
-4.2.1.2. Technische Daten
+\subsubsection{Technische Daten}
 Als Versorgungsspannung für Motoren kann der TB6612FNG 2,5V bis 13,5V ausgeben, für die Logik ist die Versorgungsspannung 2,7V bis 5,5V. Der maximale Ausgangsstrom ist 1,2 A (kontinuierlich), 3 A (kurzzeitig pro Kanal), er besitzt 2 Kanäle und als Steuersignal verwendet er PWM (Pulsweitenmodulation) und Richtungssignale. Zudem besitzt er eine integrierte Schutzschaltung, die vor Überstromschutz, Übertemperaturschutz und Kurzschlussschutz schützt. Die Verlustleistung ist sehr gering, da der Motortreiber die MOSFET-Technologie verwendet. (MOSFET (Metal Oxide Semiconductor Field Effect Transistor) ist ein elektronisches Bauteil, das wie ein elektronischer Schalter funktioniert und in der Motorsteuerung verwendet wird, um mit einem kleinen Steuersignal einen großen Stromfluss für Motoren zu kontrollieren)
-4.2.1.3. Belegung
+\subsubsection{Belegung}
 Pin	-	Funktion
 VM	Versorgungsspannung für die Motoren (2,5–13,5V)
 VCC	Logik-Spannungsversorgung (2,7–5,5V)
@@ -57,24 +57,24 @@ AO2	Ausgang Motor A (Minuspol)
 BO1	Ausgang Motor B (Pluspol)
 BO2	Ausgang Motor B (Minuspol)
 
-4.2.1.4. Ansteuerung
+\subsubsection{Ansteuerung}
 Durch die Kombination Richtungssignale (AIN1, AIN2 / BIN1, BIN2), kann der Motor entweder vorwärts-, rückwärtsfahren oder anhalten.
 Der PWMA/PWMB sorg dafür, dass sich die Geschwindigkeit ändert.
 %
 \subsection{AMS1117 (3.3V Spannungsregler)}
 %
-4.2.1.1. Allgemein
+\subsubsection{Allgemein}
 Der AMS1117 ist ein linearer Spannungsregler, der aus einer höhere Eingangsspannung eine stabile kleinere Ausgansspannung (3,3V) macht. Im Elegoo Tumbller wird er verwendet, um die Spannung auf 3,3 Volt zu reduzieren. Diese Spannung brauchen einige Bauteile, wie zum Beispiel das Bluetooth-Modul, damit sie nicht kaputtgehen.
-4.2.1.2. Technische Daten
+\subsubsection{Technische Daten}
 Der Spannungsregler kann mit 4,5V bis 15V betrieben werden, er hat eine fixe Ausgansspannung von 3,3V und kann maximal 1A Ausgangstrom liefern (mit einer Kühlung), die Drop-out Spannung beträgt 1,1V (bei 1A). der Integrierte Schutz schütz vor Übertemperatur und Kurzschlüssen.
 %
 \subsection{HC-06 (Bluetooth Modul)}
 %
-4.2.1.1. Allgemein
+\subsubsection{Allgemein}
 Das HC-06 ist ein Bluetooth Modul der es ermöglicht über eine kurze Distanz ohne Kabel daten zu übertragen. (Bluetooth ist eine Funktechnik, die Daten über kurze Distanzen per Funkwellen im 2,4-GHz-Band überträgt und dabei eine serielle, kabellose Verbindung zwischen zwei Geräten herstellt.)
-4.2.1.2. Technische Daten
+\subsubsection{Technische Daten}
 Das Bluetooth Modul wird mit einer Betriebsspannung von 3,3V betrieben als Kommunikationsmetode verwendet es UART (UART (Universal Asynchronous Receiver Transmitter) ist eine serielle Schnittstelle, die Daten bitweise und ohne Taktsignal zwischen zwei Geräten über nur zwei Leitungen (TX und RX) überträgt.).  Die Version, die es unterschütz ist, Bluetooth 2.0 + EDR, es hat eine Reichweite von bis zu ca.  10m und hat eine Datenrate von bis zu 2,1 Mbps. Als Funkfrequenz verwendet es sdas 2,4 GHz Band, die Sicherheitsfunktion, die man einschalten kann, erfordert es einen Pin-Code vor der Verbindung einzugeben. Das HC-06 ferfügt nur über den Slave-Modus. (Der Slave-Modus bedeutet, dass ein Gerät keine Verbindung selbst starten kann, sondern nur auf Verbindungsanfragen von anderen Geräten wartet und dann darauf reagiert.)
-4.2.1.2. Belegung
+\subsubsection{Belegung}
 Pin	-	Funktion
 VCC	Versorgungsspannung (3,3V)
 GND	Masse
@@ -82,14 +82,14 @@ TXD	Sendedaten (wird mit RX des Arduino verbunden)
 RXD	Empfangsdaten (wird mit TX des Arduino verbunden)
 STATE	Verbindungsstatus-Ausgang (optional)
 
-4.2.1.2. Einschränkungen
+\subsubsection{Einschränkungen}
 Durch die veraltete Bluetooth-Version ist nur eine niedrigere Datenrate möglich und es besteht eine höhere Störanfälligkeit als bei modernen Standards.
 %
 \subsection{Arduino Nano (Microcontroller)}
 %
-4.2.1.1. Allgemein
+\subsubsection{Allgemein}
 Der Arduino Nano ist einer der kleineren (ca. 18 x 45 mm) uC (Mikrocontroller), dieser wird verwendet, um alle elektronischen Bauteile im Tumbler zu steuern.
-4.2.1.2. Technische Daten
+\subsubsection{Technische Daten}
 Der Arduino Nano hat einen ATmega328P als Prozessor und eine Taktfrequenz von 16MHz. Die Betriebsspannung beträgt 5V (Versorgungspannung über den Pin VIN 7V bis 12V). er besitz 14 Digitale i/O Pins (Input/Output), wobeit 6 davon PWM fähig sind. Zudem besitz er 8 Analoge Pins und einen Flash-Speicher von 32KB (davon 2 KB für Bootloader). Der SRAM hat 2KB und das EEPROM 1KB. Die Schnittstellen, die er unterschützt, sind UART, I2C, SPI.
 UART (Universal Asynchronous Receiver Transmitter)
 UART ist eine serielle Schnittstelle, die Daten bitweise über zwei Leitungen (TX für Senden und RX für Empfangen) überträgt. Dabei wird kein Taktsignal verwendet – beide Geräte müssen die gleiche Geschwindigkeit (Baudrate) eingestellt haben.
@@ -97,69 +97,69 @@ I2C (Inter-Integrated Circuit)
 I2C ist ein Kommunikationsprotokoll, das mehrere Geräte über nur zwei Leitungen verbindet: eine Datenleitung (SDA) und eine Taktleitung (SCL). Ein Gerät ist der Master (Steuergerät), die anderen sind Slaves (empfangen Befehle).
 SPI (Serial Peripheral Interface)
 SPI ist eine serielle Schnittstelle für den schnellen Datenaustausch zwischen einem Master und einem oder mehreren Slave-Geräten. Es werden vier Leitungen verwendet: MOSI (Daten vom Master zum Slaven), MISO (Daten vom Slave zum Master), SCK (Taktsignal) und SS (Slave Select, Auswahl des Geräts).
-4.2.1.2. Belegung
+\subsubsection{Belegung}
 (Bild)
-4.2.1.2. Einschränkungen
+\subsubsection{Einschränkungen}
 Der Arduino-Nano besitzt ein kleiner Speicher was ihn  nicht geeignet macht für komplexen Programmen, die viel Speicher benötigen. Zudem hat er nur einen 8-Bit-Prozzesor, was ihn auch in der Rechenleistung stark begrenzt. Desweitern hat er kein integriertes WLAN-Modul, was es nur ermöglicht ihn  über Kabel oder Bluetooth zu verwenden.
 %
 \subsection{SR04 (Ultraschallsensor)}
 %
-4.2.1.1. Allgemein
+\subsubsection{Allgemein}
 Der SR04 ist ein Ultraschallsensor, der verwendet wird, um den Abstand zu Objekten zu messen. Er sendet einen Ultraschallton aus, dieser wird von einem Hindernis reflektiert, und der Sensor misst die Zeit, bis das Echo zurückkommt.
-4.2.1.2. Technische Daten
+\subsubsection{Technische Daten}
 Der SR04 hat eine Betriebsspannung von 5V und eine Stromaufnahme von ca. 15mA. Zudem hat er einen Messbereich von 2cm bis 400cm und eine Genauigkeit von ca. ±3 mm. Sein Messwinkel beträgt 15° und er hat als Ausgänge den Trigger-Pin (Signal senden) und Echo-Pin (Signal empfangen). Die Frequenz mit der er arbeitet, sind 40 kHz (Ultraschall).
-4.2.1.2. Belegung
+\subsubsection{Belegung}
 Pin  -   	Funktion
 VCC	Versorgungsspannung (5V)
 GND	Masse
 Trig	Trigger-Eingang → Startet das Signal
 Echo	Echo-Ausgang → Gibt das empfangene Signal weiter
-4.2.1.2. Einschränkungen
+\subsubsection{Einschränkungen}
 Der Ultraschall Sensor ist sehr empfindlich gegenüber schrägen Flächen und arbeitet relativ Langsam was ihn ungeeignet mach für bestimmte Orte und aufgaben. Zudem kann er bei Objekten unter 2cm Entführung keine Messung machen.
 %
-\subsection{Infrarot-Sensoren (IR204C-A & IRM-56384)}
+\subsection{Infrarot-Sensoren (IR204C-A \& IRM-56384)}
 %
-4.2.1.1. Allgemein
+\subsubsection{Allgemein}
 Die Infrarot-Sensoren IR204C-A und IRM-56384 werden im Elegoo Tumbller verwendet, um Hindernisse und Linien zu erkennen.
 Sie funktionieren mit unsichtbarem Infrarotlicht (kurz: IR) und arbeiten nach dem Reflexionsprinzip.
-4.2.1.2. Technische Daten
+\subsubsection{Technische Daten}
 Die Infrarot Sensoren arbeiten mit einer Betriebspannung von 5V und bestehen aus einer Infrarot-LED (LED, welche Infrarot Licht ausstrahlt) und einem Fototransistor (Transistor, welcher auf Licht reagiert). Der Erfassungsbereich liegt bei ca. 1 cm bis 10 cm (je nach Oberfläche), als Ausgang hat es Digital (HIGH = frei, LOW = Hindernis erkannt). Die Wellenlänge, mit welcher es arbeitet ist ca. 940 nm (unsichtbares Infrarotlicht).
 IR204C-A:
 Der IR204C-A ist eine Infrarot-LED. Sie sendet unsichtbares Infrarotlicht aus. Dieses Licht wird von Objekten reflektiert, damit der Roboter erkennen kann, ob ein Hindernis vor ihm steht.
 IRM-56384:
 Der IRM-56384 ist ein Infrarot-Empfänger. Er empfängt Infrarot-Signale und erkennt, ob Licht von der Infrarot-LED zurückkommt oder ob ein Signal von einer Fernbedienung gesendet wird.
-4.2.1.2. Einschränkungen
+\subsubsection{Einschränkungen}
 Da die Infrarot LED nicht stark ist  und der Empfänger nicht genau kann es zu Problemen führen bei Tageslicht oder Lampen. Zudem funktionier diese Verfahren nur auf sehr kurzer Distanz (meist unter 10cm), und das Material welcher als Reflektor dient, kann ein Problem aufweisen da, Schwarze oder matte Flächen schlechter reflektieren.
 %
 \subsection{Gleichstrommotoren (TT130 DC Motor mit 1:48 Getriebe)}
 %
-4.2.1.1. Allgemein
+\subsubsection{Allgemein}
 Im Elegoo Tumbller werden zwei kleine Gleichstrommotoren (DC-Motoren) verwendet.
 Diese Motoren sind dafür verantwortlich, die beiden Räder des Roboters anzutreiben.
 Ein Gleichstrommotor wandelt elektrische Energie in mechanische Bewegung um – also in eine Drehbewegung.
-4.2.1.2. Technische Daten
+\subsubsection{Technische Daten}
 Die Gleichstrommotoren haben eine Betriebsspannung von 6V bis 12V und einen Nennstrom von ca. 200mA und sind Bürsten-Gleichstrommotor. (Ein Bürsten-Gleichstrommotor ist ein Motor, der mithilfe von kleinen Bürsten Strom bekommt und sich dadurch dreht) Die Drehzahl beträgt ca. 300 Umdrehungen pro Minute (RPM). Zudem verfügen sie über ein eingebautes Getriebe zur Erhöhung des Drehmoments und einen Wellen-Durchmesser von 3mm. (Das Drehmoment gibt an, wie stark er etwas drehen kann, der Wellen-Durchmesser beschreibt, wie dick die Achse des Motors is)
-4.2.1.2. Funktionsweise 
+\subsubsection{Funktionsweise}
 Bei einem Gleichstrommotor wird durch Anlegen einer elektrischen Spannung ein Magnetfeld erzeugt, welches den Rotor bewegt. Durch Umpolen (Richtungsänderung des Stroms) kann die Drehrichtung geändert werden. Die Geschwindigkeit wird durch PWM-Signale (Pulsweitenmodulation) geregelt, die Richtung durch digitale Signale.
 (Bild von einem Motor von innen und Erklärung)
 %
 \subsection{Encoder}
 %
-4.2.1.1. Allgemein
+\subsubsection{Allgemein}
 Die Encoder im Elegoo Tumbller sind in den Motoren eingebaut und dienen dazu, die Drehbewegung der Räder zu messen.
 Ein Encoder ist ein kleiner Sensor, der erkennt, wie weit und wie schnell sich ein Rad dreht. Damit kann der Roboter berechnen, wie viel Strecke er zurückgelegt hat oder wie stark sich das Rad gedreht hat – das ist wichtig für die Stabilität, Steuerung und Navigation.
-4.2.1.2. Technische Daten
+\subsubsection{Technische Daten}
 Die Encoder sind Magnetische Inkremental-Encoder sie arbeiten mit Digitalen Impulssiganlen und haben eine Impulszahl von ungefähr 11 Impulsen pro Rad-Umdrehung. Sie werden mit 5V betrieben und sind direkt am Motor befestigt. 
-4.2.1.2. Funktionsweise
+\subsubsection{Funktionsweise}
 Am Motor ist ein kleiner Magnet eingebaut, der sich mit dreht, der Hallsensor erkennt jedes Mal, wenn der Magnet eine bestimmte Stelle passiert, wenn das der Fall ist wird ein elektrischer Impuls gesendet, dieser Impuls wird von dem Microcontroller dann gezählt.
-4.2.1.2. Funktionsweise
+\subsubsection{Funktionsweise}
 Dadurch das die Encoder aber nur ca. 11 Impulse pro Umdrehung schaffen, ist keine genaue Steuerung Möglich. Zudem erkenne sie nur relative Bewegungen und keine Absoluten.
 %
 \subsection{Li-Ion Akku (7,4V)}
 %
-4.2.1.1. Allgemein
+\subsubsection{Allgemein}
 Der Li-Ion Akku (Lithium-Ionen-Akku) ist die Hauptstromquelle des Roboters. Er liefert die elektrische Energie, die der Roboter benötigt, um alle Komponenten wie Motoren, Sensoren und den Mikrocontroller zu betreiben.
-4.2.1.2. Technische Daten
+\subsubsection{Technische Daten}
 Beim Akku handelt es sich um einen Lithium-Ionen-Akku mit einer Nennspannung von 7,4V. Der Akku besitz je 2 Zellen in Serie (2S) mit je Zelle ca. 3,7V, die Kapazität des Akkus beträgt ca. 1200 mAh. Zudem ist er gegen Überladung, Tiefentladung und Kurzschlüsse geschützt. 
 %
 % TODO Spannungsunterschiede Arduino Nano vs ESP
