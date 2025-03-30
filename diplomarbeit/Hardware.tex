@@ -14,11 +14,36 @@ Der Tumbller ist ein zweirädriger Roboter, welcher auf einer Ache balanciert.
 %
 Zur Kontrolle des unmodifizierten Kits gibt es eine Smartphone-App,
 welche die Roboter über Bluetooth fernsteuern kann.
-%TODO genaue Hardwarebeschreibung des Kits
 %
 Da wir die Roboter über WLAN steuern wollten, 
 und die Tumbller-Kits standardmäßig nur eine Bluetooth-Erweiterung eingebaut haben,
 haben wir die mitgelieferten Arduino Nano durch ESP32-Boards im Arduino Nano-Format ersetzt.
+%
+Der unmodifizierte Elegoo Tumbler besteht aus einem Arduino Nano der zur Steuerung des gesamten Roboters verwendet wird. Einem MPU6050 (Gyroskop- & Beschleunigungssensor), der zur Erkennung der Achsen und Bewegungen verwendet wird (balancieren). Des Weiteren hat er auch zwei Gleichstrommotoren mit Hall-Encodern zur Messung der Raddrehung, diese Motoren werden mit dem TB6612FNG Motortreiber gesteuert. Zudem verfügt der Elegoo Tumbler über ein HC-06 Bluetooth-Modul, das zur Kommunikation mit dem Smartphone verwendet wird. Mithilfe des SR04 Ultraschallsensor ist der Roboter in der Lage, Abstände zu messen, was es ihm ermöglicht, Hindernisse zu erkennen und zu umgehen.  Zudem besitzt der Tumbler Infrarot-Sensoren (IR204C-A und IRM-56384), die es ihm ermöglichen, Hindernisse und Linien zu erkennen oder zu verfolgen. Durch den AMS1117 3.3V Spannungswandler wird die Spannung von dem Li-Ion-Akku, der als Hauptstromversorgung dient, heruntergestuft, sodass sie auch für das Bluetooth-Modul und die Sensoren verwendbar ist. Des Weiteren ist der Elegoo Tumbler mit mehreren Modi ausgestattet. Diese kann man entweder über die App oder direkt am Roboter über einen Taster steuern, zur Visualisierung der Modi hat der Elegoo Tumbler mehrere LEDs eingebaut.
+\section{Subkomponenten}
+\label{subsec:subkomponenten}
+%
+\subsection{PCB}
+%
+\subsection{MPU6050 (Gyroskop- & Beschleunigungssensor)}
+%
+\subsection{TB6612FNG (Motortreiber)}
+%
+\subsection{AMS1117 (3.3V Spannungsregler)}
+%
+\subsection{HC-06 (Bluetooth Modul)}
+%
+\subsection{Arduino Nano (Microcontroller)}
+%
+\subsection{SR04 (Ultraschallsensor)}
+%
+\subsection{Infrarot-Sensoren (IR204C-A & IRM-56384)}
+%
+\subsection{Gleichstrommotoren (TT130 DC Motor mit 1:48 Getriebe)}
+%
+\subsection{Encoder}
+%
+\subsection{Li-Ion Akku (7,4V)}
 % TODO Spannungsunterschiede Arduino Nano vs ESP
 \begin{figure}[H]
     \includegraphics[width=0.7\textwidth, center]{img/elegoo_tumbller.png}
@@ -30,45 +55,6 @@ haben wir die mitgelieferten Arduino Nano durch ESP32-Boards im Arduino Nano-For
     \caption{Originaler Schaltplan des Tumbllers (TODO: neu zeichnen)}
     \label{fig:elegoo_tumbller_original_circuit}
 \end{sidewaysfigure}
-
-\section{Arduino Nano zu ESP32 Nano}
-\label{subsec:arduino_to_esp32}
-Der Wechsel zum ESP32 Nano lief nicht reibungslos wie erhofft da,
-obwohl der ESP von Arduino das "gleiche Gehäuse" verwendet 
-es jedoch zu einigen Unterschieden in den Pins kommt. 
-
-% TODO änder die pins aufs wichtige
-\begin{figure}[H]
-    \includegraphics[width=\textwidth, center]{img/nano-differences-m.png}
-    \caption{Hervorgehobene Pin out zwischen Arduino und ESP32 nano}
-    \label{fig:nano_boards}
-\end{figure}
-
-Zwischen den Boards herrschen am relevantesten diese Unterschiede.
-\begin{itemize}
-    \centering
-    \item Pin 3 von \texttt{AREF} zu \texttt{GPIO46} und \texttt{Boot0}.
-    \item Pin 12 von \texttt{+5V} zu \texttt{VUSB} oder \texttt{VBUS}.
-    \item Pin 13 von \texttt{RESET} zu \texttt{GPIO0} und \texttt{Boot1}.
-\end{itemize}
-
-Der Pin 3 von \texttt{AREF} ist unproblematisch aufgrund dessen dass,
-es zu einem ungenutzten I/O Interface führt und somit keinem weiteren Besorgen.
-
-Pin 12 ist muss etwas Achtung gegeben werden, weil der \texttt{VBUS} im Vergleich zu \texttt{+5V} als
-direkte Führung von der Versorgung aus der USB Schnittstelle bedacht wurde und 
-dadurch nicht weiter geregelt wird vom Board. Deswegen wird empfohlen den VBUS 
-nicht mit anderen Pins am Nano kurz zuschließen, jedoch wenn der ESP32 über den VIN Pin versorgt ist, 
-wird der Pin deaktiviert und sollte keine 5V von der USB Schnittstelle liefern können. 
-Weiteres verhalten darüber hinaus ist dokumentiert.
-Mehr dazu und der anderen Betriebsspannung ist in Abschnitt \ref{subsec:problem_betriebsspannungen} zu finden.
-
-Pin 13 sollte keine Probleme machen da es zu einem offenen Schalter geht,
-der ursprünglich den \texttt{RESET} Pin betätigt hätte und sonst offen liegt. 
-Beim ESP32 würde der Schalter dafür sorgen das zum Boot Mode gewechselt werden kann, 
-oder gewöhnliche Operationen mit \texttt{GPIO0}. 
-Jedoch kam es zu Störungen an diesem Pin trotz internen Pull-up-Widerstand, 
-wodurch wir den Pin entfernt haben mehr dazu siehe Abschnitt \ref{subsec:gestoert_boot}.
 
 \section{Guide}
 \label{subsec:hardware_guide}
