@@ -3,63 +3,62 @@
 % THIS REQUIRES SHELL ESCAPE TO BE ENABLED!!
 % enable using the latexmk argument --shell-escape
 
-\makeatletter
+% Documentation for expl3 Syntax:
+% https://texdoc.org/serve/interface3/0
+\ExplSyntaxOn
 
-\def\app@exe{\immediate\write18}
-\NewDocumentCommand{\lstinputdir}{om}{%
-    % Find files
-    \IfFileExists{/dev/null}{% unix check
-        % unix system
-        \typeout{Unix system detected!}%
-        \app@exe{ls #2/* >> \jobname.tmp}%
-    } {
-        % windows version (TODO test)
-        \typeout{Windows system detected!}%
-        \app@exe{cmd /c dir /b * > \jobname.tmp}%
-    }%
-%
-    % create file reader
-    \newread\myread
-    % open file with reader
-    \openin\myread=\jobname.tmp
-%
-    % iterate until end of file (eof)
-    \@whilesw\unless\ifeof\myread\fi{%
-        \read\myread to \filename
+\NewDocumentCommand{\LstInputDir}{O{} m} {
+  % check if shell escape is enabled
+  \sys_if_shell:F {
+  % TODO error message
+  }
+  % Create temp file
+  % check if we're using a unix-ish system or windows
+  \sys_if_platform_unix:TF
+  % Unix version
+  {
+    \typeout{\c_sys_jobname_str}
+    % list all files an write the list into a file JobName.tmp
+    % TODO: switch away from ls since using it for scripting is kinda bad practice
+    \sys_shell_now:e {ls~#2~>~\c_sys_jobname_str.tmp}
+  }
+  % Windows version
+  {
+    %TODO windows version
+  }
 
-        \typeout{"\filename"}%
-        \def\filename ../proto/encoder_data.proto
-        % need to fuck with expansion order
-        % otherwise \lstinputlisting would get expanded first
-        % (and we don't want that)
-        
-        \lstinputlisting\expandafter{../robots/guide/src/main.cpp}
-        %\expanded{%
-        %  \unexpanded{\lstinputlisting[#1]}%
-        %  \unexpanded\expandafter{../proto/encoder_data.proto}%
-        %}%
-    }%
+  % open temp file Jobname.temp
+  \ior_open:Nn \g_tmpa_ior {\c_sys_jobname_str.tmp}
+  % if the file is empty, don't execute the next block 
+  \quark_if_no_value:NF \g_tmpa_ior
+  {
+    % for each line
+    \ior_map_inline:Nn \g_tmpa_ior
+    {
+      % include listing (and forward any options
+      % TODO print file name somewhere
+      \lstinputlisting[#1]{##1}
+    }
+  }
+  % close file
+  \ior_close:N \g_tmpa_ior
 
-    \closein\myread
-%
-    % Create listing
-    %\IfNoValueTF{#1}
-    % Default parameters
-    %{\lstinputlisting{\jobname.tmp}}
-    % Optional parameters provided
-    %{\lstinputlisting[#1]{\jobname.tmp}}
-%
-    % Delete temp file
-    \IfFileExists{/dev/null}{% unix check
-        % unix version
-        \AtEndDocument{\app@exe{rm -f \jobname.tmp}}
-    } {
-        % windows version  (TODO test)
-        \AtEndOfDocument{\app@exe{rm -f \jobname.tmp}}
-    }%
+  % Delete temp file
+  \sys_if_platform_unix:TF
+  % Unix version
+  {
+    \sys_shell_now:e {rm~-f~\c_sys_jobname_str.tmp}
+  }
+  % Windows version
+  {
+    %TODO windows version
+  }
 }
-\makeatother
+
+\ExplSyntaxOff
 
 \chapter{Code}
 Es folgt die aktuelle Version der Sourcecodes vom \today.
-\lstinputdir{../proto}
+%\lstinputdir{../proto}
+
+\LstInputDir{../proto/*.proto}
