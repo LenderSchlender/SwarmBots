@@ -78,19 +78,68 @@ in Echtzeit anzeigen zu lassen, sodass stets die neusten und aktuellsten Informa
 Die Webseite ist so aufgebaut, dass sofern ein weitere Sensor implementiert werden sollte, 
 der Code mit leichtigkeid erweiter werden kann und es zu keinen weiteren Schwierigkeiten kommen kann.  
 
+\subsection{Webseite - Startseite}
+\label{subsubsec:Webseite_Startseite}
+
+\begin{figure}[H]
+  \includegraphics[width=\textwidth, center]{img/Webseite_Startseite.png}
+  \caption{Webseite - Startseite}
+  \label{fig:Webseite_Startseite}
+\end{figure}
+
+Zu sehen ist die fertige Startseite der Diplomarbeitsgruppe ``SwarmBots''. 
+Die Umsetzung der Benutzeroberfläche erfolgt unter Verwendung von CSS im Hauptmodul ``SwarmBotsApp.vue''.
+%
+Das Hauptmodul ``SwarmBotsApp.vue'' beinhaltete ursprünglich alle Komponenten, wurde jedoch im Laufe des Projektes
+auf den derzeitigen Stand aufgeteilt um einen bessern Überblick zu gewährleisten.
+%
+Das Hauptmodul dient derzeitig nur für die Formatierung der Startseite, die auslesung, verarbeitung 
+sowie Veranschaulichung der Sensordaten werden in den einzelnen Komponenten erledigt. 
+%
+Die Startseite bietet dem Nutzer einen übersichtlichen Einstieg in das Projekt. Sie stellt die Mitglieder des Teams
+sowie den zuständigen Betreuer vor und vermittelt einen ersten Eindruck der Diplomarbeit. \\
+% 
+Die Startseite erfüllt zwei wichtige Punkte: Der erste, sie soll dem Nutzer als Informationsquelle der 
+Diplomarbeit dienen sowie über ihrer Gruppenmitglieder und ihrem Betreuer. 
+Der zweite wesentliche Punkt der Startseite ist es die Navigationslinks anzuzeigen um zu den 
+gesammelten Sensordaten zu kommen. 
+
+\subsection{Webseite - Daten}
+\label{subsubsec:Webseite_Daten}
+
+\begin{figure}[H]
+  \includegraphics[width=\textwidth, center]{img/Webseite_Daten.png}
+  \caption{Webseite - Daten}
+  \label{fig:Webseite_Daten}
+\end{figure}
+
+Dieser Teil der Webseite ist für die Darstellung sämtlicher emfpangener Daten verantwortlich.
+Die empfangenen Daten der Sensoren werden grafisch visualisiert und dem Nutzer in beschrifteten Diagrammen dargestellt. 
+%
+Zusätzlich neben der vielen gesammelten Sensordaten, wurde ein Websocket integriert, 
+der eine zweiseitge Kommunikation mit dem Server ermöglicht. 
+%
+Die bereitstehende Websocket verbindung dient zur schriftlichen Kommunikation mit dem Server bei etwaigen problemen.
+%
+Dieser Abschnitt der Webseite ist Aufgrund der Datenvisualisierung der wichtigste im Bereich des Frontends.
+
 \section{LiDAR-Karte}
 \label{subsec:frontend_lidar_map}
-Die LiDAR-Karte wird mithilfe von Vue.js auf dem Frontend,
-der Webseite,
-generiert und soll Hindernisse wie Wände,
-Säulen oder auch Menschen mit farbigen Punkten anzeigen.
+Die LiDAR-Karte wird im Frontend mithilfe von Vue.js generiert und in stetig aktualisert. 
+Die Karte dient der Darstellung von Hindernissen in der Umgebung und zeigt Objekte wie Wände, 
+Säulen oder auch Personen in Form von Punktwolken an. 
 %
-Hierbei gibt es aber keine Klassifikation des Hindernistyps,
-abgesehen von der Erkennung von Tamerlan und Bambi.
+Der LiDAR-Sensor bietet leider keine detaillierte Darstellung der Punktwolke, 
+weshalb das Herauslesen unterschiedlicher Hindernisse in manchen Fällen zu Schwierigkeiten führt. 
 %
-Neben der verschiedenen Hindernisse,
-die auf der Karte einzusehen sind,
-sollen auch die Position der Roboter markiert werden.
+Die Karte soll außerdem zwischen einem Hinderniss sowie den Robotern ``Tamerlan'' und ``Bambi'' 
+unterscheiden und diese Hervorheben. 
+%
+Jedoch sollen nicht nur Hindernisse grafisch dargestellt werden, 
+sondern auch die aktuellen Positionen der SwarmBots.
+%
+Das auslesen der Position der SwarmBots ermgöglicht dem Nutzer mögliche Probleme zu erkennen, 
+z.B. wenn die SwarmBots probleme beim erkennen einiger Objekte haben sollten.  
 
 \begin{figure}[H]
     \includegraphics[width=0.7\textwidth, center]{img/LiDARMessungZeichnung_alt.png}
@@ -106,8 +155,6 @@ und ist leicht zu interpretieren.
 Die unterschiedlichen Laserimpulse,
 welche gesendet werden,
 reflektieren an der Oberfläche und werden gemessen.
-% TODO @Arthur was hast du da gemeint???
-Nicht nur ist die Entfernung, sondern auch die Tiefenwahrnehmung somit feststellbar.
 
 Zur einfacheren Interpretation des Beispiels
 wurden von Herrn Burjak Bereiche eingezeichnet:
@@ -187,14 +234,55 @@ vor potentiellen Gefahrensituation zu Retten.
 
 \section{Frontend - Code}
 \label{subsec:frontend_Code}
-Dieses Kapitel wird sich hauptsächlich mit der Beschreibung der unterschiedlichen Module des
-Frontend-Codes beschäftigen. Der beschrieben Code wird mit der Methode ``4+1 architectual view model'' beschrieben.
+In diesem Kapitel wird sich hauptsächlich auf die Beschreibung der verschiedenen Module des
+Frontend-Codes konzentriert. Die Struktur und Funktionalität werden mit der \texttt{``4+1 architectural view model''} beschrieben.
 %
-Diese Methode wird bei Softwarelastigen Projekten verwendet,
-um den Code auf verschieden Art und weisen zu beschreiben. 
+Diese Methode wird häufig bei Softwarelastigen Projekten eingesetzt, um komplexe Systeme aus unterschiedlichen
+Perspektiven verständlich darzustellen.
+Das 4+1 architectural view model kombiniert die fünf Sichten:
+\begin{itemize}
+  \item Logische Sichte
+  \item Entwicklungssicht
+  \item Prozesssicht
+  \item Physische Sicht
+  \item Szenarien
+\end{itemize} 
+Der Einsatz des Modells hilft bei der Beschreibung Frontend-Codes. 
+Dabei wird der Code nicht nur auf seine technische Umsetzung beschreiben,
+sondern auch auf seine Funktion im Gesamtsystem 
+sowie seiner Abhängigkeit und interaktion mit anderen Komponenten des Projektes.
 
 \subsection{websocket.vue}
 \label{subsec:frontend_websocket.vue}
+
+\begin{enumerate}
+  \item \texttt{Logische Sicht:} \\
+  In der logischen Sicht des 4+1 architectural view models ist das Websocket eine esenzielle Komponente.
+  Diese Komponente übernimmt die Kommunikation mit dem Server und verarbeitet die empfangenen Daten.
+  Die Komponente deserialisiert diese Daten wodurch sie lesbar werden. Nach der Verarbeitung werden die Daten an 
+  eine weitere Komponente (charts.vue) gesendet um grafisch dargestellt werden zu können.
+  \item \texttt{Entwicklungssicht:} \\
+  Aus der Entwicklersicht ist die Komponente ziemlich Fortschrittlich.
+  Es wird eine aktuelle Version von Vue verwendet (3.5.13), sowie die neuere Composition-API in Kombination mit TypeScript.
+  Dadurch das die vielzahl an Komponenten alle aufgeteilt worden sind,
+  ist die Fehlersuche sowie die potenzielle Erweiterung des Codes leicht.
+  \item \texttt{Prozesssicht:} \\
+  Die Kommunikation erfoglt hauptsächlich Eventgesteuert. 
+  Beim Eintreffen neuer Daten vom Server, erscheinen sie direkt auf der Grafik, 
+  welche dann unter dem Navigationslink ``Daten'' einzusehen sind. 
+  Das Empfangen der Daten erfolgt in Echtzeit, so dass die Seite nicht neugeladen werden muss, 
+  außerdem werden alte Daten aus der Grafik entfernt und durch neue ersetzt.
+  \item \texttt{Physische Sicht:} \\
+  Die Webseite welche mittels dem Vue-Framework geschrieben worden ist läuft nur im Browser.
+  Die notwendigen Server- oder Websocket Verbindungen werden automatisch beim Start der Webseite ausgeführt.
+  \item \texttt{Szenarien:} \\
+  Beispielsweise könnte ein Nutzer, welcher sich die neu gesammelten Daten der Roboter anschauen möchte auf die Webseite begeben.
+  Der Nutzer würde die Webseite nur öffnen müssen, die Serververbindung wird sofort hergestellt.
+  Um die Daten nun einsehen zu können, ist es nur notwendig über die Navigationsleiste auf den Reiter ``Daten'' zu klicken.
+  Auf dem Reiter Daten werden alle empfangenen Sensordaten der unterschiedlichen Roboter grafisch erfasst.
+  Mit diesen Daten kann der Nutzer die Aktivität der SwarmBots feststellen, 
+  ohne sich bei einem Mitarbeiter melden zu müssen.
+\end{enumerate}
 
 \section{Webseitenprobleme}
 \label{subsec:problem_Webseite}
@@ -229,5 +317,5 @@ Der Fehler lag, daran, dass die neuen generierten Files das "google-Protobuf" Pa
     ...
   }
 \end{lstlisting}
-Dies war leicht zu beheben mit dem Befehl:\\ \textbf{npm install -D @types/google-protobuf} \\ wurden die Packete schnell
+Dies war leicht zu beheben mit dem Befehl:\\ \texttt{npm install -D @types/google-protobuf} \\ wurden die Packete schnell
 heruntergeladen.
