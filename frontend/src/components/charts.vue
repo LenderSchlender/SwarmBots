@@ -27,7 +27,7 @@ export default {
       },
       series: [{
         name: 'series-1',
-        data: [pulses]
+        data: [pulses] // Beispielwerte [0,2,5,2,1,3,4]
       }]
     }
   },
