@@ -377,7 +377,43 @@ welche vom Server an die Roboter gesendet wird.
 TODO mehr Beschreibung 
 
 \subsection{Interfaces}
-TODO
+Interfaces stellen eine Netzwerkverbindung zur Außenwelt dar.
+%
+\subsubsection{WiFiConnection}
+Dieses Modul ist zuständig für die Steuerung der WLAN-Verbindung
+mit dem \texttt{IoT}-Netzwerk der HTL Ettenreichgasse.
+%
+Im Konstruktor des Moduls wird es mit dem erwünschtem Hostnamen des Geräts
+und den Details zur Verbindung mit dem WLAN-Netzwerk (SSID/Passwort) versorgt.
+%
+Bei Initialisierung des Moduls wird die private Funktion \texttt{attemptConnection()} aufgerufen,
+welche alle Schritte zur Verbindung mit dem gegebenem Netzwerk erledigt.
+%
+Hierbei wird zu Debugging-Zwecken eine Liste aller verfügbaren Netzwerke über die UART ausgegeben.
+%
+Bei erfolgreicher Verbindung mit einem Netzwerk wird außerdem die eigene IP-Adresse über die UART ausgegeben. 
+
+\subsubsection{WebSocketControls}
+Die WebSocketControls dienen als Wrapper zur \texttt{ESPAsyncWebServer}-Bibliothek,
+mit welcher auf Port 80 ein asynchroner Webserver zur Verfügung gestellt wird,
+welcher unter dem Pfad \texttt{/ws} Websocket-Verbindungen nach RFC6455\cite{rfc6455} akzeptiert.
+%
+Sobald sich ein Client mit dem WS-Server verbindet,
+können mittels Callback-Funktionen Befehle empfangen werden.
+%
+Mittels der Funktion \texttt{WebSocketControls::send(Wrapper *message)} können Daten an den Client gesendet werden.
+%
+Ein Client wäre in diesem Anwendungsfall der zentrale Server, welche die Roboter kontrolliert.
+%
+Hier ist die Terminologie leider etwas verwirrend.
+%
+Theoretisch wäre es möglich,
+die Roboter als Clients agieren zu lassen,
+was aber den nachteil hätte,
+das die URL des Servers zum Zeitpunkt des Kompilieren bekannt sein müsste.
+%
+Stattdessen muss der Server (welcher als WS-Client agiert) nur die aktuelle IP-Adressen der Clients wissen,
+welche man leicht bzw. schnell in der Konfiguration des Servers ändern kann.
 
 \subsection{Hilfsklassen}
 Der Robota-Framework stellt zwei Hilfsklassen (engl. ``Utilities''/``Utils'') zur Verfügung:
@@ -413,7 +449,7 @@ Im Kontext der Tumbller werden PID-Regler an zwei Stellen eingesetzt:
 
 \section{Guide}
 \label{subsec:software_guide}
-Die Software von \textit{Guide} ist in diesem Projekt in dem Sinne einzigartig,
+Die Software von Guide ist in diesem Projekt in dem Sinne einzigartig,
 dass,
 zusätzlich zur Steuerung des Roboters selber,
 die gemessen LiDAR-Werte empfangen,
@@ -430,8 +466,11 @@ Messwerte werden an den Server weitergeleitet.
 Da auch die Aufbereitung der LiDAR-Daten bereits in der Core-Bibliothek realisiert wurde,
 ist die Software für den Guide ebenso wie bei den anderen Robotern größtenteils Plug\&Play.
 
-\section{Tamerlan}
+\section{Tamerlan \& Bambi}
 \label{subsec:software_tamerlan}
-
-\section{Bambi}
-\label{subsec:software_bambi}
+Da Tamerlan und Bambi über identische Hardware verfügen,
+ist auch deren Code fast gleich:
+%
+Der einzige Unterschied besteht im Hostnamen, welcher für die WLAN-Verbindung gesetzt wird:
+%
+Bei Tamerlan lautet dieser \texttt{sb-tame}, bei Bambi \texttt{sb-bambi}.
