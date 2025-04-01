@@ -25,27 +25,19 @@ haben wir die mitgelieferten Arduino Nano durch ESP32-Boards im Arduino Nano-For
     \label{fig:elegoo_tumbller}
 \end{figure}
 
-Der unmodifizierte Elegoo Tumbler besteht aus einem Arduino Nano der zur Steuerung des gesamten Roboters verwendet wird. 
-Einem MPU6050 (Gyroskop- \& Beschleunigungssensor), der zur Erkennung der Achsen und Bewegungen verwendet wird (balancieren). 
-Des Weiteren hat er auch zwei Gleichstrommotoren mit Hall-Encodern zur Messung der Raddrehung, diese Motoren werden mit dem TB6612FNG Motortreiber gesteuert. 
-Zudem verfügt der Elegoo Tumbler über ein HC-06 Bluetooth-Modul, das zur Kommunikation mit dem Smartphone verwendet wird. Mithilfe des SR04 Ultraschallsensor ist der Roboter in der Lage, 
-Abstände zu messen, was es ihm ermöglicht, Hindernisse zu erkennen und zu umgehen.  
-Zudem besitzt der Tumbler Infrarot-Sensoren (IR204C-A und IRM-56384), die es ihm ermöglichen, Hindernisse und Linien zu erkennen oder zu verfolgen. 
-Durch den AMS1117 3.3V Spannungswandler wird die Spannung von dem Li-Ion-Akku, der als Hauptstromversorgung dient, heruntergestuft, 
-sodass sie auch für das Bluetooth-Modul und die Sensoren verwendbar ist. Des Weiteren ist der Elegoo Tumbler mit mehreren Modi ausgestattet. 
-Diese kann man entweder über die App oder direkt am Roboter über einen Taster steuern, zur Visualisierung der Modi hat der Elegoo Tumbler mehrere LEDs eingebaut.
+Wie in Abbildung \ref{fig:elegoo_tumbller} zu sehen ist, besteht der unmodifizierte Elegoo Tumbler aus einem Arduino Nano der zur Steuerung des gesamten Roboters verwendet wird. Einem MPU6050 (Gyroskop- \& Beschleunigungssensor), der zur Erkennung der Achsen und Bewegungen verwendet wird (balancieren). Des Weiteren hat er auch zwei Gleichstrommotoren mit Hall-Encodern zur Messung der Raddrehung, diese Motoren werden mit dem TB6612FNG Motortreiber gesteuert. Zudem verfügt der Elegoo Tumbler über ein HC-06 Bluetooth-Modul, das zur Kommunikation mit dem Smartphone verwendet wird. Mithilfe des SR04 Ultraschallsensor ist der Roboter in der Lage, Abstände zu messen, was es ihm ermöglicht, Hindernisse zu erkennen und zu umgehen. Zudem besitzt der Tumbler Infrarot-Sensoren (IR204C-A und IRM-56384), die es ihm ermöglichen, Hindernisse und Linien zu erkennen oder zu verfolgen. Durch den AMS1117 3.3V Spannungswandler wird die Spannung von dem Li-Ion-Akku, der als Hauptstromversorgung dient, heruntergestuft, sodass sie auch für das Bluetooth-Modul und die Sensoren verwendbar ist. Des Weiteren ist der Elegoo Tumbler mit mehreren Modi ausgestattet. Diese kann man entweder über die App oder direkt am Roboter über einen Taster steuern, zur Visualisierung der Modi hat der Elegoo Tumbler mehrere LEDs eingebaut.
 \section{Subkomponenten}
 \label{subsec:subkomponenten}
 %
 \subsection{PCB}
 %
 \subsubsection{Allgemein}
-Die PCB (Printed Circuit Board) im originalen Elegoo Tumbller ist eine fertig entwickelte Leiterplatte, auf der alle elektronischen Bauteile des Roboters angeschlossen werden können.
-Sie ist das zentrale Verbindungselement zwischen Sensoren, Motoren, Mikrocontroller und Stromversorgung.
-Alle Bauteile müssen nur noch in die vorgefertigten Stecker und Buchsen eingesteckt werden. Dadurch ist der Aufbau des Roboters sehr einfach und es sind keine aufwändigen Lötarbeiten notwendig.
+ie PCB (Printed Circuit Board) im originalen Elegoo Tumbller ist eine fertig entwickelte Leiterplatte, wie in Abbildung \ref{fig:elegoo_tumbller_original_circuit} zu sehen ist.
+Auf dieser Leiterplatte sind alle elektronischen Bauteile des Roboters miteinander verbunden.
+Alle Komponenten müssen nur noch in die vorgesehenen Stecker gesteckt werden.
 \subsubsection{Technische Umsetzung}
-Die Leiterplatte besteht aus mehreren Leiterbahnen (Kupferstreifen), die die elektrische Verbindung zwischen den Bauteilen herstellen.
-Die PCB enthält unter anderem:
+Die Leiterplatte (PCB) im originalen Elegoo Tumbller besteht aus mehreren Leiterbahnen. Diese Leiterbahnen sind feine Kupferstreifen, die dafür sorgen, dass alle elektronischen Bauteile miteinander verbunden sind.
+Auf der PCB befinden sich alle wichtigen Anschlüsse und Lötpunkte, die für den Betrieb des Roboters notwendig sind. Dazu gehören:
 \begin{itemize}
     \item Steckplätze für den Arduino Nano
     \item Anschlussbuchsen für die beiden Motoren
@@ -57,17 +49,15 @@ Die PCB enthält unter anderem:
     \item Anschluss für den AMS1117 Spannungsregler
 \end{itemize}
 
-Außerdem sind die Leiterbahnen so angeordnet, dass die Stromversorgung über die PCB zu allen Bauteilen geführt wird.
-Die PCB hat ebenfalls Lötpunkte für die Motorsteuerung (TB6612FNG Motortreiber), der direkt auf der Platine verlötet ist.
+Die Leiterbahnen sind so angeordnet, dass der Strom von der Stromquelle zu allen Bauteilen auf der Platine verteilt wird.
+Außerdem hat die PCB eigene Lötpunkte für die Motorsteuerung. Der TB6612FNG Motortreiber ist direkt auf der Platine verlötet und sorgt dafür, dass die beiden Motoren in beide Richtungen gesteuert werden können.
 \subsubsection{Vorteile}
-Die originale PCB im Elegoo Tumbller hat mehrere Vorteile: 
-\begin{itemize}
-    \item Einfacher Aufbau → Alle Komponenten können einfach eingesteckt werden
-    \item Ordentliche Verkabelung → Keine losen Kabel
-    \item Platzsparend und kompakt → Alles ist auf einer Platine montiert
-    \item Stabile Verbindung → Weniger Wackelkontakte
-    \item LEDs zur Anzeige des Betriebszustands  
-\end{itemize}
+Die originale PCB im Elegoo Tumbller bringt mehrere Vorteile mit sich.
+Durch die fertig entwickelte Platine können alle Bauteile einfach angeschlossen werden, ohne dass zusätzliche Kabel verlötet werden müssen.
+Dadurch bleibt der Aufbau übersichtlich und ordentlich.
+Die PCB ist kompakt aufgebaut, wodurch der Platz im Roboter optimal genutzt wird.
+Zusätzlich sind auf der Platine LEDs vorhanden, die den aktuellen Betriebszustand anzeigen.
+Da alle Verbindungen direkt auf der Leiterplatte verlaufen, gibt es weniger Wackelkontakte oder lockere Verbindungen.
 
 \subsubsection{Einschränkungen}
 
@@ -87,11 +77,13 @@ Siehe Abbildung \ref{fig:elegoo_tumbller_original_circuit} auf Seite \pageref{fi
 \subsection{MPU6050 (Gyroskop- \& Beschleunigungssensor)}
 %
 \subsubsection{Allgemein}
-Der MPU6050 ist ein 6-Achsen-Sensor, der aus einem Drehratensensor (Gyroskop, welcher Drehbewegungen in 3 Achsen) und 
-einem Beschleunigungssensor (Accelerometer, welcher lineare Beschleunigungen in 3 Achsen misst).
+Der MPU6050 ist ein 6-Achsen-Sensor, der aus einem Drehratensensor (Gyroskop, welcher Drehbewegungen in 3 Achsen) und einem Beschleunigungssensor (Accelerometer, welcher lineare Beschleunigungen in 3 Achsen misst), wie in Abbildung \ref{fig:mpu6050} zu sehen ist.
 \subsubsection{Technische Daten}
 \begin{figure}[H]
-    \includegraphics[width=0.7\textwidth, center]{img/Hardware/MPU6050.png}
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/Hardware/MPU6050.png}
+    \caption{MPU6050 Gyroskop- und Beschleunigungssensor}
+    \label{fig:mpu6050}
 \end{figure}
 Als Betriebsspannung verwendet der MPU6050 2,3V bis 3,4V, als Kommunikationsprotokoll verwendet er I2C oder SPI (I2C Standard: 0x68 Adresse). 
 Der Messbereich des Gyroskops und Accelerometers kann konfiguriert werden (Gyroskop:  ±250, ±500, ±1000, ±2000 °/s, Accelerometer: ±2g, ±4g, ±8g, ±16g), 
@@ -106,11 +98,13 @@ Zudem reagiert der MPU6050 empfindlich auf Vibrationen, wodurch Messfehler entst
 \subsection{TB6612FNG (Motortreiber)}
 %
 \subsubsection{Allgemein}
-Der TB6612FNG ist ein Dual-H-Brücke-Motortreiber, welcher verwendet wird, um einen Schrittmotor oder zwei Gleichstrommotoren wie beim Tumbler zu steuern. 
-Der Motortreiber ermöglicht es, Gleichstrommotoren in zwei Richtungen zu betreiben.
+Der TB6612FNG ist ein Dual-H-Brücke-Motortreiber, welcher verwendet wird, um einen Schrittmotor oder zwei Gleichstrommotoren wie beim Tumbler zu steuern. Der Motortreiber ermöglicht es, Gleichstrommotoren in zwei Richtungen zu betreiben, wie in Abbildung \ref{fig:motortreiber} dargestellt.
 \subsubsection{Technische Daten}
 \begin{figure}[H]
-    \includegraphics[width=0.3\textwidth, center]{img/Hardware/Motortreiber.png}
+    \centering
+    \includegraphics[width=0.3\textwidth]{img/Hardware/Motortreiber.png}
+    \caption{TB6612FNG Motortreiber}
+    \label{fig:motortreiber}
 \end{figure}
 Als Versorgungsspannung für Motoren kann der TB6612FNG 2,5V bis 13,5V ausgeben, für die Logik ist die Versorgungsspannung 2,7V bis 5,5V. 
 Der maximale Ausgangsstrom ist 1,2 A (kontinuierlich), 3 A (kurzzeitig pro Kanal), er besitzt 2 Kanäle und als Steuersignal verwendet er PWM (Pulsweitenmodulation) und Richtungssignale. 
@@ -141,11 +135,13 @@ Der PWMA/PWMB sorg dafür, dass sich die Geschwindigkeit ändert.
 \subsection{AMS1117 (3.3V Spannungsregler)}
 %
 \subsubsection{Allgemein}
-Der AMS1117 ist ein linearer Spannungsregler, der aus einer höhere Eingangsspannung eine stabile kleinere Ausgansspannung (3,3V) macht. 
-Im Elegoo Tumbller wird er verwendet, um die Spannung auf 3,3 Volt zu reduzieren. Diese Spannung brauchen einige Bauteile, wie zum Beispiel das Bluetooth-Modul, damit sie nicht kaputtgehen.
+Der AMS1117 ist ein linearer Spannungsregler, der aus einer höhere Eingangsspannung eine stabile kleinere Ausgansspannung (3,3V) macht. Im Elegoo Tumbller wird er verwendet, um die Spannung auf 3,3 Volt zu reduzieren. Diese Spannung brauchen einige Bauteile, wie zum Beispiel das Bluetooth-Modul, damit sie nicht kaputtgehen. Wie in Abbildung \ref{fig:ams1117} dargestellt, ist der Spannungsregler direkt auf der Platine integriert.
 \subsubsection{Technische Daten}
 \begin{figure}[H]
-    \includegraphics[width=0.6\textwidth, center]{img/Hardware/AMS1117.png}
+    \centering
+    \includegraphics[width=0.6\textwidth]{img/Hardware/AMS1117.png}
+    \caption{AMS1117 Spannungsregler}
+    \label{fig:ams1117}
 \end{figure}
 Der Spannungsregler kann mit 4,5V bis 15V betrieben werden, er hat eine fixe Ausgansspannung von 3,3V und kann maximal 1A Ausgangstrom liefern (mit einer Kühlung), 
 die Drop-out Spannung beträgt 1,1V (bei 1A). der Integrierte Schutz schütz vor Übertemperatur und Kurzschlüssen.
@@ -153,11 +149,13 @@ die Drop-out Spannung beträgt 1,1V (bei 1A). der Integrierte Schutz schütz vor
 \subsection{HC-06 (Bluetooth Modul)}
 %
 \subsubsection{Allgemein}
-Das HC-06 ist ein Bluetooth Modul der es ermöglicht über eine kurze Distanz ohne Kabel daten zu übertragen. 
-(Bluetooth ist eine Funktechnik, die Daten über kurze Distanzen per Funkwellen im 2,4-GHz-Band überträgt und dabei eine serielle, kabellose Verbindung zwischen zwei Geräten herstellt.)
+Das HC-06 ist ein Bluetooth Modul der es ermöglicht über eine kurze Distanz ohne Kabel daten zu übertragen. (Bluetooth ist eine Funktechnik, die Daten über kurze Distanzen per Funkwellen im 2,4-GHz-Band überträgt und dabei eine serielle, kabellose Verbindung zwischen zwei Geräten herstellt.) Wie in Abbildung \ref{fig:hc06} zu sehen ist, ist das Modul sehr kompakt aufgebaut.
 \subsubsection{Technische Daten}
 \begin{figure}[H]
-    \includegraphics[width=0.6\textwidth, center]{img/Hardware/hc06.png}
+    \centering
+    \includegraphics[width=0.6\textwidth]{img/Hardware/hc06.png}
+    \caption{HC-06 Bluetooth-Modul}
+    \label{fig:hc06}
 \end{figure}
 Das Bluetooth Modul wird mit einer Betriebsspannung von 3,3V betrieben als Kommunikationsmetode verwendet es UART 
 (UART (Universal Asynchronous Receiver Transmitter) ist eine serielle Schnittstelle, die Daten bitweise und ohne Taktsignal zwischen zwei Geräten über nur zwei Leitungen (TX und RX) überträgt.).  
@@ -179,10 +177,13 @@ Durch die veraltete Bluetooth-Version ist nur eine niedrigere Datenrate möglich
 \subsection{Arduino Nano (Microcontroller)}
 %
 \subsubsection{Allgemein}
-Der Arduino Nano ist einer der kleineren (ca. 18 x 45 mm) uC (Mikrocontroller), dieser wurde verwendet, um alle elektronischen Bauteile im Tumbler zu steuern.
+Der Arduino Nano ist einer der kleineren (ca. 18 x 45 mm) uC (Mikrocontroller), dieser wurde verwendet, um alle elektronischen Bauteile im Tumbler zu steuern. Wie in Abbildung \ref{fig:arduino_nano} zu sehen ist, wird der Arduino Nano direkt auf der PCB eingesteckt und bildet die zentrale Steuerungseinheit des Roboters.
 \subsubsection{Technische Daten}
 \begin{figure}[H]
-    \includegraphics[width=1\textwidth, center]{img/Hardware/arduino_nano.png}
+    \centering
+    \includegraphics[width=1\textwidth]{img/Hardware/arduino_nano.png}
+    \caption{Arduino Nano Mikrocontroller}
+    \label{fig:arduino_nano}
 \end{figure}
 Der Arduino Nano hat einen ATmega328P als Prozessor und eine Taktfrequenz von 16MHz. Die Betriebsspannung beträgt 5V (Versorgungspannung über den Pin VIN 7V bis 12V). 
 er besitz 14 Digitale i/O Pins (Input/Output), wobeit 6 davon PWM fähig sind. Zudem besitz er 8 Analoge Pins und einen Flash-Speicher von 32KB (davon 2 KB für Bootloader). 
@@ -206,11 +207,13 @@ was es nur ermöglicht ihn  über Kabel oder Bluetooth zu verwenden.
 \subsection{SR04 (Ultraschallsensor)}
 %
 \subsubsection{Allgemein}
-Der SR04 ist ein Ultraschallsensor, der verwendet wird, um den Abstand zu Objekten zu messen. 
-Er sendet einen Ultraschallton aus, dieser wird von einem Hindernis reflektiert, und der Sensor misst die Zeit, bis das Echo zurückkommt.
+Der SR04 ist ein Ultraschallsensor, der verwendet wird, um den Abstand zu Objekten zu messen. Er sendet einen Ultraschallton aus, dieser wird von einem Hindernis reflektiert, und der Sensor misst die Zeit, bis das Echo zurückkommt, wie in Abbildung \ref{fig:sr04} dargestellt.
 \subsubsection{Technische Daten}
 \begin{figure}[H]
-    \includegraphics[width=0.7\textwidth, center]{img/Hardware/sr04.png}
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/Hardware/sr04.png}
+    \caption{SR04 Ultraschallsensor}
+    \label{fig:sr04}
 \end{figure}
 Der SR04 hat eine Betriebsspannung von 5V und eine Stromaufnahme von ca. 15mA. 
 Zudem hat er einen Messbereich von 2cm bis 400cm und eine Genauigkeit von ca. ±3 mm. 
@@ -229,11 +232,13 @@ Zudem kann er bei Objekten unter 2cm Entführung keine Messung machen.
 \subsection{Infrarot-Sensoren (IR204C-A \& IRM-56384)}
 %
 \subsubsection{Allgemein}
-Die Infrarot-Sensoren IR204C-A und IRM-56384 werden im Elegoo Tumbller verwendet, um Hindernisse und Linien zu erkennen.
-Sie funktionieren mit unsichtbarem Infrarotlicht (kurz: IR) und arbeiten nach dem Reflexionsprinzip.
+Die Infrarot-Sensoren IR204C-A und IRM-56384 werden im Elegoo Tumbller verwendet, um Hindernisse und Linien zu erkennen. Sie funktionieren mit unsichtbarem Infrarotlicht (kurz: IR) und arbeiten nach dem Reflexionsprinzip, wie in Abbildung \ref{fig:infrarot_sensoren} zu sehen ist.
 \subsubsection{Technische Daten}
 \begin{figure}[H]
-    \includegraphics[width=0.4\textwidth, center]{img/Hardware/Infrarot_Sensor.png}
+    \centering
+    \includegraphics[width=0.4\textwidth]{img/Hardware/Infrarot_Sensor.png}
+    \caption{Infrarot-Sensoren IR204C-A und IRM-56384}
+    \label{fig:infrarot_sensoren}
 \end{figure}
 Die Infrarot Sensoren arbeiten mit einer Betriebspannung von 5V und bestehen aus einer Infrarot-LED (LED, welche Infrarot Licht ausstrahlt) und 
 einem Fototransistor (Transistor, welcher auf Licht reagiert). 
@@ -252,12 +257,14 @@ Schwarze oder matte Flächen schlechter reflektieren.
 \subsection{Gleichstrommotoren (TT130 DC Motor mit 1:48 Getriebe)}
 %
 \subsubsection{Allgemein}
-Im Elegoo Tumbller werden zwei kleine Gleichstrommotoren (DC-Motoren) verwendet.
-Diese Motoren sind dafür verantwortlich, die beiden Räder des Roboters anzutreiben.
-Ein Gleichstrommotor wandelt elektrische Energie in mechanische Bewegung um – also in eine Drehbewegung.
+Im Elegoo Tumbller werden zwei kleine Gleichstrommotoren (DC-Motoren) verwendet. Diese Motoren sind dafür verantwortlich, die beiden Räder des Roboters anzutreiben. Ein Gleichstrommotor wandelt elektrische Energie in mechanische Bewegung um – also in eine Drehbewegung. In Abbildung \ref{fig:gleichstrommotor} ist der verwendete Motor zu sehen.
+
 \subsubsection{Technische Daten}
 \begin{figure}[H]
-    \includegraphics[width=1\textwidth, center]{img/Hardware/gleichstrommotor.png}
+    \centering
+    \includegraphics[width=1\textwidth]{img/Hardware/gleichstrommotor.png}
+    \caption{TT130 DC Motor mit Getriebe}
+    \label{fig:gleichstrommotor}
 \end{figure}
 Die Gleichstrommotoren haben eine Betriebsspannung von 6V bis 12V und einen Nennstrom von ca. 200mA und sind Bürsten-Gleichstrommotor. 
 (Ein Bürsten-Gleichstrommotor ist ein Motor, der mithilfe von kleinen Bürsten Strom bekommt und sich dadurch dreht) Die Drehzahl beträgt ca. 300 Umdrehungen pro Minute (RPM). 
@@ -272,12 +279,14 @@ Die Geschwindigkeit wird durch PWM-Signale (Pulsweitenmodulation) geregelt, die 
 \subsection{Encoder}
 %
 \subsubsection{Allgemein}
-Die Encoder im Elegoo Tumbller sind in den Motoren eingebaut und dienen dazu, die Drehbewegung der Räder zu messen.
-Ein Encoder ist ein kleiner Sensor, der erkennt, wie weit und wie schnell sich ein Rad dreht. 
-Damit kann der Roboter berechnen, wie viel Strecke er zurückgelegt hat oder wie stark sich das Rad gedreht hat – das ist wichtig für die Stabilität, Steuerung und Navigation.
+Die Encoder im Elegoo Tumbller sind in den Motoren eingebaut und dienen dazu, die Drehbewegung der Räder zu messen. Ein Encoder ist ein kleiner Sensor, der erkennt, wie weit und wie schnell sich ein Rad dreht. Damit kann der Roboter berechnen, wie viel Strecke er zurückgelegt hat oder wie stark sich das Rad gedreht hat – das ist wichtig für die Stabilität, Steuerung und Navigation. In Abbildung \ref{fig:encoder} ist der Encoder dargestellt.
+
 \subsubsection{Technische Daten}
 \begin{figure}[H]
-    \includegraphics[width=0.6\textwidth, center]{img/Hardware/encoder.png}
+    \centering
+    \includegraphics[width=0.6\textwidth]{img/Hardware/encoder.png}
+    \caption{Encoder zur Drehzahlmessung}
+    \label{fig:encoder}
 \end{figure}
 Die Encoder sind Magnetische Inkremental-Encoder sie arbeiten mit Digitalen Impulssiganlen und haben eine Impulszahl von ungefähr 11 Impulsen pro Rad-Umdrehung. 
 Sie werden mit 5V betrieben und sind direkt am Motor befestigt. 
@@ -300,33 +309,40 @@ Der Akku besitz je 2 Zellen in Serie (2S) mit je Zelle ca. 3,7V, die Kapazität 
 
 \section{Modifikationen}
 \label{subsec:hardware_modifikationen}
+
 Für das SwarmBots-Projekt mussten die originalen Elegoo Tumbller Roboter technisch verändert werden, damit sie als Schwarm zusammenarbeiten können und über WLAN steuerbar sind.
+
 \subsubsection{Austausch des Mikrocontrollers}
-Im originalen Tumbller wurde ein Arduino Nano verwendet, der jedoch nur Bluetooth-Kommunikation unterstützt.
-Für unser Projekt war das nicht ausreichend, weil wir die Roboter über WLAN steuern wollten.
-Deshalb haben wir die Arduino Nano durch ESP32-Boards im Nano-Format ersetzt.
-Das ESP32-Board besitzt ein integriertes WLAN-Modul und mehr Rechenleistung.
+Im originalen Tumbller wurde ein Arduino Nano verwendet, der jedoch nur Bluetooth-Kommunikation unterstützt. Für unser Projekt war das nicht ausreichend, weil wir die Roboter über WLAN steuern wollten. Deshalb haben wir die Arduino Nano durch ESP32-Boards im Nano-Format ersetzt. Das ESP32-Board besitzt ein integriertes WLAN-Modul und mehr Rechenleistung. In Abbildung \ref{fig:nanoesp32} ist das verbaute ESP32-Board zu sehen.
+
 \begin{figure}[H]
-    \includegraphics[width=0.6\textwidth, center]{img/Hardware/nanoesp32.png}
+    \centering
+    \includegraphics[width=0.6\textwidth]{img/Hardware/nanoesp32.png}
+    \caption{ESP32-Board im Nano-Format}
+    \label{fig:nanoesp32}
 \end{figure}
+
 \subsubsection{Entfernung des Bluetooth-Moduls}
-Da wir die Kommunikation über WLAN umgestellt haben, wurde das HC-06 Bluetooth-Modul aus allen Robotern entfernt.
-Die Steuerung per Smartphone-App war dadurch nicht mehr notwendig.
+Da wir die Kommunikation über WLAN umgestellt haben, wurde das HC-06 Bluetooth-Modul aus allen Robotern entfernt. Die Steuerung per Smartphone-App war dadurch nicht mehr notwendig.
+
 \subsubsection{Anpassung der Stromversorgung}
-Für die neuen Module (vor allem den LiDAR-Sensor beim Guide-Roboter) musste die Stromversorgung angepasst werden.
-Dafür haben wir einen zusätzlichen Step-Down-Konverter eingebaut, um eine sichere 5V-Spannung für den Sensor bereitzustellen.
+Für die neuen Module (vor allem den LiDAR-Sensor beim Guide-Roboter) musste die Stromversorgung angepasst werden. Dafür haben wir einen zusätzlichen Step-Down-Konverter eingebaut, um eine sichere 5V-Spannung für den Sensor bereitzustellen. Der verbaute Step-Down-Konverter ist in Abbildung \ref{fig:stepdown} dargestellt.
+
 \begin{figure}[H]
-    \includegraphics[width=0.6\textwidth, center]{img/Hardware/stepdown.png}
+    \centering
+    \includegraphics[width=0.6\textwidth]{img/Hardware/stepdown.png}
+    \caption{Step-Down-Konverter zur Spannungsanpassung}
+    \label{fig:stepdown}
 \end{figure}
+
 \subsubsection{Mechanische Änderungen am Guide}
-Der Guide-Roboter bekam zusätzlich einen LiDAR-Sensor auf der obersten Ebene montiert.
-Dafür wurde das Chassis verändert:
+Der Guide-Roboter bekam zusätzlich einen LiDAR-Sensor auf der obersten Ebene montiert. Dafür wurde das Chassis verändert:
 \begin{itemize}
     \item Die obere Ebene wurde erhöht
     \item Neue Halterungen für den Sensor wurden eingebaut
     \item Das Kabelmanagement wurde angepasst
 \end{itemize}
-
+Wie in Abbildung \ref{fig:lidar_guide} zu sehen ist, wurde der LiDAR-Sensor auf der oberen Ebene des Guide-Roboters befestigt.
 
 
 % Kamera-Integration (ESP32-CAM)
@@ -338,55 +354,62 @@ Dafür wurde das Chassis verändert:
 \section{Guide}
 \label{subsec:hardware_guide}
 \subsection{Allgemein}
-Die Aufgabe von \textit{Guide} ist es,
-mithilfe eines LiDAR-Sensors (Siehe Kapitel \ref{subsec:ueberblick_lidar}) die Umgebung nach Hindernissen
-und den anderen Robotern abzusuchen.
-%
+Die Aufgabe von \textit{Guide} ist es, mithilfe eines LiDAR-Sensors die Umgebung nach Hindernissen und den anderen Robotern abzusuchen.
+
+%\begin{figure}[H]
+ %   \centering
+ %   \includegraphics[width=0.6\textwidth]{img/Hardware/lidar_guide.png}
+ %   \caption{LiDAR-Sensor auf dem Guide-Roboter}
+%    \label{fig:lidar_guide}
+%\end{figure}
+
 \subsection{Technische Umsetzung}
-Damit der Guide die Umgebung erkennen kann, wurde das Fahrgestell des Roboters modifiziert. Die obere Ebene (Akku-Halterung) wurde höher gesetzt, um Platz für den LiDAR-Sensor und seine Halterung zu schaffen. Zusätzlich wurde die Stromversorgung angepasst, indem ein Step-Down-Konverter eingebaut wurde. Dieser liefert die benötigte Spannung für den LiDAR-Sensor.
-%
+Damit der Guide die Umgebung erkennen kann, wurde das Fahrgestell des Roboters modifiziert. Die obere Ebene (Akku-Halterung) wurde höher gesetzt, um Platz für den LiDAR-Sensor und seine Halterung zu schaffen. Zusätzlich wurde die Stromversorgung angepasst, indem ein Step-Down-Konverter eingebaut wurde. Dieser liefert die benötigte Spannung für den LiDAR-Sensor. In Abbildung~\ref{fig:lidar_guide} ist der verbaute LiDAR-Sensor auf dem Guide-Roboter zu sehen.
+
 Die vom Guide gesammelten Daten werden über eine TCP/IP Websocket-Verbindung an einen zentralen Server gesendet. Dieser Server verarbeitet die Daten und teilt sie den anderen Robotern im Schwarm mit.
-%
+
 \subsection{Aufgabe im Schwarm}
-Der Guide übernimmt die Funktion eines „Anführers“.
-Er scannt ständig die Umgebung und erkennt:
+Der Guide übernimmt die Funktion eines „Anführers“. Er scannt ständig die Umgebung und erkennt:
 \begin{itemize}
     \item Wände und Hindernisse
     \item Andere Roboter
     \item Freie Wege
 \end{itemize}
 Die anderen Roboter erhalten diese Informationen in Echtzeit und können dadurch ihre Bewegung anpassen.
-Ohne den Guide könnten die Roboter keine Informationen über ihre Umgebung austauschen.
-%
+
 \subsection{Einschränkungen}
 Da der Guide durch den zusätzlichen Sensor schwerer ist, hat er eine etwas kürzere Akkulaufzeit als die anderen Roboter. Außerdem ist der LiDAR-Sensor anfällig für Spiegelungen oder Glasflächen, weil die Laserstrahlen dort falsch reflektiert werden können.
 
-%
 \section{Tamerlan \& Bambi}
 \label{subsec:hardware_tamerlan_bambi}
-
 \subsection{Allgemein}
-Tamerlan und Bambi sind zwei weitere Roboter im SwarmBots-Projekt.
-Im Gegensatz zum Guide besitzen sie keinen eigenen LiDAR-Sensor. Ihre Aufgabe ist es, gemeinsam mit dem Guide im Schwarm zu fahren und die von ihm gesammelten Informationen zu nutzen.
-%
+Tamerlan und Bambi sind zwei weitere Roboter im SwarmBots-Projekt. Im Gegensatz zum Guide besitzen sie keinen eigenen LiDAR-Sensor. Ihre Aufgabe ist es, gemeinsam mit dem Guide im Schwarm zu fahren und die von ihm gesammelten Informationen zu nutzen.
+
+%\begin{figure}[H]
+%    \centering
+%    \includegraphics[width=0.8\textwidth]{img/Hardware/tamerlan_bambi.png}
+%    \caption{Tamerlan und Bambi Roboter}
+%    \label{fig:tamerlan_bambi}
+%\end{figure}
+
 \subsection{Technische Umsetzung}
 Auch bei Tamerlan und Bambi wurden die originalen Elegoo Tumbller Kits technisch angepasst:
 \begin{itemize}
-    \item Der Arduino Nano wurde durch ein ESP32-Board im Nano-Format ersetzt, damit sie über WLAN kommunizieren können.
-    \item Das Bluetooth-Modul HC-06 wurde entfernt, da die Kommunikation nun ausschließlich über WLAN erfolgt.
+    \item Der Arduino Nano wurde durch ein ESP32-Board im Nano-Format ersetzt.
+    \item Das Bluetooth-Modul HC-06 wurde entfernt.
     \item Beide Roboter wurden mit einer ESP32-CAM ausgestattet, um Bilder der Umgebung an den Server senden zu können.
     \item Die Software wurde angepasst, damit sie Daten vom Guide empfangen und darauf reagieren können.
 \end{itemize}
-%
+In Abbildung~\ref{fig:tamerlan_bambi} sind die beiden Roboter nach dem Umbau zu sehen.
+
 \subsection{Aufgabe im Schwarm}
-Tamerlan und Bambi fahren nicht selbstständig durch die Umgebung, sondern folgen den Informationen, die sie vom Guide-Roboter erhalten.
-Sie können dadurch:
+Tamerlan und Bambi fahren nicht selbstständig durch die Umgebung, sondern folgen den Informationen, die sie vom Guide-Roboter erhalten. Sie können dadurch:
 \begin{itemize}
     \item Hindernissen ausweichen
     \item Positionen einnehmen
     \item Im Team mit dem Guide arbeiten
 \end{itemize}
 Die Zusammenarbeit der drei Roboter ermöglicht es, dass sie sich als Schwarm bewegen und auf Veränderungen in der Umgebung reagieren können.
-%
-\subsection{ Einschränkungen}
+
+\subsection{Einschränkungen}
 Tamerlan und Bambi können ohne den Guide nicht selbstständig die Umgebung erkennen, da sie keinen LiDAR-Sensor besitzen. Sie sind darauf angewiesen, dass der Guide ihnen die notwendigen Informationen liefert.
