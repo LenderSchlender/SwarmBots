@@ -106,9 +106,7 @@ Der PWMA/PWMB sorg dafür, dass sich die Geschwindigkeit ändert.
 Der AMS1117 ist ein linearer Spannungsregler, der aus einer höhere Eingangsspannung eine stabile kleinere Ausgansspannung (3,3V) macht. 
 Im Elegoo Tumbller wird er verwendet, um die Spannung auf 3,3 Volt zu reduzieren. Diese Spannung brauchen einige Bauteile, wie zum Beispiel das Bluetooth-Modul, damit sie nicht kaputtgehen.
 \subsubsection{Technische Daten}
-\begin{figure}[H]
-    \includegraphics[width=0.7\textwidth, center]{img/Hardware/Ams1117.png}
-\end{figure}
+
 Der Spannungsregler kann mit 4,5V bis 15V betrieben werden, er hat eine fixe Ausgansspannung von 3,3V und kann maximal 1A Ausgangstrom liefern (mit einer Kühlung), 
 die Drop-out Spannung beträgt 1,1V (bei 1A). der Integrierte Schutz schütz vor Übertemperatur und Kurzschlüssen.
 %
@@ -141,7 +139,7 @@ Durch die veraltete Bluetooth-Version ist nur eine niedrigere Datenrate möglich
 \subsection{Arduino Nano (Microcontroller)}
 %
 \subsubsection{Allgemein}
-Der Arduino Nano ist einer der kleineren (ca. 18 x 45 mm) uC (Mikrocontroller), dieser wird verwendet, um alle elektronischen Bauteile im Tumbler zu steuern.
+Der Arduino Nano ist einer der kleineren (ca. 18 x 45 mm) uC (Mikrocontroller), dieser wurde verwendet, um alle elektronischen Bauteile im Tumbler zu steuern.
 \subsubsection{Technische Daten}
 \begin{figure}[H]
     \includegraphics[width=0.7\textwidth, center]{img/Hardware/arduino_nano.png}
@@ -218,9 +216,7 @@ Im Elegoo Tumbller werden zwei kleine Gleichstrommotoren (DC-Motoren) verwendet.
 Diese Motoren sind dafür verantwortlich, die beiden Räder des Roboters anzutreiben.
 Ein Gleichstrommotor wandelt elektrische Energie in mechanische Bewegung um – also in eine Drehbewegung.
 \subsubsection{Technische Daten}
-\begin{figure}[H]
-    \includegraphics[width=0.7\textwidth, center]{img/Hardware/gleichstrommotor.png}
-\end{figure}
+
 Die Gleichstrommotoren haben eine Betriebsspannung von 6V bis 12V und einen Nennstrom von ca. 200mA und sind Bürsten-Gleichstrommotor. 
 (Ein Bürsten-Gleichstrommotor ist ein Motor, der mithilfe von kleinen Bürsten Strom bekommt und sich dadurch dreht) Die Drehzahl beträgt ca. 300 Umdrehungen pro Minute (RPM). 
 Zudem verfügen sie über ein eingebautes Getriebe zur Erhöhung des Drehmoments und einen Wellen-Durchmesser von 3mm. 
@@ -229,10 +225,7 @@ Zudem verfügen sie über ein eingebautes Getriebe zur Erhöhung des Drehmoments
 Bei einem Gleichstrommotor wird durch Anlegen einer elektrischen Spannung ein Magnetfeld erzeugt, welches den Rotor bewegt. 
 Durch Umpolen (Richtungsänderung des Stroms) kann die Drehrichtung geändert werden. 
 Die Geschwindigkeit wird durch PWM-Signale (Pulsweitenmodulation) geregelt, die Richtung durch digitale Signale.
-\begin{figure}[H]
-    \includegraphics[width=0.7\textwidth, center]{img/Hardware/Gleichstromotor_innen.png}
-    \caption{}
-\end{figure}
+
 %
 \subsection{Encoder}
 %
