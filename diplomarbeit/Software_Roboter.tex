@@ -271,7 +271,7 @@ um einen PWM-Ausgang anzusteuern.
 %
 Hierzu wird anstatt den standardmäßigen Arduino-Funktionen
 direkt die ESP32 \texttt{ledc}-API verwendet,
-um bestmögliche Konfigurationsoptionen zu erreichen\cite{esp32-ledc}. %TODO not sure if this sounds good
+um bestmögliche Konfigurationsoptionen zu erreichen \cite{esp32-ledc}. %TODO not sure if this sounds good
 %
 Weiters gibt es sowohl die Möglichkeit den Duty-Cycle direkt einzustellen,
 oder anhand der erwünschten Breite des Impulses (in Mikrosekunden) zu berechnen;
@@ -396,7 +396,7 @@ Bei erfolgreicher Verbindung mit einem Netzwerk wird außerdem die eigene IP-Adr
 \subsubsection{WebSocketControls}
 Die WebSocketControls dienen als Wrapper zur \texttt{ESPAsyncWebServer}-Bibliothek,
 mit welcher auf Port 80 ein asynchroner Webserver zur Verfügung gestellt wird,
-welcher unter dem Pfad \texttt{/ws} Websocket-Verbindungen nach RFC6455\cite{rfc6455} akzeptiert.
+der unter dem Pfad \texttt{/ws} WebSocket-Verbindungen (siehe Kapitel \ref{sec:websockets}) akzeptiert.
 %
 Sobald sich ein Client mit dem WS-Server verbindet,
 können mittels Callback-Funktionen Befehle empfangen werden.
