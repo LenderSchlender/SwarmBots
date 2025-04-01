@@ -84,7 +84,17 @@
 	showtabs=false,
 	tabsize=2
 }
-\lstset{style=mystyle}
+\lstset{
+  style=mystyle,
+  % for some reason, lst doesn't recognise the utf8 encoding
+  % this "fixes" it for the used characters
+  extendedchars=true,
+  literate=
+    {ä}{{\"a}}1
+    {ö}{{\"o}}1
+    {ü}{{\"u}}1
+    {ß}{{\ss}}1
+}
 
 % JSON styling
 \definecolor{delim}{RGB}{20,105,176}
@@ -236,7 +246,7 @@
 	\include{Vorgeschichte}
 	\include{Projektmanagement}
 	\include{Ueberblick}
-	\include{Hardware}
+	%\include{Hardware}
 	\include{Software_Roboter}
 	\include{Software_Backend}
 	\include{Software_Frontend}
@@ -253,5 +263,5 @@
 	\addcontentsline{toc}{chapter}{Literatur}
 	\printbibliography
 	\include{Projekthandbuch}
-	%TODO \include{Code}
+	\include{Code}
 \end{document}

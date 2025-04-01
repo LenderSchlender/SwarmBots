@@ -7,6 +7,11 @@
 % https://texdoc.org/serve/interface3/0
 \ExplSyntaxOn
 
+\tl_new:N \l_input_line
+\tl_new:N \l_lst_title
+
+% optional input: arguments for \listinputlisting
+% mandatory input: find command (MUST NOT include double quotes! use single quotes instead)
 \NewDocumentCommand{\LstInputDir}{O{} m} {
   % check if shell escape is enabled
   \sys_if_shell:F {
@@ -17,40 +22,50 @@
   \sys_if_platform_unix:TF
   % Unix version
   {
-    \typeout{\c_sys_jobname_str}
     % list all files an write the list into a file JobName.tmp
-    \sys_shell_now:e {find~..~-type~f~-path~"#2"~>~\c_sys_jobname_str.tmp}
-  }
-  % Windows version
-  {
-    %TODO windows version
-  }
-
-  % open temp file Jobname.temp
-  \ior_open:Nn \g_tmpa_ior {\c_sys_jobname_str.tmp}
-  % if the file is empty, don't execute the next block 
-  \quark_if_no_value:NF \g_tmpa_ior
-  {
-    % for each line
-    \ior_map_inline:Nn \g_tmpa_ior
+    \sys_shell_now:e {find~..~-type~f~#2~>~\c_sys_jobname_str.tmp}
+    % open temp file Jobname.temp
+    \ior_open:Nn \g_tmpa_ior {\c_sys_jobname_str.tmp}
+    % if the file is empty, don't execute the next block
+    \quark_if_no_value:NF \g_tmpa_ior
     {
-      % include listing (and forward any options
-      % TODO print file name somewhere
-      \lstinputlisting[#1]{##1}
-    }
-  }
-  % close file
-  \ior_close:N \g_tmpa_ior
+      % for each line
+      \ior_map_variable:NNn \g_tmpa_ior \l_input_line
+      {
+        % strip "../" from filenames for the listing caption
+        \tl_set:Ne \l_lst_title {
+          \tl_range:Nnn \l_input_line {4} {-1}
+        }
 
-  % Delete temp file
-  \sys_if_platform_unix:TF
-  % Unix version
-  {
+        % underscores are a special character in LaTeX and cause issues when generating list of listings
+        %\tl_replace_all:Nen \l_lst_title { \c_underscore_str } { - }
+        % ^ TODO this isn't working
+
+        \texttt{\tl_to_str:N \l_lst_title}:
+        % include listing (and forward any options)
+        \lstinputlisting[caption={\tl_to_str:N \l_lst_title},captionpos=below,#1]{\l_input_line}
+      }
+    }
+    % close file
+    \ior_close:N \g_tmpa_ior
+  
+    % Delete temp file
     \sys_shell_now:e {rm~-f~\c_sys_jobname_str.tmp}
-  }
-  % Windows version
-  {
-    %TODO windows version
+    }
+    % Windows is not supported because it doesn't have the same find command
+    {
+      \textcolor{red}{[Windows~ist~nicht~unterstützt.~Um~den~Code~zu~inkludieren,~bitte~ein~Unix-ähnliches~System~(Linux~oder~macOS)~verwenden!]}
+    }
+}
+
+% shorthand to automatically exclude hidden files and images
+\NewDocumentCommand{\LstInputDirIgn}{O{} m} {
+  \LstInputDir[#1]{#2~
+  -not~-path~'../*/.*'~
+  -not~-name~'*.png'~
+  -not~-name~'*.jpg'~
+  -not~-name~'*.ico'~
+  -not~-name~'*.svg'~
   }
 }
 
@@ -58,5 +73,33 @@
 
 \chapter{Code}
 Es folgt die aktuelle Version der Sourcecodes vom \today.
+%TODO \lstlistoflistings
 
-\LstInputDir{../proto/*.proto}
+\section{Protocol Buffers}
+Siehe Abschnitt \ref{subsec:ueberblick_protobufs} auf Seite \pageref{subsec:ueberblick_protobufs}.
+\newline
+\LstInputDir{-path '../proto/*.proto'}
+
+\section{Commons}
+Siehe Abschnitt \ref{subec:robots_core} auf Seite \pageref{subec:robots_core}.
+\newline
+\LstInputDirIgn{-path '../robots/commons/*'}
+
+\section{Guide}
+Siehe Abschnitt \ref{subsec:software_guide} auf Seite \pageref{subsec:software_guide}.
+\newline
+\LstInputDirIgn{-path '../robots/guide/*'}
+
+\section{Server}
+Siehe Abschnitt \ref{sec:software_backend} auf Seite \pageref{sec:software_backend}.
+\newline
+\LstInputDirIgn{-path '../server/*.py' -not -path '../server/protobuf/*'}
+
+\section{Frontend}
+Siehe Abschnitt \ref{sec:software_frontend} auf Seite \pageref{sec:software_frontend}.
+\newline
+\LstInputDirIgn{-path '../frontend/*'
+  -not -path '../frontend/node_modules/*'
+  -not -path '../frontend/package-lock.json'
+  -not -path '../frontend/src/lib/*'
+}
