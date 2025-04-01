@@ -1,7 +1,7 @@
 % Macros to include code from files
 % technically this should go into the preamble, but it fits in better here
 % THIS REQUIRES SHELL ESCAPE TO BE ENABLED!!
-% enable using the latexmk argument --shell-escape
+% enable using the latexmk argument: -shell-escape
 
 % Documentation for expl3 Syntax:
 % https://texdoc.org/serve/interface3/0
@@ -43,7 +43,7 @@
 
         \texttt{\tl_to_str:N \l_lst_title}:
         % include listing (and forward any options)
-        \lstinputlisting[caption={\tl_to_str:N \l_lst_title},captionpos=below,#1]{\l_input_line}
+        \lstinputlisting[caption="{\tl_to_str:N \l_lst_title}",captionpos=below,#1]{\l_input_line}
       }
     }
     % close file
@@ -103,3 +103,12 @@ Siehe Abschnitt \ref{sec:software_frontend} auf Seite \pageref{sec:software_fron
   -not -path '../frontend/package-lock.json'
   -not -path '../frontend/src/lib/*'
 }
+
+% Rekursion :D
+\section{LaTeX Code Inclusion}
+Da der LaTeX-Code zur vollautomatischen Inklusion der anderen Codes (im Gegensatz zum Rest der LaTeX-Dateien)
+technisch anspruchsvoll ist,
+ist dieser hier auch inkludiert,
+auch wenn er nicht direkt zum Diplomprojekt beiträgt:
+
+\lstinputlisting[caption="\texttt{Code.tex}",captionpos=below]{./Code.tex}
