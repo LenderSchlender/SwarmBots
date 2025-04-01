@@ -268,13 +268,18 @@ Im originalen Tumbller wurde ein Arduino Nano verwendet, der jedoch nur Bluetoot
 Für unser Projekt war das nicht ausreichend, weil wir die Roboter über WLAN steuern wollten.
 Deshalb haben wir die Arduino Nano durch ESP32-Boards im Nano-Format ersetzt.
 Das ESP32-Board besitzt ein integriertes WLAN-Modul und mehr Rechenleistung.
+\begin{figure}[H]
+    \includegraphics[width=0.6\textwidth, center]{img/Hardware/nanoesp32.png}
+\end{figure}
 \subsubsection{Entfernung des Bluetooth-Moduls}
 Da wir die Kommunikation über WLAN umgestellt haben, wurde das HC-06 Bluetooth-Modul aus allen Robotern entfernt.
 Die Steuerung per Smartphone-App war dadurch nicht mehr notwendig.
 \subsubsection{Anpassung der Stromversorgung}
 Für die neuen Module (vor allem den LiDAR-Sensor beim Guide-Roboter) musste die Stromversorgung angepasst werden.
 Dafür haben wir einen zusätzlichen Step-Down-Konverter eingebaut, um eine sichere 5V-Spannung für den Sensor bereitzustellen.
-
+\begin{figure}[H]
+    \includegraphics[width=0.6\textwidth, center]{img/Hardware/stepdown.png}
+\end{figure}
 \subsubsection{Mechanische Änderungen am Guide}
 Der Guide-Roboter bekam zusätzlich einen LiDAR-Sensor auf der obersten Ebene montiert.
 Dafür wurde das Chassis verändert:
