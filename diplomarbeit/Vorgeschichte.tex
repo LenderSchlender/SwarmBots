@@ -37,9 +37,63 @@ Die Arbeitspakete wurden in einem Projektstrukturplan (PSP) festgehalten.
 Jedes Teammitglied war für bestimmte Bereiche verantwortlich, z.B. Hardwareaufbau, Softwareprogrammierung oder Dokumentation.
 %
 \subsection{Controlling}
+Um den Projektverlauf zu überwachen, wurde ein Controlling-System eingeführt. Dieses bestand aus drei Bereichen:
+\subsubsection{Zeit-Controlling}
+Es wurde ein Zeitplan mit Abgabeterminen und Zwischenschritten erstellt.
+Die wichtigsten Termine waren:
+•	Einkauf und Aufbau der Roboter
+•	Fertigstellung der Hardware-Modifikationen
+•	Abschluss der Softwareentwicklung
+•	Durchführung der Tests
+•	Abgabe der Dokumentation
+Der Zeitplan wurde regelmäßig kontrolliert und angepasst, wenn es zu Verzögerungen kam.
+\subsubsection{Kosten-Controlling}
+Für das Projekt wurde eine Kostenaufstellung erstellt. Alle Ausgaben für Bauteile, Werkzeuge und Software wurden darin dokumentiert.
+Die wichtigsten Kostenpunkte waren:
+•	Elegoo Tumbller Kits
+•	ESP32-Boards
+•	LiDAR-Sensor
+•	Zubehör (Kabel, Steckverbinder, etc.)
+Am Ende wurde geprüft, ob das Projektbudget eingehalten wurde.
+\subsubsection{Qualitäts-Controlling}
+Die Qualität der Hardware und Software wurde während des gesamten Projekts durch Tests und Prüfungen sichergestellt.
+Es wurde besonders darauf geachtet, dass:
+•	alle Sensoren zuverlässig arbeiten
+•	die Kommunikation zwischen Roboter und Server stabil ist
+•	der Aufbau sauber und sicher ausgeführt wurde
 %
 \subsection{Problemlösung und Risikomanagement}
 %
+Während des Projekts traten verschiedene Probleme auf, die gelöst werden mussten:
+Problem	Lösung
+Bluetooth-Reichweite zu gering	Umstieg auf WLAN mit ESP32-Boards
+Platzmangel für LiDAR-Sensor	Mechanische Anpassung des Guide-Roboters
+Signalstörungen bei den Motoren	Überprüfung und Neuanordnung der Kabel
+Instabile Verbindung bei hoher Serverlast	Optimierung der Websocket-Kommunikation
+Fehlermeldungen in der Software	Implementierung von Debug-Tools und Log-Funktion
+Verzögerungen bei der Hardwarelieferung	Anpassung des Zeitplans und Priorisierung der Arbeit
+Alle Probleme wurden im Team besprochen und gelöst. Bei größeren Schwierigkeiten wurde ein Risiko-Logbuch geführt.
 \subsection{Software-Management (SW)}
 %
+Die Softwareentwicklung war ein wichtiger Bestandteil des Projekts. Sie bestand aus folgenden Bereichen:
+\subsubsection{Entwicklungsschritte}
+1.	Server-Software:
+Die Server-Software wurde mit Node.js und Websocket-Technologie umgesetzt. Sie sammelt die Sensordaten der Roboter und verteilt sie an alle Teilnehmer.
+2.	Roboter-Software:
+Die Roboter wurden mit einer Arduino-IDE programmiert. Die ESP32-Boards verwenden eine WLAN-Verbindung und kommunizieren über ein einfaches TCP/IP-Protokoll.
+3.	Frontend (Benutzeroberfläche):
+Zusätzlich wurde eine Webseite entwickelt, auf der die Positionen und Daten der Roboter in Echtzeit angezeigt werden.
+\subsubsection{Versionskontrolle}
+Für die Software wurde ein Git-Repository verwendet. Damit konnten Änderungen dokumentiert, rückgängig gemacht und im Team bearbeitet werden.
+\subsubsection{Tests and Debugging}
+Die Software wurde regelmäßig getestet:
+•	Unit-Tests für einzelne Funktionen
+•	Integrationstests für die Kommunikation
+•	Live-Tests mit allen Robotern
 \subsection{Dokumentation und Abschluss}
+Zum Abschluss des Projekts wurden alle Ergebnisse in einer Diplomarbeit dokumentiert.
+Dazu gehören:
+•	Die Beschreibung der Hardware
+•	Die Modifikationen
+•	Die Software-Struktur
+•	Der Projektverlauf
