@@ -38,6 +38,44 @@ Diese kann man entweder über die App oder direkt am Roboter über einen Taster 
 \label{subsec:subkomponenten}
 %
 \subsection{PCB}
+%
+\subsubsection{Allgemein}
+Die PCB (Printed Circuit Board) im originalen Elegoo Tumbller ist eine fertig entwickelte Leiterplatte, auf der alle elektronischen Bauteile des Roboters angeschlossen werden können.
+Sie ist das zentrale Verbindungselement zwischen Sensoren, Motoren, Mikrocontroller und Stromversorgung.
+Alle Bauteile müssen nur noch in die vorgefertigten Stecker und Buchsen eingesteckt werden. Dadurch ist der Aufbau des Roboters sehr einfach und es sind keine aufwändigen Lötarbeiten notwendig.
+\subsubsection{Technische Umsetzung}
+Die Leiterplatte besteht aus mehreren Leiterbahnen (Kupferstreifen), die die elektrische Verbindung zwischen den Bauteilen herstellen.
+Die PCB enthält unter anderem:
+\begin{itemize}
+    \item Steckplätze für den Arduino Nano
+    \item Anschlussbuchsen für die beiden Motoren
+    \item Steckplätze für die Sensoren (MPU6050, Ultraschallsensor, Infrarot-Sensoren)
+    \item Anschluss für das Bluetooth-Modul (HC-06)
+    \item Taster für die Modus-Auswahl
+    \item LEDs zur Anzeige des Betriebszustands
+    \item Lötpads für die Stromversorgung (Li-Ion Akku)
+    \item Anschluss für den AMS1117 Spannungsregler
+\end{itemize}
+
+Außerdem sind die Leiterbahnen so angeordnet, dass die Stromversorgung über die PCB zu allen Bauteilen geführt wird.
+Die PCB hat ebenfalls Lötpunkte für die Motorsteuerung (TB6612FNG Motortreiber), der direkt auf der Platine verlötet ist.
+\subsubsection{Vorteile}
+Die originale PCB im Elegoo Tumbller hat mehrere Vorteile: 
+\begin{itemize}
+    \item Einfacher Aufbau → Alle Komponenten können einfach eingesteckt werden
+    \item Ordentliche Verkabelung → Keine losen Kabel
+    \item Platzsparend und kompakt → Alles ist auf einer Platine montiert
+    \item Stabile Verbindung → Weniger Wackelkontakte
+    \item LEDs zur Anzeige des Betriebszustands  
+\end{itemize}
+
+\subsubsection{Einschränkungen}
+
+Die PCB des originalen Tumbller ist nur für die Standard-Komponenten ausgelegt.
+Wenn man zusätzliche Sensoren oder einen anderen Mikrocontroller (wie im SwarmBots-Projekt) verwenden möchte, muss die Verkabelung angepasst oder die Platine teilweise umgelötet werden.
+Außerdem ist sie nicht flexibel, wenn man den Aufbau verändern will.
+
+%
 Siehe Abbildung \ref{fig:elegoo_tumbller_original_circuit} auf Seite \pageref{fig:elegoo_tumbller_original_circuit}.
 %
 \begin{sidewaysfigure}
