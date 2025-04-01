@@ -47,8 +47,8 @@ public:
 
   void writeTrueDutyCycle(uint16_t dutyCycle); // uses whatever actual resolution the pwm output has available
   void writeDutyCycle(uint16_t dutyCycle);     // always use 16 bits of resolution
-  void writePulseWidth(uint16_t microSeconds); // 1ms = -90° ; 2ms = 90°
-  void writeServoAngle(int8_t angle);          // -90° to 90°
+  void writePulseWidth(uint16_t microSeconds); // 1ms = -90deg ; 2ms = 90deg
+  void writeServoAngle(int8_t angle);          // -90deg to 90deg
 
   void terminate();
 };

@@ -136,7 +136,7 @@ uint16_t PwmOutput::getDutyCycle() {
 }
 
 uint16_t PwmOutput::getPulseWidth() {
-  // PW = DC / (2^res) * period_µs
+  // PW = DC / (2^res) * period
   return getDutyCycle() / pow(2.0, resolution) * (1000000.0 / frequency);
 }
 
@@ -153,7 +153,7 @@ void PwmOutput::writeDutyCycle(uint16_t dutyCycle) {
 }
 
 void PwmOutput::writePulseWidth(uint16_t microSeconds) {
-  // DC = (2^res) * PW * period_µs
+  // DC = (2^res) * PW * period
   writeTrueDutyCycle(pow(2.0, resolution) * microSeconds / (1000000.0 / frequency));
 }
 
