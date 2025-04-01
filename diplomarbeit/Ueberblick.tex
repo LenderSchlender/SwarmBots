@@ -137,7 +137,7 @@ es wird nur für Debugging-Zwecke und menschliche Intervention benötigt.
 
 \subsection{Kommunikationswege}
 \label{subsec:ueberblick_comms}
-\& Beschreibung
+TODO Beschreibung
 \begin{figure}[H]
     \centering
         \includegraphics[width=\textwidth, center]{img/Kommunikationswege.png}  
@@ -145,10 +145,50 @@ es wird nur für Debugging-Zwecke und menschliche Intervention benötigt.
     \label{fig:kommunikationswege}
 \end{figure}
 
+\section{WebSockets}
+\label{sec:websockets}
+WebSockets nach RFC6455 \cite{rfc6455} erlauben bidirektionale Kommunikation zwischen einem Client und einem Server.
+%
+Das WebSocket-Protokoll ist ein unabhängiges TCP-basiertes Verfahren;
+seine einzige Beziehung zu HTTP besteht darin,
+dass der WebSocket-Handshake als HTTP-Anfrage nach mit Antwort vom Typ
+\texttt{101 Switching Protocols} nach RFC2616 \cite{rfc2616} interpretiert werden kann.
+%
+Standardmäßig verwendet das WebSocket-Protokoll Port 80 für normale WebSocket
+Verbindungen und Port 443 für WebSocket-Verbindungen,
+die mittels Transport Layer Security (TLS) verschlüsselt werden.
+%
+Dank des schon eben erwähnten HTTP-kompatiblen Handshakes
+können auf dem selben Port sowohl HTTP- als auch WebSocket-Dienste zur Verfügung gestellt werden,
+solange sich deren Pfad unterscheidet.
+%
+Natürlich muss hier die Serversoftware sowohl HTTP als auch WebSockets unterstützen.
+
+Der große Vorteil von Websockets ist,
+wie schon erwähnt,
+der bidirektionale Informationsfluss:
+%
+Beide Verbindungsteilnehmer können ungefragt Informationen an den jeweils anderen Teilnehmer senden.
+%
+Bei HTTP müssen Informationen immer zuerst vom Client angefragt werden,
+was insbesondere bei zeitkritischen Anwendungen wie Spielen,
+Messenger-Apps,
+oder eben bei der Fernsteuerung von Robotern von großen Vorteil ist.
+%
+Es ist zwar möglich,
+mittels HTTP die Funktionalität von WebSockets anzunähern (long Polling),
+jedoch gibt es dabei unter Anderem \cite{rfc6202} einen signifikant erhöhten Performance-Overhead%
+\footnote{Bis zu einigen hundert Bytes,
+  was im Kontext der SwarmBots ein Vielfaches des tatsächlichen Nachrichteninhalts ist.}
+und erhöhte Komplexität.
+
+In diesem Projekt werden WebSockets sowohl zur Kommunikation zwischen Robotern und Server,
+als auch zwischen Frontend und Server verwendet.
+
 \section{Protocol Buffers}
 \label{subsec:ueberblick_protobufs}
 Protocol Buffers \cite{protobufs} (``protobufs'') sind ein binäres Übertragungsformat,
-welches von von Google entwickelt und veröffentlicht wurde.
+welches von Google entwickelt und veröffentlicht wurde.
 %
 Gegenüber Datenformaten wie JSON und XML gibt es drei wesentliche Vorteile:
 \begin{enumerate}
