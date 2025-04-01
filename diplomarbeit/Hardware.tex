@@ -232,6 +232,34 @@ Beim Akku handelt es sich um einen Lithium-Ionen-Akku mit einer Nennspannung von
 Der Akku besitz je 2 Zellen in Serie (2S) mit je Zelle ca. 3,7V, die Kapazität des Akkus beträgt ca. 1200 mAh. Zudem ist er gegen Überladung, Tiefentladung und Kurzschlüsse geschützt. 
 %
 
+\section{Modifikationen}
+\label{subsec:hardware_modifikationen}
+Für das SwarmBots-Projekt mussten die originalen Elegoo Tumbller Roboter technisch verändert werden, damit sie als Schwarm zusammenarbeiten können und über WLAN steuerbar sind.
+\subsubsection{Austausch des Mikrocontrollers}
+Im originalen Tumbller wurde ein Arduino Nano verwendet, der jedoch nur Bluetooth-Kommunikation unterstützt.
+Für unser Projekt war das nicht ausreichend, weil wir die Roboter über WLAN steuern wollten.
+Deshalb haben wir die Arduino Nano durch ESP32-Boards im Nano-Format ersetzt.
+Das ESP32-Board besitzt ein integriertes WLAN-Modul und mehr Rechenleistung.
+\subsubsection{Entfernung des Bluetooth-Moduls}
+Da wir die Kommunikation über WLAN umgestellt haben, wurde das HC-06 Bluetooth-Modul aus allen Robotern entfernt.
+Die Steuerung per Smartphone-App war dadurch nicht mehr notwendig.
+\subsubsection{Anpassung der Stromversorgung}
+Für die neuen Module (vor allem den LiDAR-Sensor beim Guide-Roboter) musste die Stromversorgung angepasst werden.
+Dafür haben wir einen zusätzlichen Step-Down-Konverter eingebaut, um eine sichere 5V-Spannung für den Sensor bereitzustellen.
+
+\subsubsection{Mechanische Änderungen am Guide}
+Der Guide-Roboter bekam zusätzlich einen LiDAR-Sensor auf der obersten Ebene montiert.
+Dafür wurde das Chassis verändert:
+•	Die obere Ebene wurde erhöht
+•	Neue Halterungen für den Sensor wurden eingebaut
+•	Das Kabelmanagement wurde angepasst
+
+
+% Kamera-Integration (ESP32-CAM)
+%Alle Roboter wurden mit einem ESP32-CAM-Modul ausgestattet.
+%Dadurch können die Roboter Live-Bilder an den Server senden und ihre Umgebung visuell erfassen.
+
+
 
 \section{Guide}
 \label{subsec:hardware_guide}
