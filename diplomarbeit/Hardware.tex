@@ -263,18 +263,56 @@ Dafür wurde das Chassis verändert:
 
 \section{Guide}
 \label{subsec:hardware_guide}
+\subsection{Allgemein}
 Die Aufgabe von \textit{Guide} ist es,
 mithilfe eines LiDAR-Sensors (Siehe Kapitel \ref{subsec:ueberblick_lidar}) die Umgebung nach Hindernissen
 und den anderen Robotern abzusuchen.
 %
-Die vom LiDAR gesammelten Abstandsdaten werden über eine TCP/IP Websocket-Verbindung
-an einen zentralen Server weitergegeben,
-welcher diese weiter verarbeitet.
+\subsection{Technische Umsetzung}
+Damit der Guide die Umgebung erkennen kann, wurde das Fahrgestell des Roboters modifiziert. Die obere Ebene (Akku-Halterung) wurde höher gesetzt, um Platz für den LiDAR-Sensor und seine Halterung zu schaffen. Zusätzlich wurde die Stromversorgung angepasst, indem ein Step-Down-Konverter eingebaut wurde. Dieser liefert die benötigte Spannung für den LiDAR-Sensor.
 %
-Um den LiDAR-Sensor zu montieren,
-haben wir das Fahrgestell leicht modifiziert
-und die oberste Ebene (mit dem Akku) erhöht,
-um Platz für Schrauben zu schaffen.
+Die vom Guide gesammelten Daten werden über eine TCP/IP Websocket-Verbindung an einen zentralen Server gesendet. Dieser Server verarbeitet die Daten und teilt sie den anderen Robotern im Schwarm mit.
+%
+\subsection{Aufgabe im Schwarm}
+Der Guide übernimmt die Funktion eines „Anführers“.
+Er scannt ständig die Umgebung und erkennt:
+\begin{itemize}
+    \item Wände und Hindernisse
+    \item Andere Roboter
+    \item Freie Wege
+\end{itemize}
+Die anderen Roboter erhalten diese Informationen in Echtzeit und können dadurch ihre Bewegung anpassen.
+Ohne den Guide könnten die Roboter keine Informationen über ihre Umgebung austauschen.
+%
+\subsection{Einschränkungen}
+Da der Guide durch den zusätzlichen Sensor schwerer ist, hat er eine etwas kürzere Akkulaufzeit als die anderen Roboter. Außerdem ist der LiDAR-Sensor anfällig für Spiegelungen oder Glasflächen, weil die Laserstrahlen dort falsch reflektiert werden können.
 
+%
 \section{Tamerlan \& Bambi}
 \label{subsec:hardware_tamerlan_bambi}
+
+\subsection{Allgemein}
+Tamerlan und Bambi sind zwei weitere Roboter im SwarmBots-Projekt.
+Im Gegensatz zum Guide besitzen sie keinen eigenen LiDAR-Sensor. Ihre Aufgabe ist es, gemeinsam mit dem Guide im Schwarm zu fahren und die von ihm gesammelten Informationen zu nutzen.
+%
+\subsection{Technische Umsetzung}
+Auch bei Tamerlan und Bambi wurden die originalen Elegoo Tumbller Kits technisch angepasst:
+\begin{itemize}
+    \item Der Arduino Nano wurde durch ein ESP32-Board im Nano-Format ersetzt, damit sie über WLAN kommunizieren können.
+    \item Das Bluetooth-Modul HC-06 wurde entfernt, da die Kommunikation nun ausschließlich über WLAN erfolgt.
+    \item Beide Roboter wurden mit einer ESP32-CAM ausgestattet, um Bilder der Umgebung an den Server senden zu können.
+    \item Die Software wurde angepasst, damit sie Daten vom Guide empfangen und darauf reagieren können.
+\end{itemize}
+%
+\subsection{Aufgabe im Schwarm}
+Tamerlan und Bambi fahren nicht selbstständig durch die Umgebung, sondern folgen den Informationen, die sie vom Guide-Roboter erhalten.
+Sie können dadurch:
+\begin{itemize}
+    \item Hindernissen ausweichen
+    \item Positionen einnehmen
+    \item Im Team mit dem Guide arbeiten
+\end{itemize}
+Die Zusammenarbeit der drei Roboter ermöglicht es, dass sie sich als Schwarm bewegen und auf Veränderungen in der Umgebung reagieren können.
+%
+\subsection{ Einschränkungen}
+amerlan und Bambi können ohne den Guide nicht selbstständig die Umgebung erkennen, da sie keinen LiDAR-Sensor besitzen. Sie sind darauf angewiesen, dass der Guide ihnen die notwendigen Informationen liefert.
