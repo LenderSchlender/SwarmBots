@@ -106,7 +106,9 @@ Der PWMA/PWMB sorg dafür, dass sich die Geschwindigkeit ändert.
 Der AMS1117 ist ein linearer Spannungsregler, der aus einer höhere Eingangsspannung eine stabile kleinere Ausgansspannung (3,3V) macht. 
 Im Elegoo Tumbller wird er verwendet, um die Spannung auf 3,3 Volt zu reduzieren. Diese Spannung brauchen einige Bauteile, wie zum Beispiel das Bluetooth-Modul, damit sie nicht kaputtgehen.
 \subsubsection{Technische Daten}
-
+\begin{figure}[H]
+    \includegraphics[width=0.6\textwidth, center]{img/Hardware/AMS1117.png}
+\end{figure}
 Der Spannungsregler kann mit 4,5V bis 15V betrieben werden, er hat eine fixe Ausgansspannung von 3,3V und kann maximal 1A Ausgangstrom liefern (mit einer Kühlung), 
 die Drop-out Spannung beträgt 1,1V (bei 1A). der Integrierte Schutz schütz vor Übertemperatur und Kurzschlüssen.
 %
@@ -216,7 +218,9 @@ Im Elegoo Tumbller werden zwei kleine Gleichstrommotoren (DC-Motoren) verwendet.
 Diese Motoren sind dafür verantwortlich, die beiden Räder des Roboters anzutreiben.
 Ein Gleichstrommotor wandelt elektrische Energie in mechanische Bewegung um – also in eine Drehbewegung.
 \subsubsection{Technische Daten}
-
+\begin{figure}[H]
+    \includegraphics[width=1\textwidth, center]{img/Hardware/gleichstrommotor.png}
+\end{figure}
 Die Gleichstrommotoren haben eine Betriebsspannung von 6V bis 12V und einen Nennstrom von ca. 200mA und sind Bürsten-Gleichstrommotor. 
 (Ein Bürsten-Gleichstrommotor ist ein Motor, der mithilfe von kleinen Bürsten Strom bekommt und sich dadurch dreht) Die Drehzahl beträgt ca. 300 Umdrehungen pro Minute (RPM). 
 Zudem verfügen sie über ein eingebautes Getriebe zur Erhöhung des Drehmoments und einen Wellen-Durchmesser von 3mm. 
@@ -342,4 +346,4 @@ Sie können dadurch:
 Die Zusammenarbeit der drei Roboter ermöglicht es, dass sie sich als Schwarm bewegen und auf Veränderungen in der Umgebung reagieren können.
 %
 \subsection{ Einschränkungen}
-amerlan und Bambi können ohne den Guide nicht selbstständig die Umgebung erkennen, da sie keinen LiDAR-Sensor besitzen. Sie sind darauf angewiesen, dass der Guide ihnen die notwendigen Informationen liefert.
+Tamerlan und Bambi können ohne den Guide nicht selbstständig die Umgebung erkennen, da sie keinen LiDAR-Sensor besitzen. Sie sind darauf angewiesen, dass der Guide ihnen die notwendigen Informationen liefert.
