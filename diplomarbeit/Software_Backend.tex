@@ -19,7 +19,15 @@ der Ermittlung der Roboter Positionen
 und gegeben falls Berechnung der Messwerte. 
 % im falle ineffizient etc
 
-Und Steuerung der Roboter
+Und Steuerung der Roboter mithilfe eines Erkennungssystems 
+welches bestimmte Kennzeichen in den erhaltenen Daten ausschau hält und 
+darauf Kennzeichen für die einzelnen Bots erkennt und verfolgt, 
+um entsprechend die Positionen aller Bots relativ zur LiDAR Map ausfindig zu machen.
+
+Die Zentrale Datenverarbeitung und autonome Steuerung der Roboter sind 
+im zu zeitigen Prototypen stand nicht implementiert.
+% stattdessen weiterleitung und fernsteuerung
+TODO 
 
 TODO (Datenbank, Lidarmap)
 
@@ -27,7 +35,7 @@ Es wurde mit Python programmiert,
 % Gelaber über python
 % wegen math Funktionen...
 % schnelle Modifizierung 
-% packet/ Bibliothek Fokussierung auf Einfachheit  
+% packet/ Bibliothek Fokussierung auf Einfachheit
 
 \section{Datenverwaltung}
 \label{subsec:backend_data}
@@ -48,8 +56,9 @@ diese ermöglicht eine bidirektionale, persistente Verbindung zwischen einem Cli
 welches im Vergleich zu gewöhnlichen HTTP-Anfragen offen bleibt, wodurch Echtzeitkommunikation möglich ist.
 % könnte man mehr ausschreiben aber schau ma später
 
-
+\subsection{Python Packages}
 % welche python packet verwendet wurden
+\subsubsection{websockets}
 Für Python ist ein Websocket Packet namens 'websockets' vorhanden welches die Client-Server Kommunikation
 um ein Vielfaches vereinfacht da man sich keine Sorge über Handshakes, Ping Pongs, oder anderes verhalten
 der Websocket Spezifikation, da es alles von dem Paket behandelt wird 
@@ -71,7 +80,16 @@ aufgrund der möglichen erweiterten Komplexität von Thread sicheren code Ausfü
 % warum nicht? kann später bei optimierungsmöglichkeiten erklärt werden
 Eine Sans-I/O Implementierung ist auch vorhanden jedoch für dieses Projekt zurzeit irrelevant.
 
+\subsubsection{protobuff}
+% verhalten in python
+% wie anders
 
+
+\subsection{}
+% übersichtsgrafik über teilnehmer und wie datenablauf funktioniert
+% asyncio - warum
+% main task überblick (server und drei clients) warum so aufgeteilt?
+% subtask
 
 % erklärung zu asyncio
 Asyncio funktioniert, indem Tasks sich den Event loop nehmen und mit dem 'await' 
@@ -79,12 +97,6 @@ Befehl anderen tasks erlaubt sich den event loop zu nehmen, im vergleich zu übl
 wo jeder task eine feste zeit zugeschrieben bekommt vom Betriebsystem.
 
 TODO
-
-\subsection{}
-% übersichtsgrafik über teilnehmer und wie datenablauf funktioniert
-% asyncio - warum
-% main task überblick (server und drei clients) warum so aufgeteilt?
-% subtask
 
 % FIFO Queues
 % Wichtigkeit nicht blockierendes verhalten um asynchrones workflow zu gewährleisten
@@ -102,15 +114,17 @@ während unser Backend andere Prozesse ausführt.
 \label{subsec:Optimierungsmöglichkeiten}
 % uvloop - drop in replacement
 % https://github.com/MagicStack/uvloop
-uvloop ist ein schneller drop-in ersetzung von der eingebauten asyncio event loop, 
+uvloop ist ein schneller drop-in Ersetzung von der eingebauten asyncio event loop, 
 dieser ist entsprechend in Cython entwickelt (Cython ist entsprechend Python aber als Performanten C code compiliert).
 Ziel dieser Ersetzung ist es asyncio um einiges schneller zu machen aber nicht von der Referenz verhalten von asyncio abzuweichen. 
+Als drop-in Ersetzung geht dies so weit dass, die Abweichungen als Fehler kategorisiert werden.
 % TODO threading warum nicht streng nötig 
 % (hauptsächlich limitiert über Wifi I/O nicht anzahl an geräten & )
 % falls anzahl größer wird dann villeicht
 % compelierung python code
 Es ist möglich Python code genau so wie jedes andere Programm zu kompilieren,
 jedoch ist dies standardmäßig nicht nötig da der Interpreter Cpython automatisch Python byte code kompeliert (in PYC Dateien).
+
 
 \section{Steuerung der Roboter}
 \label{subsec:backend_robot_detection}
