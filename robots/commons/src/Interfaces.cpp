@@ -101,13 +101,6 @@ void WebSocketControls::init() {
 }
 
 void WebSocketControls::tick() {
-  ImuData msg = ImuData_init_zero;
-  msg.temperature = 42;
-  Wrapper w = Wrapper_init_zero;
-  w.message.imu_data = msg;
-  w.which_message = at_htlw10_swarmbots_Wrapper_imu_data_tag;
-  send(&w);
-  delay(500);
   if (robota->getTicks() % 10000 == 0) { // Only do this every now and then
     ws.cleanupClients();
   }
@@ -126,17 +119,27 @@ void WebSocketControls::send(uint8_t *message, size_t len) {
 }
 
 void WebSocketControls::send(Wrapper *message) {
-  AsyncWebSocketMessageBuffer *wsBuffer = ws.makeBuffer(512); //  creates a buffer (len + 1) for you.
+  uint8_t buffer[100];
+  // prepare the stream for writing to the ws send buffer
+  pb_ostream_t writeStream = pb_ostream_from_buffer(buffer, sizeof(buffer));
+  // Write the message to the buffer
+  pb_encode(&writeStream, at_htlw10_swarmbots_Wrapper_fields, message);
+  // Send the buffer to all connected clients
+  Serial.print("Tx:");
+  for (int i = 0; i<writeStream.bytes_written; i++) {
+    Serial.printf("%02x", buffer[i]);
+  }
+  Serial.println();
+  
+  AsyncWebSocketMessageBuffer *wsBuffer = ws.makeBuffer(writeStream.bytes_written);
 
   if (!wsBuffer) {
     Serial.println("ERROR: Couldn't create websocket send buffer!");
     return;
   }
-  // prepare the stream for writing to the ws send buffer
-  pb_ostream_t writeStream = pb_ostream_from_buffer(wsBuffer->get(), 512 + 1);
-  // Write the message to the buffer
-  pb_encode(&writeStream, at_htlw10_swarmbots_Wrapper_fields, message);
-  // Send the buffer to all connected clients
+
+  memcpy(wsBuffer->get(), buffer, writeStream.bytes_written);
+  
   ws.binaryAll(wsBuffer);
 }
 
@@ -145,36 +148,41 @@ void WebSocketControls::_onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient 
   Wrapper msg = Wrapper_init_zero;
   // Prepare an input stream from the provided data
   pb_istream_t stream = pb_istream_from_buffer(data, len);
-
   switch (type) {
-  WS_EVT_CONNECT:
+  case WS_EVT_CONNECT:
     if (server->count() >= 2) {
       client->close(1013, "Someone is already controlling this Robot!");
       return;
     }
     Serial.printf("ws[%s][%u] connect\n", server->url(), client->id());
     break;
-  WS_EVT_DISCONNECT:
+  case WS_EVT_DISCONNECT:
     Serial.printf("ws[%s][%u] disconnect\n", server->url(), client->id());
     break;
-  WS_EVT_ERROR:
+  case WS_EVT_ERROR:
     Serial.printf("ws[%s][%u] error(%u): %s\n", server->url(), client->id(),
                   *((uint16_t *)arg), (char *)data);
     break;
-  WS_EVT_PONG:
+  case WS_EVT_PONG:
     Serial.printf("ws[%s][%u] pong[%u]: %s\n", server->url(), client->id(),
                   len, (len) ? (char *)data : "");
     break;
-  WS_EVT_DATA:
+  case WS_EVT_DATA:
     // Decode the stream into the prepared wrapper object
     if (pb_decode(&stream, at_htlw10_swarmbots_Wrapper_fields, &msg)) {
+      Serial.print("Rx: ");
+      for (int i = 0; i < len; i++) {
+        Serial.printf("%02x", data[i]);
+      }
+      Serial.println();
       _handleReceivedMessage(client, msg);
     } else {
       Serial.println("ERROR: Received invalid data!");
     }
     break;
   default:
-    return; // Unrecognised event type, shoud never happen anyways
+    Serial.printf("Unrecognised WS event type %d!", type);
+    return; // Unrecognised event type, should never happen anyways
   }
 }
 
@@ -191,14 +199,23 @@ void WebSocketControls::_handleReceivedMessage(AsyncWebSocketClient *client, Wra
 
   switch (msg.which_message) {
   case at_htlw10_swarmbots_Wrapper_ping_pong_tag:
+    response.which_message = at_htlw10_swarmbots_Wrapper_ping_pong_tag;
     response.message.ping_pong = at_htlw10_swarmbots_Wrapper_PingPong_PONG;
     send(&response);
     break;
   case at_htlw10_swarmbots_Wrapper_move_cmd_tag:
-    moveCmdHandler(msg.message.move_cmd);
+    if (moveCmdHandler) {
+      moveCmdHandler(msg.message.move_cmd);
+    } else {
+      Serial.println("WARN: No moveCmdHandler!");
+    }
     break;
   case at_htlw10_swarmbots_Wrapper_led_cmd_tag:
-    ledCmdHandler(msg.message.led_cmd);
+    if (ledCmdHandler) {
+      ledCmdHandler(msg.message.led_cmd);
+    } else {
+      Serial.println("WARN: No ledCmdHandler!");
+    }
     break;
   default:
     Serial.print("ERROR: Invalid Protobuf message type: ");

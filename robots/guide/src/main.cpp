@@ -8,6 +8,7 @@
 #include <sensors/MPU6050.h>
 #include <sensors/RotaryEncoder.h>
 #include <sensors/Sensors.h>
+#include <Protocol.h>
 
 // Following two macros are just placeholders, in reality they're externally defined in the .env file
 #ifndef WIFI_SSID
@@ -106,6 +107,7 @@ void rightEncoderISR() {
 }
 
 void websocketEventHandler(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len) {
+  Serial.printf("I got a message! Type: %d; Client: %s", type, client->client()->remoteIP());
   if (type == WS_EVT_DISCONNECT || type == WS_EVT_ERROR) {
     leftMotor.setSpeed(0);
     rightMotor.setSpeed(0);
@@ -141,6 +143,8 @@ void lidarMeasurementHandler(SingleLiDARMeasurement measurement) {
 }
 
 void moveCommandHandler(MoveCmd cmd) {
+  Serial.printf("MOVE for max. %d!\n", cmd.duration);
+  Serial.printf("Speed: %d, Steer: %d\n", cmd.speed, cmd.steer);
   // TODO move
 }
 
@@ -156,4 +160,18 @@ void loop() {
     longestTickTime = micros() - start;
     Serial.printf("NEW LONGEST TICK: %d\n", longestTickTime);
   }
+
+  // Send telemetry
+  if (controls.isConnected() && robota.getTicks() % 10000 == 0) {
+    Wrapper msg = Wrapper_init_zero;
+    msg.seq = 1;
+    msg.which_message = at_htlw10_swarmbots_Wrapper_encoder_data_tag;
+    msg.message.encoder_data.duration = 42;
+    msg.message.encoder_data.pulses = 42;
+  }
+
+
+  //if (controls.isConnected()) {
+  //  controls.send(&msg);
+  //}
 }

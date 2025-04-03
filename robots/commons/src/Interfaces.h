@@ -25,8 +25,8 @@ public:
 class WebSocketControls : public Interface {
   AsyncWebServer server;
   AsyncWebSocket ws;
-  void (*moveCmdHandler)(MoveCmd cmd) = [](MoveCmd cmd) {};
-  void (*ledCmdHandler)(LedCmd cmd) = [](LedCmd cmd) {};
+  void (*moveCmdHandler)(MoveCmd cmd) = [](MoveCmd cmd) {Serial.println("WARN: Default moveCmdHandler!");};
+  void (*ledCmdHandler)(LedCmd cmd) = [](LedCmd cmd) {Serial.println("WARN: Default ledCmdHandler!");};
   void _onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len);
   void _handleReceivedMessage(AsyncWebSocketClient *client, Wrapper msg);
 
@@ -40,6 +40,7 @@ public:
   void setLedCmdHandler(void (*handler)(LedCmd cmd));
   bool isConnected();
   bool availableForWrite();
+  uint32_t seq();
 };
 
 #endif
