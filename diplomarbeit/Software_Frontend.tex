@@ -252,6 +252,41 @@ Dabei wird der Code nicht nur auf seine technische Umsetzung beschreiben,
 sondern auch auf seine Funktion im Gesamtsystem 
 sowie seiner Abhängigkeit und interaktion mit anderen Komponenten des Projektes.
 
+\subsection{Protobufs generieren - TypeScript}
+\label{subsec:proto_gen_TS}
+Bevor die Struktur sowie verhaltensweise der Codes genauer erläutert wird,
+müssen die Protobufs generiert werden. 
+%
+Die Webseite benutzt die generierten Protobufs als TypeScript, 
+um die notwendigen Daten herauslesen zu können.
+%
+Nach der Erklärung in \ref{subsec:ueberblick_protobufs} wieso wir Protobufs verwenden,
+geht dieses Kapitel genauer drauf ein wie diese generiert werden.
+%
+Am Anfang der Diplomarbeit wurde die Protobuf-Datein immer händisch generiert, 
+nach einiger Zeit war dies zu nervig, weshalb die generierung mit einem Script automatisiert wurde.
+%
+Das Script wird ausgeführt, sobald die Webseite gebuilted oder gestarted wird.
+Dabei hat das Script immer die höhere Priorität, wodurch der Code nur mit den neusten generierten 
+TypeScript Dateien arbeitet.
+%
+Der wesentliche Teil der generierung sieht wie folgt aus:
+\begin{lstlisting}[language=JavaScript, gobble=4]
+  {
+    exec("npx protoc --proto_path=../proto --ts_out=./src/lib/ ../proto/*.proto", (error, stdout, stderr) => {
+            if (error)
+              console.error('\n'+error.message)
+            if (stderr)
+              console.error('\n'+stderr)
+            if (stdout)
+              console.log('\n'+stdout)
+        })
+        console.log("Compiled protobufs!")
+  }
+\end{lstlisting}
+Die Funktion führt den Befehl zum erstellen der Protobufs sofort aus und speichert sie im Ordner ``lib'',
+wo die generierten Protobuf Datein gelagert werden.
+
 \subsection{websocket.vue}
 \label{subsec:frontend_websocket.vue}
 
@@ -262,12 +297,12 @@ sowie seiner Abhängigkeit und interaktion mit anderen Komponenten des Projektes
   Die Komponente deserialisiert diese Daten wodurch sie lesbar werden. Nach der Verarbeitung werden die Daten an 
   eine weitere Komponente (charts.vue) gesendet um grafisch dargestellt werden zu können.
   \item \texttt{Entwicklungssicht:} \\
-  Aus der Entwicklersicht ist die Komponente ziemlich Fortschrittlich.
+  Aus der Entwicklersicht ist die Komponente ziemlich fortschrittlich.
   Es wird eine aktuelle Version von Vue verwendet (3.5.13), sowie die neuere Composition-API in Kombination mit TypeScript.
   Dadurch das die vielzahl an Komponenten alle aufgeteilt worden sind,
   ist die Fehlersuche sowie die potenzielle Erweiterung des Codes leicht.
   \item \texttt{Prozesssicht:} \\
-  Die Kommunikation erfoglt hauptsächlich Eventgesteuert. 
+  Die Kommunikation erfolgt hauptsächlich Eventgesteuert. 
   Beim Eintreffen neuer Daten vom Server, erscheinen sie direkt auf der Grafik, 
   welche dann unter dem Navigationslink ``Daten'' einzusehen sind. 
   Das Empfangen der Daten erfolgt in Echtzeit, so dass die Seite nicht neugeladen werden muss, 
@@ -276,12 +311,12 @@ sowie seiner Abhängigkeit und interaktion mit anderen Komponenten des Projektes
   Die Webseite welche mittels dem Vue-Framework geschrieben worden ist läuft nur im Browser.
   Die notwendigen Server- oder Websocket Verbindungen werden automatisch beim Start der Webseite ausgeführt.
   \item \texttt{Szenarien:} \\
-  Beispielsweise könnte ein Nutzer, welcher sich die neu gesammelten Daten der Roboter anschauen möchte auf die Webseite begeben.
-  Der Nutzer würde die Webseite nur öffnen müssen, die Serververbindung wird sofort hergestellt.
-  Um die Daten nun einsehen zu können, ist es nur notwendig über die Navigationsleiste auf den Reiter ``Daten'' zu klicken.
-  Auf dem Reiter Daten werden alle empfangenen Sensordaten der unterschiedlichen Roboter grafisch erfasst.
-  Mit diesen Daten kann der Nutzer die Aktivität der SwarmBots feststellen, 
-  ohne sich bei einem Mitarbeiter melden zu müssen.
+    \begin{itemize}
+      \renewcommand{\labelitemi}{$\Rightarrow$}
+    \item Der Nutzer öffnet die Webseite.
+    \item Der Nutzer wechselt auf den Reiter ``Daten'' über die Navigationsleiste.
+    \item Der Nutzer bekommt einen Einblick auf alle derzeitig erfassten Daten der Roboter grafisch dargestellt.
+    \end{itemize}
 \end{enumerate}
 
 \section{Webseitenprobleme}
@@ -319,3 +354,91 @@ Der Fehler lag, daran, dass die neuen generierten Files das "google-Protobuf" Pa
 \end{lstlisting}
 Dies war leicht zu beheben mit dem Befehl:\\ \texttt{npm install -D @types/google-protobuf} \\ wurden die Packete schnell
 heruntergeladen.
+
+\subsection{Variablen einlesung}
+\label{subsubsec:problem_variablen_einlesen}
+
+Ein hartnäckiges Problem war das einlesen der Variablen von den Protobufs. 
+%
+Nachdem der TypeScript-Protobuf nun korrekt eingelesen wird, 
+musste dieser natürlich auch sofort getestet werden.
+%
+Der Code wurde geschrieben und die Variablen die in der Protobuf-Datei verarbeiten werden, 
+sollten wie folgt eingelesen eingelesen werden.
+\begin{lstlisting}[language=JavaScript, gobble=4]
+  {
+    const pulses = data.pulses;
+    const duration = data.duration;
+  }
+\end{lstlisting}
+
+Es wurde mehrere Male überprüft, ob nun wirklich die notwendigen Daten wirklich über die Variable 
+``data.pulses'' und ``data.duration'' geschickt werden. 
+%
+Trotz der Überprüfung der Schüler ob der Code korrekt ist, 
+trotz Recherche im Internet und befragungen an den Lehrpersonen, konnte kein Fehler klargestellt werden.
+%
+Nachdem wir als Gruppe nahezu fast jeden erdenklichen Schritt durchgegangen sind, um diesen Fehler zu beheben,
+kamen wir als Gruppe auf den Gedanken, die Protobuf-Files mal neu generieren zu lassen, da möglicherweise 
+%
+die erstellten Codes Fehler beinhlten konnten. 
+%
+Nachdem die TypeScript Datei neu erstellt worden ist (Für den Befehl siehe \ref{subsec:proto_gen_TS}),
+wurde der Code der generation geändert, weshalb die Variablen nun anders einglesen werden müssen,
+um die korrekten Werte zu erhalten.
+%
+die neue Änderung sieht wie folgt aus:
+\begin{lstlisting}[language=JavaScript, gobble=4]
+  {
+    const decodedData = EncoderData.fromBinary(binaryData);
+
+    const pulses = decodedData.pulses;
+    const duration = decodedData.duration;
+    ...
+  }
+\end{lstlisting}
+Der neue Code speichert beide Werte, also data.pulses und data.duration in ``EncoderData''.
+EncoderData wird ausgelesen und als ``decodedData'' gespeichert, davon werden die benötigten Werte
+dann rausgelesen und weitergeschickt.
+
+\subsection{Diagramm anzeigen}
+\label{subsubsec:problem_chart_anzeige}
+
+Ein lästiges Problem was zum Glück jedoch nicht lange anhielt, war das Problem die Diagramme anzeigen zu lassen.
+Hier spielte wieder die Pfadfindung (siehe \ref{subsubsec:problem_Pfadfindung} für mehr Infos) ein Problem.
+%
+Neben der erneuten Pfadfindungs probleme, kam ein neues Problem auf. 
+Leider wurden im Code ``websocket.vue'', das Diagramm nicht korrekt einglesen über den Befehl
+\begin{lstlisting}[language=JavaScript, gobble=4]
+  {
+    export default {
+      name: "Websocket",
+      components: {
+        encoder_Chart,
+      },
+    }
+  }
+\end{lstlisting}
+Hierbei handelte es sich um einen klassisches ``Copy \& Paste'' Fehler, da diese Code Zeile aus dem Code
+``charts.vue'' herauskopiert wurde.
+%
+
+\subsection{Build-Probleme}
+\label{subsubsec:problem_Builden}
+
+Am anfang der Diplomarbeit begann jeder seine Arbeit lokal auf dem eigenen PC.
+%
+Nach einiger Zeit mussten die Codes aber auf Github hochgeladen werden für einen besseren Überblick 
+des Fortschrittes der Diplomarbeitsgruppe und damit der Betreuer der Gruppe jederzeit den Fortschritt 
+seiner Gruppe sich anschauen kann. 
+%
+Das erste mal Hochladen des Codes auf Github führte direkt zu Problemen, 
+da der Code lokal auf dem PC wunderbar lief und Funktionierte, 
+jedoch sobald er auf Github hochgeladen worden ist, 
+Der Code nicht mehr Compilen bzw. builden wollte.
+%
+Diese Problem konnte jedoch durch eine kleine Bedenktzeit schnell gelöst werden,
+da Irrtümlicherweise vergessen im entsprechenden Ordner zu arbeiten.
+%
+Das große Problem dabei ist, dass die notwendigen Funktionen von Vue nur im entsprechenden Ordner zugänglich sind.
+%
