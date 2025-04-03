@@ -8,6 +8,8 @@ uri_bot1 can be changed too if necessary, currently set to use local IP
 """
 import asyncio
 import socket
+import random
+
 
 import websockets
 # from websockets.asyncio.server import serve
@@ -19,9 +21,9 @@ from protobuf.wrapper_pb2 import Wrapper
 import print_wrapper_content as print_wrp  # used for console prints
 
 # some parameter for testing
-SEND_BACK = True  # sends the received data back
+SEND_BACK = False  # sends the received data back
 CODE_IF_SOCKET_RECV = True  # if something has been received
-CODE_AT_QUEUE_EMPTY = False  # after queue being emptied
+CODE_AT_QUEUE_EMPTY = True  # after queue being emptied
 
 
 def code_at_queue_empty(protobuff_wrapper):
@@ -36,7 +38,8 @@ def code_at_socket_recv(websocket_data):
     # use
     # 'wrp_recv.ParseFromString(websocket_data)'
     # if you wanna read protobuff contents
-    print("received")
+    # print("received")
+    pass
 
 
 def get_local_ip():
@@ -63,7 +66,9 @@ DNSinfo = socket.gethostbyaddr(ip)
 print(DNSinfo)
 del DNSinfo  # not needed anywhere so might as well
 
-uri_bot1 = f"ws://{ip}:8083"  # bot1
+# uri_bot1 = f"ws://{ip}:8083"  # bot1
+uri_bot1 = "ws://sb-guide.htlw10.at:80/ws"  # bot1
+
 
 # FIFO Buffers which are written to
 # allows non blocking code execution while allowing constant receives
@@ -102,16 +107,22 @@ async def bot1_handler1():
     handles receiving and sending packets rom bot1
     """
     wrp_recv = Wrapper()   # wrapper that has been received and to be processed
+    wrp_send = Wrapper()
     recv_for_bot1 = asyncio.Queue()  # FIFO Buffer for received packs
+
+    i = 0  # increment value
 
     while True:
         # try to reattempt connection whit bot
         try:
             print("connecting bot1")
             async with connect(uri_bot1) as websocket:
+                print("connected :O")
                 # receive_task_bot1 =
                 asyncio.create_task(
                     ws_recv_task(recv_for_bot1, websocket))
+
+                await sendto_bot1.put(wrp_recv)
 
                 while True:
                     if SEND_BACK:
@@ -119,7 +130,15 @@ async def bot1_handler1():
                         for buffer in range(50):
                             if not sendto_bot1.empty():
                                 # sends packets in buffer to bot
+
                                 wrp_send = sendto_bot1.get_nowait()
+
+                                # wrp_send.seq = i
+
+                                wrp_send.move_cmd.steer = -1
+                                wrp_send.move_cmd.speed = 69
+                                wrp_send.move_cmd.duration = 30
+
                                 await websocket.send(wrp_send.SerializeToString())
                             else:
                                 break  # leave loop early if empty
@@ -133,10 +152,11 @@ async def bot1_handler1():
                             if CODE_AT_QUEUE_EMPTY:
                                 # print here if necessary
                                 code_at_queue_empty(wrp_recv)
+                                # print(t.hex())
                                 pass
 
                             if SEND_BACK:
-                                sendto_bot1.put(t)
+                                await sendto_bot1.put(wrp_recv)
 
                         else:
                             break  # leave loop early if empty
@@ -145,7 +165,30 @@ async def bot1_handler1():
                         # when nothing to do currently sleep
                         await asyncio.sleep(0)
 
+                    a = random.randint(0, 1)
+                    a = 1
+                    if a == 1:
+                        wrp_send = Wrapper()
+                        i = i+1
+                        wrp_send.seq = i
+
+                        # wrp_send.ping_pong = 1
+                        
+                        steer = random.randint(-1, 1)
+                        wrp_send.move_cmd.steer = steer
+                        wrp_send.move_cmd.speed = 69
+                        wrp_send.move_cmd.duration = 300
+
+                        print(i)
+                        # print("\n---------------send_to_server------------------")
+                        # print_wrp.seq(wrp_send)
+                        await websocket.send(wrp_send.SerializeToString())
+                        await asyncio.sleep(3)
+                    else:
+                        await asyncio.sleep(3)
+
         except ConnectionClosed:
+            print ("closed :C")
             await asyncio.sleep(1)  # wait time before repeated attempt
 
 
