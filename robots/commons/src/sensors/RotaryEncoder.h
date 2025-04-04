@@ -52,6 +52,7 @@ public:
    */
   void pulse();
 
+  // 330 pulses per rotation
   static float pulsesToRotations(uint32_t pulses);
 };
 
