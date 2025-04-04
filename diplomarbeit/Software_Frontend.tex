@@ -75,8 +75,19 @@ der Roboter grafisch analysiert werden. Dies kann beim interpretieren helfen und
 Nicht nur sollen die Daten angezeigt werden, dass wichtigste ist es die empfangen Daten 
 in Echtzeit anzeigen zu lassen, sodass stets die neusten und aktuellsten Informationen präsentiert werden können.
 %
-Die Webseite ist so aufgebaut, dass sofern ein weitere Sensor implementiert werden sollte, 
-der Code mit leichtigkeid erweiter werden kann und es zu keinen weiteren Schwierigkeiten kommen kann.  
+Die Webseite ist so aufgebaut, dass sofern ein weiterer Sensor implementiert werden sollte, 
+der Code mit leichtigkeid erweitert werden kann und es zu keinen weiteren Schwierigkeiten kommen kann.  
+\\ \\
+Zur Veranschaulichung wurde ein Flussdiagramm erstellt, 
+welches dabei helfen soll, 
+wie die unterschiedlichen Komponenten miteinander Kommunizieren,
+sowie welche Komponenten einander aufrufen.
+%
+\begin{figure}[H]
+  \includegraphics[width=\textwidth, center]{img/Webseite_FD.png}
+  \caption{Webseite - Flussdiagramm}
+  \label{fig:Webseite_Flowchart}
+\end{figure}
 
 \subsection{Webseite - Startseite}
 \label{subsubsec:Webseite_Startseite}
@@ -290,6 +301,22 @@ wo die generierten Protobuf Datein gelagert werden.
 \subsection{websocket.vue}
 \label{subsec:frontend_websocket.vue}
 
+Bevor die genauer Erklärung bezüglich des websockets.vue Codes kommt,
+folgt ein Flussdiagramm, das erstmals die Funktionen und einzelnen Schritte
+des Codes beschreibt.
+%
+Das Flussdiagramm zeigt perfekt die einzelnen Schritte, 
+die der Code durcharbeitet um die Geschwindigkeit der Encoder herauszufinden.
+Über das Flussdiagramm ist ebenso zu sehen, 
+dass der Websocket die Werte für die Diagramme aktualisert. 
+%
+
+\begin{figure}[H]
+  \includegraphics[width=\textwidth, height=13cm, center]{img/Websocket_FD.png}
+  \caption{websocket.vue - Flussdiagramm}
+  \label{fig:websocket_Flowchart}
+\end{figure}
+
 \begin{enumerate}
   \item \texttt{Logische Sicht:} \\
   In der logischen Sicht des 4+1 architectural view models ist das Websocket eine esenzielle Komponente.
@@ -319,8 +346,29 @@ wo die generierten Protobuf Datein gelagert werden.
     \end{itemize}
 \end{enumerate}
 
+\subsection{daten.vue}
+\label{subsec:frontend_daten.vue}
+Der Code ``daten.vue'' ist im prinzip nahezu der gleiche wie der von \ref{subsec:frontend_websocket.vue}.
+Daten.vue unterscheidet sich vor allem darin, dass dieser Code,
+nur eine Kommunikation zwischen User und Server durch den Websocket ermöglicht.
+%
+
+\subsection{charts.vue}
+\label{subsec:frontend_charts.vue}
+Beim Code ``charts.vue'', werden die Charts der unterschiedlichen Sensoren erstellt.
+%
+Der Code ermöglicht eine leichte Ergänzung mehrerer Diagramme und bietet dabei einen guten Überblick.
+%
+
+
+
+\subsection{SwarmBotsApp.vue}
+\label{subsec:frontend_SwarmBotsApp.vue}
+TODO
+
 \section{Webseitenprobleme}
 \label{subsec:problem_Webseite}
+TODO
 
 \subsection{Pfadfindung}
 \label{subsubsec:problem_Pfadfindung}
