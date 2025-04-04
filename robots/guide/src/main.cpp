@@ -80,10 +80,10 @@ void setup() {
   leftEncoder.attachISR(leftEncoderISR);
   rightEncoder.attachISR(rightEncoderISR);
 
-  robota.addModule(&mpu);
+  //robota.addModule(&mpu);
 
   // Balancing
-  robota.addModule(&balancer);
+  //robota.addModule(&balancer);
 
   // WiFi Connection
   robota.addModule(&wifi);
@@ -163,11 +163,7 @@ void loop() {
 
   // Send telemetry
   if (controls.isConnected() && robota.getTicks() % 10000 == 0) {
-    Wrapper msg = Wrapper_init_zero;
-    msg.seq = 1;
-    msg.which_message = at_htlw10_swarmbots_Wrapper_encoder_data_tag;
-    msg.message.encoder_data.duration = 42;
-    msg.message.encoder_data.pulses = 42;
+    //TODO
   }
 
 

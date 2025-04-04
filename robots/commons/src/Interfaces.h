@@ -41,6 +41,17 @@ public:
   bool isConnected();
   bool availableForWrite();
   uint32_t seq();
+  
+  void sendEncoderData(
+    int32_t pulses,
+    uint32_t duration
+  );
+  void sendImuData(
+    int32_t acceleration_x, int32_t acceleration_y, int32_t acceleration_z,
+    int32_t rotation_x, int32_t rotation_y, int32_t rotation_z,
+    int32_t temperature
+  );
+  //TODO sendLidarData maybe?
 };
 
 #endif

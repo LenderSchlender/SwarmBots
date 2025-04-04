@@ -101,7 +101,7 @@ void WebSocketControls::init() {
 }
 
 void WebSocketControls::tick() {
-  if (robota->getTicks() % 10000 == 0) { // Only do this every now and then
+  if (robota->getTicks() % 1000000 == 0) { // Only do this every now and then
     ws.cleanupClients();
   }
 }
@@ -230,4 +230,44 @@ bool WebSocketControls::isConnected() {
 
 bool WebSocketControls::availableForWrite() {
   return ws.availableForWriteAll();
+}
+
+uint32_t WebSocketControls::seq() {
+  static uint32_t s = 0;
+  return s++;
+}
+
+void WebSocketControls::sendEncoderData(
+  int32_t pulses,
+  uint32_t duration
+) {
+  Wrapper msg = Wrapper_init_zero;
+  msg.seq = seq();
+  msg.which_message = at_htlw10_swarmbots_Wrapper_encoder_data_tag;
+  msg.message.encoder_data.pulses = pulses;
+  msg.message.encoder_data.duration = duration;
+  // Send
+  send(&msg);
+}
+
+void WebSocketControls::sendImuData(
+  int32_t acceleration_x, int32_t acceleration_y, int32_t acceleration_z,
+  int32_t rotation_x, int32_t rotation_y, int32_t rotation_z,
+  int32_t temperature
+) {
+  Wrapper msg = Wrapper_init_zero;
+  msg.seq = seq();
+  msg.which_message = at_htlw10_swarmbots_Wrapper_imu_data_tag;
+  // Set acceleration (accelerometer)
+  msg.message.imu_data.acceleration_x = acceleration_x;
+  msg.message.imu_data.acceleration_y = acceleration_y;
+  msg.message.imu_data.acceleration_z = acceleration_z;
+  // Set rotation (gyroscope)
+  msg.message.imu_data.rotation_x = rotation_x;
+  msg.message.imu_data.rotation_y = rotation_y;
+  msg.message.imu_data.rotation_z = rotation_z;
+  // Set temperature
+  msg.message.imu_data.temperature = temperature;
+  // Send
+  send(&msg);
 }
