@@ -18,7 +18,7 @@ function senden() {
 
 <template>
   <!--v-model = textbox, changes effect 'Nachricht'-->
-<input v-model="Nachricht" placeholder="Schreib ma" class="WebsocketBox"/>  
+<input v-model="Nachricht" placeholder="Schreib Sie an den Server" class="WebsocketBox"/>  
 <button @click="senden" class="WebsocketBTN">Senden</button>
   <p>
     <!--:key="msg" provides a unique identifier for, helps vue track it more efficiently-->

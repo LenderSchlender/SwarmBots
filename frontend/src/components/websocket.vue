@@ -54,8 +54,16 @@ export default {
         console.log(`Pulses: ${pulses}, Duration: ${duration} ms`);
         output.value.push(`Pulses: ${pulses}, Duration: ${duration} ms`);
 
+        const rotation = pulses / 330.0;
+        const RPs = rotation / duration; // rotation / s
+        const umfang = 6.7 * Math.PI;
+        const speed = RPs * umfang; // cm / s
+
+        console.log(`Speed: ${speed} m/s`);
+        output.value.push(`Speed: ${speed} m/s`);
+
         // update chart
-        series.value[0].data.push(pulses);
+        series.value[0].data.push(speed);
         if (series.value[0].data.length > 8) {
           series.value[0].data.shift(); // Entferne den ältesten Datenpunkt, wenn mehr als 8 vorhanden sind
         }
