@@ -16,7 +16,7 @@ ohne vor Ort anwesend sein zu müssen,
 werden auch die Livestreams von Kameras,
 welche auf den Robotern angebracht sind,
 angezeigt.
-
+\\\\
 Das Frontend wird mithilfe von Vue.js programmiert.
 %
 Vue.js ist ein JavaScript-Framework zur Webentwicklung
@@ -78,10 +78,10 @@ in Echtzeit anzeigen zu lassen, sodass stets die neusten und aktuellsten Informa
 Die Webseite ist so aufgebaut, dass sofern ein weiterer Sensor implementiert werden sollte, 
 der Code mit leichtigkeid erweitert werden kann und es zu keinen weiteren Schwierigkeiten kommen kann.  
 \\ \\
-Zur Veranschaulichung wurde ein Flussdiagramm erstellt, 
-welches dabei helfen soll, 
-wie die unterschiedlichen Komponenten miteinander Kommunizieren,
-sowie welche Komponenten einander aufrufen.
+Zur Veranschaulichung der Systemarchitektur wurde ein Flussdiagramm erstellt, 
+das die interaktionen zwischen den einzelnen Komponenten genau darstellt.
+Das Flussdiagramm dient der Analyse der Kommunikationswege innerhalb des Systems und
+zeigt perfekt, welche Komponente als Sender bzw. als Empfänger agiert. 
 %
 \begin{figure}[H]
   \includegraphics[width=\textwidth, center]{img/Webseite_FD.png}
@@ -110,6 +110,7 @@ sowie Veranschaulichung der Sensordaten werden in den einzelnen Komponenten erle
 Die Startseite bietet dem Nutzer einen übersichtlichen Einstieg in das Projekt. Sie stellt die Mitglieder des Teams
 sowie den zuständigen Betreuer vor und vermittelt einen ersten Eindruck der Diplomarbeit. \\
 % 
+\\
 Die Startseite erfüllt zwei wichtige Punkte: Der erste, sie soll dem Nutzer als Informationsquelle der 
 Diplomarbeit dienen sowie über ihrer Gruppenmitglieder und ihrem Betreuer. 
 Der zweite wesentliche Punkt der Startseite ist es die Navigationslinks anzuzeigen um zu den 
@@ -166,7 +167,7 @@ und ist leicht zu interpretieren.
 Die unterschiedlichen Laserimpulse,
 welche gesendet werden,
 reflektieren an der Oberfläche und werden gemessen.
-
+\\\\
 Zur einfacheren Interpretation des Beispiels
 wurden von Herrn Burjak Bereiche eingezeichnet:
 %
@@ -265,23 +266,25 @@ sowie seiner Abhängigkeit und interaktion mit anderen Komponenten des Projektes
 
 \subsection{Protobufs generieren - TypeScript}
 \label{subsec:proto_gen_TS}
-Bevor die Struktur sowie verhaltensweise der Codes genauer erläutert wird,
-müssen die Protobufs generiert werden. 
+Bevor die Struktur sowie das Verhalten der Codes im Detail erläutert werden können,
+müssen zunächst die Protobuf-Dateien generiert werden. 
 %
-Die Webseite benutzt die generierten Protobufs als TypeScript, 
-um die notwendigen Daten herauslesen zu können.
+Die Webseite verwendet die generierten Protobuf-Definitionen in TypeScript, 
+um die benötigten Daten korrekt interpretieren und verarbeiten zu können.
 %
-Nach der Erklärung in \ref{subsec:ueberblick_protobufs} wieso wir Protobufs verwenden,
-geht dieses Kapitel genauer drauf ein wie diese generiert werden.
+Nach der grundlegenden Einführung in Abschnitt \ref{subsec:ueberblick_protobufs}, 
+in dem die Gründe für den Einsatz von Protocol Buffers genannt werden, 
+beschreibt dieses Kapitel den Prozess der Generierung dieser Dateien.
 %
-Am Anfang der Diplomarbeit wurde die Protobuf-Datein immer händisch generiert, 
-nach einiger Zeit war dies zu nervig, weshalb die generierung mit einem Script automatisiert wurde.
+Zu Beginn der Diplomarbeit wurden die Protobuf-Datein manuell generiert. 
+Da sich dieser Vorgang jedoch als sehr zeitaufwändig erwies,
+wurde der Prozess im laufe der Diplomarbeit durch ein automatisiertes Skript ersetzt.
 %
-Das Script wird ausgeführt, sobald die Webseite gebuilted oder gestarted wird.
-Dabei hat das Script immer die höhere Priorität, wodurch der Code nur mit den neusten generierten 
-TypeScript Dateien arbeitet.
+Dieses Skript wird automatisch ausgeführt, sboald die Webseite gebaut oer gestartet wird.
+Es hat dabei stets die höchste Priorität, wodurch sichergestellt ist, 
+dass der Code stets mit den aktuellsten generierten TypeScript-Dateien arbeitet.
 %
-Der wesentliche Teil der generierung sieht wie folgt aus:
+Der zentrale Teil des Generierungsprozesses sieht wie folgt aus:
 \begin{lstlisting}[language=JavaScript, gobble=4]
   {
     exec("npx protoc --proto_path=../proto --ts_out=./src/lib/ ../proto/*.proto", (error, stdout, stderr) => {
@@ -295,8 +298,86 @@ Der wesentliche Teil der generierung sieht wie folgt aus:
         console.log("Compiled protobufs!")
   }
 \end{lstlisting}
-Die Funktion führt den Befehl zum erstellen der Protobufs sofort aus und speichert sie im Ordner ``lib'',
-wo die generierten Protobuf Datein gelagert werden.
+Die Funktion führt den Befehl zur Generierung der Protobuf-Dateien sofort aus und speichert die erzeugten Dateien
+im Verzeichnis ``lib''. 
+Dieses Verzeichnis dient als Zielordner für alle generierten Protobuf-Dateien für die Webseite.
+
+\subsection{SwarmBotsApp.vue}
+\label{subsec:frontend_SwarmBotsApp.vue}
+Der Code ``SwarmBotsApp.vue'' beschreibt eine einfache Navigations- und Anzeige-Komponente
+für die Webseite und nutzt Vue-Router um diese Links verwenden zu können.  
+%
+Der Code erstellt mithilfe von Vue-Router zwei Navigationslinks zur Verfügung,
+der eine Link führt zur Startseite und der andere zum Link Daten. 
+%
+Basierend auf welchen Link man drückt, ändert sich der Inhalt der Webseite.
+%
+Zusätzlich wird in der Komponente statisch das HTLW10 Logo eingeblendet was als Layout für alle weiteren 
+Links dienen soll. 
+%
+Als Hilfestellung wurde ein Flussdiagramm erstellt, 
+welches die genauen Abläufe des Codes zur Erstellung der Navigationslinks wiederspiegelt.
+\begin{figure}[H]
+  \includegraphics[width=0.8\textwidth, center]{img/SwarmBotsApp_FD.png}
+  \caption{SwarmBotsApp.vue - Flussdiagramm}
+  \label{fig:SwarmBotsApp_Flowchart}
+\end{figure}
+
+  \begin{enumerate}
+    \item \texttt{Logische Sicht:} \\
+    Die Komponente ``SwarmBotsApp.vue'' bildet das Grundgerüst der Webseite.
+    %
+    Sie stellt die Navigationsfunktion zur Verfügung und dient als Layout für die Webseite.
+    %
+    Über die beiden Navigationspunkte kann der Benutzer per Knopfdruck zwischen der Startseite
+    und der Datenseite wechseln.
+    %
+    Zusätzlich wird ein statisches Logo der HTLW10 angezeigt, das Teil der globalen Layouts ist.
+    \item \texttt{Entwicklungssicht:} \\
+    Es wird Vue3 mit TypeScript verwendet. 
+    %
+    Die Navigation basiert auf dem ``Vue-Router'' (für mehr Infos siehe Abschnitt \ref{subsec:frontend_VueRouter}).
+    %
+    Die Struktur der Komponente ist einfach gehalten und folgt den Richtlinien der SFC. 
+    \item \texttt{Prozesssicht:} \\
+    Zur Laufzeit der Webseite ermöglicht die Komponente eine Navigation zwischen den Ferstern Webseite und Daten.
+    %
+    Die Routerlinks-Elemente lösen bei einem Knopfdruck eine Routenänderung aus, 
+    woraufhin der entsprechende Inhalt geladen wird, zu dem der Link führt.
+    %
+    Die Anzeige des Logos der HTLW10 sowie das Layout sind unversell. 
+    \item \texttt{Physische Sicht:} \\
+    Die Komponente wird im Browser, als Bestandteil einer Vue-basierten SPA\footnote{Single Page Application} ausgeführt
+    \item \texttt{Szenarien:} \\
+      \begin{itemize}
+        \renewcommand{\labelitemi}{$\Rightarrow$}
+      \item Der Nutzer öffnet die Webseite.
+      \item Der Nutzer kann zwischen verschiedenen Seiten mithilfe der Navigaitonsleiste wechseln.
+      \end{itemize}
+  \end{enumerate}
+
+\subsection{Vue Router}
+\label{subsec:frontend_VueRouter}
+Vue Router ist die offizielle Routing-Bibliothek für Vue.js. Sie ermöglicht es, 
+SPA mit mehreren Seiten bzw. Ansichten zu erstellen. 
+%
+Das alles funktioniert ohne, dass das die Seite neu geladen werden muss. 
+%
+Vue Router sorgt dafür, dass eine Webseite mithilfe von Navigationslinks 
+zu unterschiedliche Komponenten führt. 
+Dabei hat jede Komponente ihre eigene URL, z.B. /Daten, /Kontakte, usw.
+
+Der zentrale Teil des Codes schaut so aus:
+\begin{lstlisting}[language=JavaScript, gobble=4]
+  {
+    <div class="Router">
+      <RouterLink to="/">Startseite </RouterLink>
+      <RouterLink to="/daten">Daten </RouterLink>
+      <br>
+      <RouterView></RouterView>
+    </div>
+  }
+\end{lstlisting}
 
 \subsection{websocket.vue}
 \label{subsec:frontend_websocket.vue}
@@ -312,7 +393,7 @@ dass der Websocket die Werte für die Diagramme aktualisert.
 %
 
 \begin{figure}[H]
-  \includegraphics[width=\textwidth, height=13cm, center]{img/Websocket_FD.png}
+  \includegraphics[width=\textwidth, height=14.8cm, center]{img/Websocket_FD.png}
   \caption{websocket.vue - Flussdiagramm}
   \label{fig:websocket_Flowchart}
 \end{figure}
@@ -320,18 +401,23 @@ dass der Websocket die Werte für die Diagramme aktualisert.
 \begin{enumerate}
   \item \texttt{Logische Sicht:} \\
   In der logischen Sicht des 4+1 architectural view models ist das Websocket eine esenzielle Komponente.
+  %
   Diese Komponente übernimmt die Kommunikation mit dem Server und verarbeitet die empfangenen Daten.
+  %
   Die Komponente deserialisiert diese Daten wodurch sie lesbar werden. Nach der Verarbeitung werden die Daten an 
   eine weitere Komponente (charts.vue) gesendet um grafisch dargestellt werden zu können.
   \item \texttt{Entwicklungssicht:} \\
   Aus der Entwicklersicht ist die Komponente ziemlich fortschrittlich.
+  %
   Es wird eine aktuelle Version von Vue verwendet (3.5.13), sowie die neuere Composition-API in Kombination mit TypeScript.
   Dadurch das die vielzahl an Komponenten alle aufgeteilt worden sind,
   ist die Fehlersuche sowie die potenzielle Erweiterung des Codes leicht.
   \item \texttt{Prozesssicht:} \\
   Die Kommunikation erfolgt hauptsächlich Eventgesteuert. 
+  %
   Beim Eintreffen neuer Daten vom Server, erscheinen sie direkt auf der Grafik, 
-  welche dann unter dem Navigationslink ``Daten'' einzusehen sind. 
+  welche dann unter dem Navigationslink ``Daten'' einzusehen sind.
+  % 
   Das Empfangen der Daten erfolgt in Echtzeit, so dass die Seite nicht neugeladen werden muss, 
   außerdem werden alte Daten aus der Grafik entfernt und durch neue ersetzt.
   \item \texttt{Physische Sicht:} \\
@@ -348,27 +434,137 @@ dass der Websocket die Werte für die Diagramme aktualisert.
 
 \subsection{daten.vue}
 \label{subsec:frontend_daten.vue}
-Der Code ``daten.vue'' ist im prinzip nahezu der gleiche wie der von \ref{subsec:frontend_websocket.vue}.
-Daten.vue unterscheidet sich vor allem darin, dass dieser Code,
-nur eine Kommunikation zwischen User und Server durch den Websocket ermöglicht.
+Die Komponente ``daten.vue'' basiert in weiten Teilen auf derselben strukturellen 
+und funktionalen Grundlage wie die in Abschnitt \ref{subsec:frontend_websocket.vue} beschrieben 
+WebSocket-Komponente. 
 %
+Beide Komponente ermöglichen eine Interaktion über eine WebSocket-Verbindung.
+%
+Der große Unterschied liegt jedoch im Anwendungsbereich der Komponente 
+``daten.vue'':\\
+Während die technischere Fortgeschrittenere Komponente in Kapitel \ref{subsec:frontend_websocket.vue} 
+weitaus mehr Funktionen besitzt. 
+Ist die Komponente ``daten.vue'' darauf reduziert, 
+eine direkte bidirektionale Kommunikation zwischen Nutzer und Server herzustellen.
+%
+Das bedeutet, dass ``daten.vue'' ausschließlich für den reinen Nachrichtenaustausch über
+WebSocket verwendet wird. 
+Die Komponente eignet sich somit nur als Nachrichtenaustausch.
+%
+Zur Veranschaulichung wurde ein Flussdiagramm hinzugefügt:
+\begin{figure}[H]
+  \includegraphics[width=\textwidth, center]{img/Daten_FD.png}
+  \caption{daten.vue - Flussdiagramm}
+  \label{fig:daten_Flowchart}
+\end{figure}
+
+\begin{enumerate}
+  \item \texttt{Logische Sicht:} \\
+  Diese Komponente stellt eine einfache Benutzeroberfläche für den Nachrichtenaustausch mit einem Server
+  über eine WebSocket-Verbindung dar.
+  %
+  Die Hauptfunktion besteht darin, dass Nutzerinnen und Nutzer eine Nachricht
+  in ein Eingabefeld schreiben, diese per Klick auf einen Knopf absenden können und 
+  anschließend die gesendete Nachricht um unteren Bereich der Seite angezeigt bekommen.
+  %
+  Zusätzlich ist eine Diagramm-Komponente eingebunden, 
+  welche weitere Daten visualisieren kann.
+  %
+  Die Logik basiert auf einer reaktiven Datenbindung, die automatisch die Webseite aktualisiert,
+  sobald neue Daten hinzugefügt werden sollten.
+  \item \texttt{Entwicklungssicht:} \\
+  Aus der Entwicklungssicht basiert die Komponente auf Vue3 und verwendet die Composition API
+  in Kombination mit TypeScript.
+  %
+  Die WebSocket-Verbindung ist getrennt von diesem Code geschrieben worden und wird als Modul Importiert.
+  Das Diagramm ist ebenfalls ausgelagert und eine seperate Komponente. 
+  \item \texttt{Prozesssicht:} \\
+  Zur Laufzeit reagiert die Komponente auf Nutzereingaben und führt in Abhängigkeit davon bestimmte
+  Aktionen aus. Sobald eine gültige Nachricht eingegeben und gesendet wird, 
+  wird diese über die bestehende WebSocket-Verbindung an den Server übermittelt. 
+  %
+  Gleichzeitig wird die Nachricht auf der Webseite angezeigt.
+  %
+  Die Komponente kann somit als eine Art leichtgewichtier Client betrachtet werden, 
+  der Nachricht sendet, anzeigt und gegebenenfalls weiter Daten über die importierte Diagramm-Komponente visualisiert. 
+  \item \texttt{Physische Sicht:} \\
+  Die Komponente wird im Browser als Teil einer Vue-Webanwendung ausgeführt. 
+  Die Komponente benötigt für die Laufzeit eine funktionierende WebSocket-Verbindung zu einem Server,
+  welche Nachrichten empfangen und gegebenenfalls beantworten kann.
+  \item \texttt{Szenarien:} \\
+    \begin{itemize}
+      \renewcommand{\labelitemi}{$\Rightarrow$}
+    \item Der Nutzer öffnet die Webseite.
+    \item Der Nutzer wechselt auf den Reiter ``Daten'' über die Navigationsleiste.
+    \item Der Nutzer gibt eine Nachricht in die Nutzereingabe ein. 
+    \end{itemize}
+\end{enumerate}
 
 \subsection{charts.vue}
 \label{subsec:frontend_charts.vue}
-Beim Code ``charts.vue'', werden die Charts der unterschiedlichen Sensoren erstellt.
+Die Komponente ``charts.vue'' sorgt für die Darstellung von Diagrammen,
+welche die Messwerte unterschiedlicher Sensoren visuell darstellt.
 %
-Der Code ermöglicht eine leichte Ergänzung mehrerer Diagramme und bietet dabei einen guten Überblick.
+``charts.vue'' nutzt eine externe Bibliotheken (z.B. ApexCharts) zur Diagrammdarstellung.
+Dadurch wird eine reaktive Darstellung ermöglicht.
 %
+Der Code der Komponente ist so aufgebaut, dass mit leichtigkeid weitere Diagramme
+mit minimalem Aufwand ergänzt werden können. 
+Dabei müssen die weiteren Diagramme nicht statisch sein, 
+sondern können ebenso reaktiv aufgebaut sein.
+%
+Zusammengefasst trägt die ``charts.vue''-Komponente wesentlich zur 
+Dateninterpretation bei, indem sie die erfassten Daten,
+welche in der WebSocket-Komponente umgewandelt werden, präzise und reaktiv darstellt.
 
+\begin{figure}[H]
+  \includegraphics[width=\textwidth, center]{img/Charts_FD.png}
+  \caption{charts.vue - Flussdiagramm}
+  \label{fig:charts_Flowchart}
+\end{figure}
 
-
-\subsection{SwarmBotsApp.vue}
-\label{subsec:frontend_SwarmBotsApp.vue}
-TODO
+\begin{enumerate}
+  \item \texttt{Logische Sicht:} \\
+  Diese Komponente dient der Visualisierung der Sensodaten in Form von Diagrammen.
+  %
+  Die Komponente verwendet die Bibliothek ``ApexCharts''.
+  Ziel ist es die empfangenen Sensordaten des Servers zu visualisieren. 
+  \item \texttt{Entwicklungssicht:} \\
+  Aus der Entwicklungssicht basiert die Komponente auf Vue3 und verwendet die Composition API
+  in Kombination mit TypeScript.
+  %
+  Es wird eine externe Bibliothek importiert um die notwendigen Diagramme zu realisieren.
+  Die Komponente ist mit leichtigkeit modulierbar und erweiterbar. 
+  \item \texttt{Prozesssicht:} \\
+  Zur Laufzeit der Webseite wird die Komponente vom Framework gerendet, 
+  wodurch ein interakives Diagramm anhand der empfangenen Daten erzeugt wird.
+  %
+  Die Diagrammkonfiguration und Datenserie werden bei in reaktiven Datenobjekten gespeichert,
+  sodass bei neu erhaltenen Sensordaten, das Diagramm diese automatisch aktualisiert. 
+  \item \texttt{Physische Sicht:} \\
+  Die Komponente wird im Browser als Teil einer Vue-Webanwendung ausgeführt.
+  % 
+  Die Abhängigkeit von ApexCharts erfordert, dass die Bibliothek korrekt installiert ist.
+  %
+  Die empfangenen Sensordaten werden aus anderen Komponenten importiert.
+  \item \texttt{Szenarien:} \\
+    \begin{itemize}
+      \renewcommand{\labelitemi}{$\Rightarrow$}
+    \item Der Nutzer öffnet die Webseite.
+    \item Der Nutzer wechselt auf den Reiter ``Daten'' über die Navigationsleiste.
+    \item Der Nutzer kann über das interaktive Diagramm die Messwerte der Sensordaten auslesen. 
+    \end{itemize}
+\end{enumerate}
 
 \section{Webseitenprobleme}
 \label{subsec:problem_Webseite}
-TODO
+Im Laufe der Entwicklung der Webseite traten unterschiedliche Probleme auf,
+ob nun technischer oder struktureller Natur, 
+es wurden alle hier in diesem Kapitel beschrieben.
+%
+Da die Fehler in Vue3 unter der Verwendung von TypeScript realisiert wurden, 
+waren die Fehler nicht immer unmittelbar erkennbar, 
+weshalb bei einigen Fehlern die analyse von Mitschülern oder Lehrkräften benötigt wurde.
 
 \subsection{Pfadfindung}
 \label{subsubsec:problem_Pfadfindung}
@@ -405,11 +601,15 @@ heruntergeladen.
 
 \subsection{Variablen einlesung}
 \label{subsubsec:problem_variablen_einlesen}
-
-Ein hartnäckiges Problem war das einlesen der Variablen von den Protobufs. 
+Ein hartnäckiges Problem in der Entwicklung des Codes zum Auslesen der Sensordaten, 
+stellte das korrekte Einlesen von Variablen aus den generierten TypeScript-Protobuf Dateien dar.
 %
-Nachdem der TypeScript-Protobuf nun korrekt eingelesen wird, 
-musste dieser natürlich auch sofort getestet werden.
+Das Generieren der TypeScript-Protobuf Dateien erfolgte wie in Abschnitt \ref{subsec:proto_gen_TS} 
+und war kein Problem, was jedoch zu Problemen war das einlesen der notwendigen Variablen, 
+welche die Sensordaten beinhalteten. 
+% 
+\\
+Nach der grundlegenden schilderung des Problems, folgen nun die Schritte die zum Problem führten.
 %
 Der Code wurde geschrieben und die Variablen die in der Protobuf-Datei verarbeiten werden, 
 sollten wie folgt eingelesen eingelesen werden.
@@ -419,21 +619,23 @@ sollten wie folgt eingelesen eingelesen werden.
     const duration = data.duration;
   }
 \end{lstlisting}
-
+%
 Es wurde mehrere Male überprüft, ob nun wirklich die notwendigen Daten wirklich über die Variable 
 ``data.pulses'' und ``data.duration'' geschickt werden. 
 %
-Trotz der Überprüfung der Schüler ob der Code korrekt ist, 
-trotz Recherche im Internet und befragungen an den Lehrpersonen, konnte kein Fehler klargestellt werden.
+Trotz mehrfacher Überprüfung der Schüler sowie Rückfragen bei Lehrpersonen ob der Code korrekt ist, 
+konnte kein Fehler identifiziert werden. 
+Laut unseren Überprüfungen waren wir sicher, das die Daten scheinbar korrekt übertragen werden.
 %
 Nachdem wir als Gruppe nahezu fast jeden erdenklichen Schritt durchgegangen sind, um diesen Fehler zu beheben,
 kamen wir als Gruppe auf den Gedanken, die Protobuf-Files mal neu generieren zu lassen, da möglicherweise 
+die erstellten Codes Fehler beinhalten konnten. 
 %
-die erstellten Codes Fehler beinhlten konnten. 
+Daraufhin wurden die Protobuf-Dateien mithilfe des in Abschnitt \ref{subsec:proto_gen_TS} beschriebenen
+Befehls erneut generiert.
 %
-Nachdem die TypeScript Datei neu erstellt worden ist (Für den Befehl siehe \ref{subsec:proto_gen_TS}),
-wurde der Code der generation geändert, weshalb die Variablen nun anders einglesen werden müssen,
-um die korrekten Werte zu erhalten.
+Durch diese neugenerierung wurde die Struktur der TypeScript-Dateien verändert, 
+weshalb der Zugriff auf die gewollten Sensordaten nun anders verlief.
 %
 die neue Änderung sieht wie folgt aus:
 \begin{lstlisting}[language=JavaScript, gobble=4]
@@ -451,9 +653,13 @@ dann rausgelesen und weitergeschickt.
 
 \subsection{Diagramm anzeigen}
 \label{subsubsec:problem_chart_anzeige}
-
-Ein lästiges Problem was zum Glück jedoch nicht lange anhielt, war das Problem die Diagramme anzeigen zu lassen.
-Hier spielte wieder die Pfadfindung (siehe \ref{subsubsec:problem_Pfadfindung} für mehr Infos) ein Problem.
+Ein weiteres Problem welches auftrat, wenn auch glücklicherweise nur von kurzer Dauer,
+bezog sich auf die Darstellung der Diagramme im Frontend.
+%
+Obwohl die grundlegende Imporiterung der Chart-Komponente bereits funktioniert, 
+ließ sich das Diagramm nicht anzeigen.
+%
+Ein Grund für das Problem war ähnlich wie in Abschnitt \ref{subsubsec:problem_Pfadfindung} beschrieben,
 %
 Neben der erneuten Pfadfindungs probleme, kam ein neues Problem auf. 
 Leider wurden im Code ``websocket.vue'', das Diagramm nicht korrekt einglesen über den Befehl
@@ -467,26 +673,32 @@ Leider wurden im Code ``websocket.vue'', das Diagramm nicht korrekt einglesen ü
     }
   }
 \end{lstlisting}
-Hierbei handelte es sich um einen klassisches ``Copy \& Paste'' Fehler, da diese Code Zeile aus dem Code
-``charts.vue'' herauskopiert wurde.
+Hierbei handelte es sich um einen klassischen ``Copy \& Paste''-Fehler handelte.
+Da dieser entsprechende Codeabschnitt ursprünglich aus der Datei ``charts.vue'' übernommen wurde.
 %
+Der Fehler lag darin, dass die Kontextabhängigen Aspekte berücksichtigt. 
 
 \subsection{Build-Probleme}
 \label{subsubsec:problem_Builden}
-
-Am anfang der Diplomarbeit begann jeder seine Arbeit lokal auf dem eigenen PC.
+Zu beinn der Diplomarbeit arbeitete jedes Gruppenmitglied lokal auf dem eigenen Rechner.
 %
-Nach einiger Zeit mussten die Codes aber auf Github hochgeladen werden für einen besseren Überblick 
-des Fortschrittes der Diplomarbeitsgruppe und damit der Betreuer der Gruppe jederzeit den Fortschritt 
-seiner Gruppe sich anschauen kann. 
+Dies war für den initialen Projektstart sinnvoll, 
+führte jedoch im Laufe der Zeit zu teamarbeitlichen Problemen. 
 %
-Das erste mal Hochladen des Codes auf Github führte direkt zu Problemen, 
-da der Code lokal auf dem PC wunderbar lief und Funktionierte, 
-jedoch sobald er auf Github hochgeladen worden ist, 
-Der Code nicht mehr Compilen bzw. builden wollte.
+Aus diesem Grund wurde entschieden, dass jedes Gruppenmitglied seinen Fortschritt 
+in ein GitHub-Repository hochlädt. 
 %
-Diese Problem konnte jedoch durch eine kleine Bedenktzeit schnell gelöst werden,
-da Irrtümlicherweise vergessen im entsprechenden Ordner zu arbeiten.
+Das erstmalige Testen des Codes der auf GitHub gepushed wurde, führte zu unerwarteten Problemen.
+Der lokale Code konnte problemos kompilierte und ausgeführt werden, 
+der Code welcher auf GitHub jedoch hochgeladen worden ist, nicht.
 %
-Das große Problem dabei ist, dass die notwendigen Funktionen von Vue nur im entsprechenden Ordner zugänglich sind.
+Nach kurzer begutachtung, konnte das Problem identifiziert und behoben werden.
+Es musste einfach nur das Verzeichnis geändert werden, 
+da die gebrauchten Vue-Funktionen nicht im gesammten GitHub Verzeichnis funktionieren.
 %
+Das folgende Bild zeigt nochmals die Fehlermeldung mit der gearbeitet werden musste:
+\begin{figure}[H]
+  \includegraphics[width=0.8\textwidth, center]{img/GitHub_Buildprobleme.png}
+  \caption{GitHub - Buildprobleme}
+  \label{fig:GitHub_Buildprobleme}
+\end{figure}
