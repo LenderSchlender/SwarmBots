@@ -8,7 +8,14 @@
 Das Backend ist die Zentrale Rechenstelle welches in drei Komponenten aufgeteilt.
 % generell zum backend
 
-Weshalb es verantwortlich für die Kommunikation und Datenerfassung zwischen allen Teilnehmer. 
+\begin{figure}[H]
+    \includegraphics[width=\textwidth, center]{img/backend-konzept.png}
+    \caption{Backend Konzept}
+    \label{fig:backend_konzept}
+\end{figure}
+% grafik anpassen
+
+Wodurch es verantwortlich für die Kommunikation und Datenerfassung zwischen allen Teilnehmer. 
 Dazu gehören die drei Roboter, welche uns die Daten liefern wie LiDAR, Beschleunigungssensor etc., 
 und das Frontend zu dem die Daten zur Visualisierung und Mitverfolgung gesendet werden 
 und gegebenenfalls auch Befehle empfingt.
@@ -20,7 +27,7 @@ und gegeben falls Berechnung der Messwerte.
 % im falle ineffizient etc
 
 Und Steuerung der Roboter mithilfe eines Erkennungssystems 
-welches bestimmte Kennzeichen in den erhaltenen Daten ausschau hält und 
+welches bestimmte Kennzeichen in den erhaltenen Daten Ausschau hält und 
 darauf Kennzeichen für die einzelnen Bots erkennt und verfolgt, 
 um entsprechend die Positionen aller Bots relativ zur LiDAR Map ausfindig zu machen.
 
@@ -31,7 +38,30 @@ TODO
 
 TODO (Datenbank, Lidarmap)
 
-Es wurde mit Python programmiert, 
+
+Für das Backend wurde Python gewählt, 
+welches von seiner Vielzahl von Standortbibliotheken und 
+großen Anzahl an externen Bibliotheken und Frameworks, 
+eine effiziente und schnelle Programmierung ermöglicht, 
+auch unterstützt durch eine aktive Community.
+% 
+Für dieses Projekt wurde es gewählt aufgrund seiner Vielseitigkeit, 
+speziell im Bezug auf den unterschiedlichen Task die ausgeführt werden müssen, 
+insbesondere der Kommunikation und Datenverarbeitung 
+Felder in die Python üblicherweise verwendet werden.
+% 
+Darauf müssen auch mehrere Verbindungen offen bleiben und verwaltet werden,
+und dies schnell zu realisieren mithilfe von Bibliotheken 
+die uns ermöglichen aufs wesentliche zu fokussieren.
+% 
+Eine schnelle Programmierung und Modifizierung, 
+weil das Backend voraussichtlich mit dem zum zeitigen Projektstand wächst, 
+ganz wichtig für die Datenverarbeitung und Steuerung da diese sich im Laufe des Projekts stark ändern kann,
+aufgrund dessen, dass die Methoden und Systeme nicht endgültig feststehen, 
+und teilweise noch definiert werden müssen.
+% 
+Und letzteres auch wegen Erfahrungen mit dem Vorgänger Projekt, 
+denn ein wesentlicher Teil davon bestand auf die Kommunikation über Websockets.
 % Gelaber über python
 % wegen math Funktionen...
 % schnelle Modifizierung 
@@ -56,10 +86,41 @@ diese ermöglicht eine bidirektionale, persistente Verbindung zwischen einem Cli
 welches im Vergleich zu gewöhnlichen HTTP-Anfragen offen bleibt, wodurch Echtzeitkommunikation möglich ist.
 % könnte man mehr ausschreiben aber schau ma später
 
+\section{Datenverarbeitung}
+Zurzeit nicht realisiert.
+
+Geplannt war das die erhaltenen daten über das Datenverarbeitungsystem 
+über die zeit hinaus eine Karte erstellt sozuagen die LiDAR map,
+welche in einer Datenbank abgespeichert werden.
+
+Dazu ein Erkennungssystem welche die einzelnen Roboter ausfindig machen soll.
+Dafür haben wir einige Konzepte erstellt:
+% füge skizzen hier oder erklär anderen Kapitel?
+% Kugel, stab, mehrere stäbe, reflektierendes material
+
+\section{Steuerung der Roboter}
+\label{subsec:backend_robot_detection}
+Zurzeit nicht realisiert.
+% spätester schritt weil funktionierende Strategie benötigt wird zur Erkennung
+% Datenbank/ Datenbearbeitung
+
+Die aufträge der einzelnen Bots sind in den Entsprechenden Kaüitel genauer beschrieben.
+% schau was da steht und was speziell hier klargemacht werden muss
+
+Stattdessen ein Test Programm zur Überprüfung zur theoretischen Steuerung.
+% verwendung von code vom vorgänger Projekt
+
+
+\section{Backend - Code}
+% was passiert hier 
+
+\subsection{Protobufs generieren}
+% siehe md file
+
 \subsection{Python Packages}
 % welche python packet verwendet wurden
 \subsubsection{websockets}
-Für Python ist ein Websocket Packet namens 'websockets' vorhanden welches die Client-Server Kommunikation
+Für Python ist ein Websocket Paket namens 'websockets' vorhanden welches die Client-Server Kommunikation
 um ein Vielfaches vereinfacht da man sich keine Sorge über Handshakes, Ping Pongs, oder anderes verhalten
 der Websocket Spezifikation, da es alles von dem Paket behandelt wird 
 und man sich mehr auf die Applikation fokussieren kann. 
@@ -81,9 +142,20 @@ aufgrund der möglichen erweiterten Komplexität von Thread sicheren code Ausfü
 Eine Sans-I/O Implementierung ist auch vorhanden jedoch für dieses Projekt zurzeit irrelevant.
 
 \subsubsection{protobuff}
+Das besondere an der protobuff implementierung hier in Python ist,
+das sehr viel von der protobuff Bibliothek selbst erledigt wird.
+Im vergleich zum vorgänger Projekt wo die Datenpakete manuell hergerichtet werden
+und zum richtigen byte format konvertiert, wird mit Protobuff ein Objekt erstellt 
+und jeweils die gegebenen Variablen angesprochen, 
+diese mit einem einzelnen Befehl ins sende Format formatiert und genauso zurück
+und von den gegebenen Tasks weiterverarbeitet werden kann.
 % verhalten in python
 % wie anders
 
+% Kurzeitig gab es das Problem wie genau mit der mit dem Python protobuff paket zu arbeiten ist, 
+% aufgrund dessen das die dokumentation nicht der von anderen Python Packeten gleicht
+% und alle Informationen hauptsächlich von der Anleitungen zu Wünschen übrig lässt.
+% Ich hatte einfach ein wenig probleme es anfänglich zu kapieren aber ging schnell
 
 \subsection{}
 % übersichtsgrafik über teilnehmer und wie datenablauf funktioniert
@@ -110,7 +182,7 @@ während unser Backend andere Prozesse ausführt.
 % kann mehr dazu schreiben
 % ermöglicht auch sachen etc.
 
-\section{Optimierungsmöglichkeiten}
+\subsection{Optimierungsmöglichkeiten}
 \label{subsec:Optimierungsmöglichkeiten}
 % uvloop - drop in replacement
 % https://github.com/MagicStack/uvloop
@@ -125,9 +197,3 @@ Als drop-in Ersetzung geht dies so weit dass, die Abweichungen als Fehler katego
 Es ist möglich Python code genau so wie jedes andere Programm zu kompilieren,
 jedoch ist dies standardmäßig nicht nötig da der Interpreter Cpython automatisch Python byte code kompeliert (in PYC Dateien).
 
-
-\section{Steuerung der Roboter}
-\label{subsec:backend_robot_detection}
-TODO 
-% spätester schritt weil funktionierende Strategie benötigt wird zur Erkennung
-% Datenbank/ Datenbearbeitung
