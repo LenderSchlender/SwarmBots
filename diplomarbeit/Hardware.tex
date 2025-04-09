@@ -10,13 +10,13 @@ fertig entwickelte Kits online zu bestellen und dann zu modifizieren.
 %
 Die Wahl des Kits fiel letztendlich auf den ``Tumbller'' von Elegoo (Siehe Abbildung \ref{fig:elegoo_tumbller}).
 %
-Der Tumbller ist ein zweirädriger Roboter, welcher auf einer Ache balanciert.
+Der Tumbller ist ein zweirädriger Roboter, welcher auf einer Achse balanciert.
 %
-Zur Kontrolle des unmodifizierten Kits gibt es eine Smartphone-App,
+Zur Steuerung des unmodifizierten Kits gibt es eine Smartphone-App,
 welche die Roboter über Bluetooth fernsteuern kann.
 %
-Da wir die Roboter über WLAN steuern wollten, 
-und die Tumbller-Kits standardmäßig nur eine Bluetooth-Erweiterung eingebaut haben,
+Da wir die Roboter stattdessen über WLAN steuern wollten, 
+und die Tumbller-Kits standardmäßig nur ein Bluetooth-Modul eingebaut haben,
 haben wir die mitgelieferten Arduino Nano durch ESP32-Boards im Arduino Nano-Format ersetzt.
 % TODO Spannungsunterschiede Arduino Nano vs ESP
 \begin{figure}[H]
@@ -25,8 +25,10 @@ haben wir die mitgelieferten Arduino Nano durch ESP32-Boards im Arduino Nano-For
     \label{fig:elegoo_tumbller}
 \end{figure}
 
+% TODO der ganze Absatz muss neu strukturiert werden
 Wie in Abbildung \ref{fig:elegoo_tumbller} zu sehen ist,
-besteht der unmodifizierte Elegoo Tumbler aus einem Arduino Nano der zur Steuerung des gesamten Roboters verwendet wird.
+besteht der unmodifizierte Elegoo Tumbler aus einem Arduino Nano,
+der zur Steuerung des gesamten Roboters verwendet wird.
 %
 Einem MPU6050 (Gyroskop- \& Beschleunigungssensor),
 der zur Erkennung der Achsen und Bewegungen verwendet wird (balancieren).
@@ -60,13 +62,14 @@ zur Visualisierung der Modi hat der Elegoo Tumbler mehrere LEDs eingebaut.
 Das PCB (Printed Circuit Board) im originalen Elegoo Tumbller ist eine fertig entwickelte Leiterplatte,
 wie in Abbildung \ref{fig:elegoo_tumbller_original_circuit} zu sehen ist.
 %
-Auf dieser Leiterplatte sind alle elektronischen Bauteile des Roboters miteinander verbunden.
+Auf dieser Leiterplatte sind alle elektronischen Bauteile des Roboters aufgebaut.
 %
-Alle Komponenten müssen nur noch in die vorgesehenen Stecker gesteckt werden.
+Die einzelnen Komponenten müssen nur noch in die vorgesehenen Sockel gesteckt werden.
 %
 \subsubsection{Technische Umsetzung}
-Die Leiterplatte (PCB) im originalen Elegoo Tumbller besteht aus mehreren Leiterbahnen.
-%
+% TODO redundant v
+Die Leiterplatte im originalen Elegoo Tumbller besteht aus mehreren Leiterbahnen.
+% TODO unnötig v
 Diese Leiterbahnen sind feine Kupferstreifen,
 die dafür sorgen,
 dass alle elektronischen Bauteile miteinander verbunden sind.
@@ -83,7 +86,7 @@ die für den Betrieb des Roboters notwendig sind. Dazu gehören:
     \item Lötpads für die Stromversorgung (Li-Ion Akku)
     \item Anschluss für den AMS1117 Spannungsregler
 \end{itemize}
-
+% TODO redundant v
 Die Leiterbahnen sind so angeordnet,
 dass der Strom von der Stromquelle zu allen Bauteilen auf der Platine verteilt wird.
 %
@@ -96,7 +99,7 @@ dass die beiden Motoren in beide Richtungen gesteuert werden können.
 Die originale PCB im Elegoo Tumbller bringt mehrere Vorteile mit sich.
 %
 Durch die fertig entwickelte Platine können alle Bauteile einfach angeschlossen werden,
-ohne dass zusätzliche Kabel verlötet werden müssen.
+ohne dass zusätzliche Drähte verlötet werden müssen.
 %
 Dadurch bleibt der Aufbau übersichtlich und ordentlich.
 %
@@ -104,19 +107,17 @@ Die PCB ist kompakt aufgebaut,
 wodurch der Platz im Roboter optimal genutzt wird.
 %
 Zusätzlich sind auf der Platine LEDs vorhanden,
-die den aktuellen Betriebszustand anzeigen.
+die den aktuellen Betriebszustand anzeigen können.
 %
 Da alle Verbindungen direkt auf der Leiterplatte verlaufen,
-gibt es weniger Wackelkontakte oder lockere Verbindungen.
+gibt es weniger Möglichkeiten für Wackelkontakte oder lockere Verbindungen.
 
 \subsubsection{Einschränkungen}
-
-Die PCB des originalen Tumbller ist nur für die Standard-Komponenten ausgelegt.
+Die PCB des originalen Tumbller ist nur für die mitgelieferten Komponenten ausgelegt.
 %
 Wenn man zusätzliche Sensoren oder einen anderen Mikrocontroller (wie im SwarmBots-Projekt) verwenden möchte,
-muss die Verkabelung angepasst oder die Platine teilweise umgelötet werden.
-%
-Außerdem ist sie nicht flexibel, wenn man den Aufbau verändern will.
+muss die die Platine modifiziert werden,
+was schnell zu einer komplexen Aufgabe werden kann.
 %
 Siehe Abbildung \ref{fig:elegoo_tumbller_original_circuit} auf Seite \pageref{fig:elegoo_tumbller_original_circuit}.
 %
@@ -130,7 +131,7 @@ Siehe Abbildung \ref{fig:elegoo_tumbller_original_circuit} auf Seite \pageref{fi
 %
 \subsubsection{Allgemein}
 Der MPU6050 ist ein 6-Achsen-Sensor,
-der aus einem Drehratensensor (Gyroskop, welcher Drehbewegungen in 3 Achsen)
+der aus einem Drehratensensor (Gyroskop, welcher Drehbewegungen in 3 Achsen misst)
 und einem Beschleunigungssensor (Accelerometer, welcher lineare Beschleunigungen in 3 Achsen misst),
 wie in Abbildung \ref{fig:mpu6050} zu sehen ist.
 \subsubsection{Technische Daten}
@@ -151,7 +152,7 @@ Accelerometer: 16.384 LSB( least significant bit/ niedrigstes Bit)/g (bei ±2g))
 %
 Die Genauigkeit der beiden liegt bei ca. ±0,01 °/s für den Gyroskop-Sensor und ca. ±0,005g für den Accelerometer.
 %
-Zudem verfügt der MPU6050 über eine Abtastrate von bis zu 1kHz und über einen integrierten DMP (Digital Motion Processor),
+Der MPU6050 über eine Abtastrate von bis zu 1kHz und über einen integrierten DMP (Digital Motion Processor),
 welcher es ermöglicht, Datenfusion durchzuführen.
 %
 \subsubsection{Einschränkungen}
@@ -215,13 +216,13 @@ BO2	Ausgang Motor B (Minuspol)
 Durch die Kombination Richtungssignale (AIN1, AIN2 / BIN1, BIN2),
 kann der Motor entweder vorwärts-, rückwärtsfahren oder anhalten.
 %
-Der PWMA/PWMB sorg dafür, dass sich die Geschwindigkeit ändert.
+Der PWMA-/PWMB-Eingang wird verwendet, um die Geschwindigkeit zu steuern.
 %
 \subsection{AMS1117 (3.3V Spannungsregler)}
 %
 \subsubsection{Allgemein}
 Der AMS1117 ist ein linearer Spannungsregler,
-der aus einer höhere Eingangsspannung eine stabile kleinere Ausgansspannung (3,3V) macht.
+der aus einer höheren Eingangsspannung eine stabile kleinere Ausgansspannung (3,3V) macht.
 %
 Im Elegoo Tumbller wird er verwendet,
 um die Spannung auf 3,3 Volt zu reduzieren.
@@ -241,12 +242,16 @@ ist der Spannungsregler direkt auf der Platine integriert.
 \end{figure}
 Der Spannungsregler kann mit 4,5V bis 15V betrieben werden,
 er hat eine fixe Ausgansspannung von 3,3V und kann maximal 1A Ausgangstrom liefern (mit einer Kühlung),
-die Drop-out Spannung beträgt 1,1V (bei 1A). der Integrierte Schutz schütz vor Übertemperatur und Kurzschlüssen.
+die Drop-out Spannung beträgt 1,1V (bei 1A).
+%
+Es gibt einen integrierten Übertemperatur- und Kurzschlussschutz.
 %
 \subsection{HC-06 (Bluetooth Modul)}
 %
 \subsubsection{Allgemein}
-Das HC-06 ist ein Bluetooth Modul der es ermöglicht über eine kurze Distanz ohne Kabel daten zu übertragen.
+Das HC-06 ist ein Bluetooth-Modul,
+das es ermöglicht,
+mittels Bluetooth Daten zu übertragen.
 %
 Wie in Abbildung \ref{fig:hc06} zu sehen ist,
 ist das Modul sehr kompakt aufgebaut.
@@ -257,7 +262,8 @@ ist das Modul sehr kompakt aufgebaut.
     \caption{HC-06 Bluetooth-Modul}
     \label{fig:hc06}
 \end{figure}
-Das Bluetooth Modul wird mit einer Betriebsspannung von 3,3V betrieben als Kommunikationsmetode verwendet es UART 
+Das Bluetooth Modul wird mit einer Betriebsspannung von 3,3V betrieben.
+Als Kommunikationsmethode verwendet es UART 
 (UART (Universal Asynchronous Receiver Transmitter) ist eine serielle Schnittstelle,
 die Daten bitweise und ohne Taktsignal zwischen zwei Geräten über nur zwei Leitungen (TX und RX) überträgt.).
 %
