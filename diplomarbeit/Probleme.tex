@@ -101,6 +101,48 @@ um sicherzustellen, das die UART-Verbindung keinesfalls beeinflusst wird
 (siehe Original-Schaltplan in Abbildung \ref{fig:elegoo_tumbller_original_circuit}).
 %TODO Bilder und Erläuterung zu Entfernen des Bluetooth Moduls
 
+
+\section{Nicht identische Pinbelegung}
+% muss überarbeitet werden?
+\label{subsec:arduino_to_esp32}
+Der Wechsel zum ESP32 Nano lief nicht reibungslos wie erhofft da,
+obwohl der ESP von Arduino das "gleiche Gehäuse" verwendet 
+es jedoch zu einigen Unterschieden in den Pins kommt. 
+
+% TODO änder die pins aufs wichtige
+\begin{figure}[H]
+    \includegraphics[width=\textwidth, center]{img/nano-differences-m.png}
+    \caption{Hervorgehobene Pinbelegung zwischen Arduino und ESP32 nano}
+    \label{fig:nano_boards}
+\end{figure}
+
+Zwischen den Boards herrschen für dieses Projekt am wesentlichen diese Unterschiede.
+\begin{itemize}
+    \centering
+    \item Pin 3 von \texttt{AREF} zu \texttt{GPIO46} und \texttt{Boot0}.
+    \item Pin 12 von \texttt{+5V} zu \texttt{VUSB} oder \texttt{VBUS}.
+    \item Pin 13 von \texttt{RESET} zu \texttt{GPIO0} und \texttt{Boot1}.
+\end{itemize}
+
+Der Pin 3 von \texttt{AREF} ist unproblematisch aufgrund dessen dass,
+es zu einem ungenutzten I/O Interface führt und somit keinem weiteren Besorgen.
+
+Bei Pin 12 muss etwas Achtung gegeben werden, weil der \texttt{VBUS} im Vergleich zu \texttt{+5V} als
+direkte Führung von der Versorgung aus der USB Schnittstelle bedacht wurde und 
+dadurch nicht weiter geregelt wird vom Board. Deswegen wird empfohlen den VBUS 
+nicht mit anderen Pins am Nano kurz zuschließen, jedoch wenn der ESP32 über den VIN Pin versorgt ist, 
+wird der Pin deaktiviert und sollte keine 5V von der USB Schnittstelle liefern können. 
+% Weiteres verhalten darüber hinaus ist nicht dokumentiert.
+% Mehr dazu und der anderen Betriebsspannung ist in Abschnitt \ref{subsec:problem_betriebsspannungen} zu finden.
+
+Pin 13 sollte keine Probleme machen da es zu einem offenen Schalter geht,
+der ursprünglich den \texttt{RESET} Pin betätigt hätte und sonst offen liegt. 
+Beim ESP32 würde der Schalter dafür sorgen das zum Boot Mode gewechselt werden kann, 
+oder gewöhnliche Operationen mit \texttt{GPIO0}. 
+Jedoch kam es zu Störungen an diesem Pin trotz internen Pull-up-Widerstand, 
+wodurch wir den Pin entfernt haben mehr dazu siehe Abschnitt \ref{subsec:gestoert_boot}.
+
+
 \section{Gestörter Boot Prozess} \label{subsec:gestoert_boot}
 In unseren nächsten Test nachdem wir das Bluetooth-Modul entfernt haben 
 und erfolgreich code laden konnten, verweigerte der ESP wieder den Programmierungprozess.
