@@ -282,7 +282,26 @@ Genaue Informationen zum Datenformat können in Abschnitt
 \pageref{lstsec:incl-protobuf} gefunden werden.
 
 \subsubsection{Wrapper-Bibliotheken}
-TODO
+Zur Verwendung von Protocol Buffers in Programmen gibt es eine Vielzahl von Wrapper-Bibliotheken,
+welche es ermöglichen,
+mit dem in den \texttt{.proto}-Dateien definiertem Format
+Nachrichten zu erstellen und zu verarbeiten.
+%
+Da in diesem Projekt mehrere Programmiersprachen angewendet wurden,
+wurden für die einzelnen Programme natürlich auch unterschiedliche Bibliotheken verwendet:
+%
+Für die Implementierung der Roboter in C++ wurde die Bibliothek \texttt{Nanopb} verwendet,
+welche insbesondere für die Verwendung in Systemen mit limitierten Ressourcen gedacht ist.
+%
+Im Server wurde die Python-Bibliothek \texttt{protobuf} verwendet,
+während am Frontend \texttt{protobufjs} mit eingebautem TypeScript-Support angewandt wurde.
+
+Zur automatischen Generierung der Dateien zur Verwendung von Protobufs in der jeweiligen Programmiersprache
+wurden von Herrn Gastgeber zwei kleine Skripten für die Roboter und das Frontend entwickeln,
+welche bei Bedarf die jeweiligen Bibliotheksfunktionen aufrufen.
+%
+Beim Server ist leider das Ausführen eines Befehls und die manuelle Modifikation einer Datei notwendig,
+wie in der Datei \texttt{server/README.md} dokumentiert. (Siehe Abschnitt \ref{lstsec:incl-server} auf Seiten \pageref{lstsec:incl-server}ff) 
 
 \section{Sensoren}
 \label{subsec:ueberblick_sensors}
