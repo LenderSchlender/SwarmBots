@@ -170,4 +170,5 @@ void loop() {
   //if (controls.isConnected()) {
   //  controls.send(&msg);
   //}
+  controls.sendEncoderData(42, 2332);
 }

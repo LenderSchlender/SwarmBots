@@ -213,12 +213,74 @@ Wie schon oben erwähnt erreichen Protocol Buffers,
 insbesondere bei kleinen Nachrichten,
 einen viel kleineren Overhead als textbasierte Formate wie JSON oder XML.
 %
-% Quelle: https://protobuf.dev/programming-guides/encoding/
-TODO mehr infos; Tatsächlicher Vergleich mit Zahlen.
+Als Beispiel hierfür soll eine Nachricht vom Typ \texttt{EncoderData} gelten:
+%
+Mittels Protocol Buffers wird eine solche Beispielnachricht wie folgt übertragen:
+%
+\begin{lstlisting}[label=lst:testnachricht-proto,caption=Testnachricht (Protobuf) in Hexadezimaldarstellung]
+    0890013205082a109c12
+\end{lstlisting}
+So ist die Testnachricht im Protobuf-Format lediglich 10 Bytes lang!
+%
+Zum Vergleich ist die gleiche Nachricht im JSON-Format um einiges länger:
+\begin{lstlisting}[label=lst:testnachricht-json,caption=Testnachricht (JSON) als formattierter String]
+{
+  "seq": 144,
+  "msg": {
+    "pulses": 42,
+    "duration": 2332
+  }
+}
+\end{lstlisting}
+So wie in Listing \ref{lst:testnachricht-json} dargestellt,
+werden 71 Bytes benötigt.
+%
+Da im JSON Leerzeichen ignoriert werden können,
+ist es möglich, die Größe der Nachricht auf 51 Bytes zu reduzieren.
+%
+Das ist immer noch mehr als zehn mal so viel wie mit Protocol Buffers.
 
+Der Unterschied in Nachrichtengröße ist stark von der Nachricht selbst abhängig;
+Bei größeren Nachrichten schrumpft der Overhead von JSON,
+und damit der ``Vorsprung'' von Protocol Buffers.
+%
+Jedoch werden Protocol Buffers immer effizienter als JSON sein.
+%
+Zu beachten ist auch,
+dass bei JSON die Länge der Variablennamen einen Einfluss auf die Nachrichtengröße hat.
+%
+Für dieses Beispiel wurden die Bezeichnungen \texttt{sequence} und \texttt{message} absichtlich auf
+\texttt{seq} respektive \texttt{msg} abgekürzt,
+um die Testbedingungen etwas fairer zu gestalten.
+%
+Bei Verwendung von WebSockets ist JSON mehr als adäquat,
+jedoch führen die Ineffizienzen des Formats bei anderen Protokollen,
+wie ESP-NOW \cite{esp-now} (welches nur Nachrichten mit bis zu 250 Bytes unterstützt),
+zu Problemen.
+%
+Um also die Möglichkeit zur Erweiterung auf andere Protokolle zu gewährleisten,
+wurde also auf die Vorteile von JSON verzichtet.
 
-\subsubsection{Datenstrukturen}
-TODO
+\subsubsection{Datenstruktur}
+Die jeweiligen Nachrichten (``Payloads')
+werden vom Nachrichtensender gemeinsam mit einer Sequenznummer in einem \texttt{Wrapper} verpackt,
+welcher dann über die WebSocket-Verbindung an den Nachrichtenempfänger übertragen wird.
+%
+Der Empfänger speichert immer die letzte empfangene Sequenznummer,
+und verwirft Nachrichten,
+welche eine niedrigere Sequenznummer als die gespeicherte haben.
+%
+Eigentlich ist dies aufgrund der Verwendung von WebSockets nicht nötig,
+da TCP-Pakete aufgrund einer eigenen Sequenznummer immer garantiert in der richtigen Reihenfolge ankommen.
+%
+Um die Verwendung des Protokolls mit anderen unterliegenden Transporten,
+wie zum Beispiel UDP oder ESP-NOW,
+zu erlauben,
+wurde zusätzlich die protokolleigene Sequenznummer implementiert.
+%
+Genaue Informationen zum Datenformat können in Abschnitt
+\ref{lstsec:incl-protobuf} auf Seite
+\pageref{lstsec:incl-protobuf} gefunden werden.
 
 \subsubsection{Wrapper-Bibliotheken}
 TODO
