@@ -78,6 +78,9 @@ TODO
 % Datenbank für lidar?
 TODO
 
+Weil die Datenverarbeitung noch nicht realisiert ist 
+kann noch nicht viel weiter zur Verwaltung gesprochen werden.
+
 \section{Kommunikation}
 \label{subsec:Kommunikation}
 \initials{JS}
@@ -342,6 +345,31 @@ Als Lösung öffnet das Programm temporär ein Socket und findet mit dieser die 
 \subsubsection{Potenzielles blockierendes verhalten}
 \initials{JS}
 % bot_handler und server nicht separat gestartet werden.
+TODO nim notiz im code
+
+\subsection{Protobuf Generierung}
+\initials{JS}
+% siehe server/README.md
+% verlege zu Backend probleme?
+Während des migrieren vom Vorentwicklung Ordner, 
+aufgrund dessen das es noch nicht klar wie mit Protobuf 
+und der neuen Websocket Implementation zu hantieren ist, 
+wurde für eine gewisse Zeit in einem Testordner experimentiert.
+Dies führte dazu das der generierte Protobuf code nicht funktionierte,
+da der Wrapper nicht über den Unterordner Standort \text{protobuf/}, 
+der weiteren Protobuf-dateien informiert wurde.
+Da die compilieren der Protobuf Dateien für Python unabhängig vom Standort
+der Python Umgebung geschieht. 
+Wodurch die Importe im generierten \text{wrapper\_pb2.py}
+mit dem Ordner prefixed werden müssen.
+
+\begin{lstlisting}[language=python, gobble=4]
+    import protobuf.move_cmd_pb2 as move__cmd__pb2
+    import protobuf.led_cmd_pb2 as led__cmd__pb2
+    import protobuf.lidar_data_pb2 as lidar__data__pb2
+    import protobuf.encoder_data_pb2 as encoder__data__pb2
+    import protobuf.imu_data_pb2 as imu__data__pb2
+\end{lstlisting}
 
 \section{Test Codes}
 \initials{JS}
@@ -369,26 +397,3 @@ und wird im Laufe des Projektes angepasst, wenn nötig.
 Zurzeit wurde es bereits verwendet, um die Kommunikation zu testen, 
 die Bearbeitung von erhaltenen Daten vom Bot und genereller Fehler suche.
 
-\subsection{Protobuf Generierung}
-\initials{JS}
-% siehe server/README.md
-% verlege zu Backend probleme?
-Während des migrieren vom Vorentwicklung Ordner, 
-aufgrund dessen das es noch nicht klar wie mit Protobuf 
-und der neuen Websocket Implementation zu hantieren ist, 
-wurde für eine gewisse Zeit in einem Testordner experimentiert.
-Dies führte dazu das der generierte Protobuf code nicht funktionierte,
-da der Wrapper nicht über den Unterordner Standort \text{protobuf/}, 
-der weiteren Protobuf-dateien informiert wurde.
-Da die compilieren der Protobuf Dateien für Python unabhängig vom Standort
-der Python Umgebung geschieht. 
-Wodurch die Importe im generierten \text{wrapper\_pb2.py}
-mit dem Ordner prefixed werden müssen.
-
-\begin{lstlisting}[language=python, gobble=4]
-    import protobuf.move_cmd_pb2 as move__cmd__pb2
-    import protobuf.led_cmd_pb2 as led__cmd__pb2
-    import protobuf.lidar_data_pb2 as lidar__data__pb2
-    import protobuf.encoder_data_pb2 as encoder__data__pb2
-    import protobuf.imu_data_pb2 as imu__data__pb2
-\end{lstlisting}
