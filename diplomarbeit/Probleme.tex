@@ -4,6 +4,7 @@
 \label{sec:probleme}
 \section{Docker}
 \label{subsec:probleme_docker}
+\initials{LG}
 %TODO wording?
 Am Laptop von Herr Gastgeber war es am Beginn des Schuljahres nicht möglich,
 jegliche Geräte im Netzwerk der HTL zu erreichen.
@@ -34,6 +35,8 @@ wie in Listing \ref{lst:docker_address_pools} konfiguriert.
 
 \section{Modifikationen am Tumbller}
 \label{subsec:problem_tumbbler_mods}
+\initials{LG}
+%TODO kein "wir"
 Als wir das Projekt geplant haben,
 war die Idee,
 einfach ein fertiges Kit ein bisschen zu modifizieren,
@@ -45,6 +48,7 @@ Bei den Hardware-Modifikationen am Tumbller (siehe Kapitel \ref{subsec:elegoo_tu
 
 \subsection{Falsche Betriebsspannungen}
 \label{subsec:problem_betriebsspannungen}
+\initials{LG}
 Beim Austausch des mitgelieferten Arduino Nano mit einem ESP32 im Nano-Format haben wir einen wichtigen Faktor übersehen:
 %
 Der Arduino Nano hat eine Betriebsspannung von 5V,
@@ -75,6 +79,7 @@ Deshalb haben wir für den Guide einen zusätzlichen Step-Down-Konverter eingeba
 welcher die Versorgungsspannung des Akkus auf 5V für den LiDAR herunterregelt.
 \section{Blockierte UART-Schnittstelle}
 \label{subsec:problem_bluetooth_serial}
+\initials{LG}
 Als das Problem der inkompatiblen Spannungen gelöst,
 und die erste Version des Programmes zum Testen der einzelnen Komponenten geschrieben war,
 %TODO Formulierung: "großes Problem" hab ich schon vorher verwendet
@@ -103,8 +108,9 @@ um sicherzustellen, das die UART-Verbindung keinesfalls beeinflusst wird
 
 
 \section{Nicht identische Pinbelegung}
-% muss überarbeitet werden?
+% TODO muss überarbeitet werden?
 \label{subsec:arduino_to_esp32}
+\initials{JS}
 Der Wechsel zum ESP32 Nano lief nicht reibungslos wie erhofft da,
 obwohl der ESP von Arduino das "gleiche Gehäuse" verwendet 
 es jedoch zu einigen Unterschieden in den Pins kommt. 
@@ -143,6 +149,7 @@ wodurch wir den Pin entfernt haben mehr dazu siehe Abschnitt \ref{subsec:gestoer
 
 
 \section{Gestörter Boot Prozess} \label{subsec:gestoert_boot}
+\initials{JS}
 In unseren nächsten Test nachdem wir das Bluetooth-Modul entfernt haben 
 und erfolgreich code laden konnten, verweigerte der ESP wieder den Programmierungprozess.
 % TODO Bild und erkläarung zu fehlersuche

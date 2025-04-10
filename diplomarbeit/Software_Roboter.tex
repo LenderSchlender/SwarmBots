@@ -3,11 +3,13 @@
 
 \chapter{Software - Roboter}
 \label{sec:software_robots}
+\initials{LG}
 Was die Ansteuerung der einzelnen Roboter angeht, folgen wir so gut wie möglich dem DRY-Prinzip (``Don't repeat yourself''),
 um Redundanzen zu vermeiden und dadurch den Wartungsaufwand möglichst gering zu halten.
 
 \section{Kameras}
 \label{subsec:robots_cams}
+\initials{LG}
 Wir verwenden jeweils ein ESP32-CAM AI-Thinker Modul zur erweiterten
 Fernüberwachung der Roboter.
 %
@@ -27,6 +29,7 @@ sondern dienen nur als weiterer Input für die Bediener.
 
 \section{Core-Bibliothek}
 \label{subec:robots_core}
+\initials{LG}
 Die Core-Bibliothek bildet eine weitere Abstrahierungsschicht zu den Funktionalitäten der Roboter-Hardware.
 %
 In unserem Modell stellt die Arduino-Bibliothek die erste Abstrahierungsschicht dar,
@@ -51,6 +54,7 @@ obwohl wir einen ganz anderen Hardwareaufbau verwenden.
 
 \subsection{Module Allgemein}
 \label{subsec:software_common_modules}
+\initials{LG}
 Wie schon erwähnt,
 wurde die Core-Bibliothek so modular wie nur möglich gestaltet,
 um so viele Anwendungsfälle wie möglich abzudecken.
@@ -85,6 +89,7 @@ welche die folgenden Funktionen definiert:
 
 
 \subsection{Robota}
+\initials{LG}
 Die Klasse \texttt{Robota}%
 \footnote{Dieser Name wurde in der Anfangsphase des Projekts (Ende 2023) gewählt, 
         um Konflikte mit der veralteten ``Arduino Robot Library'',
@@ -117,6 +122,7 @@ Hierzu gibt es drei Variablen, welche für die vollständige Funktion relevant s
 
 \subsection{Sensoren}
 \subsubsection{LD20 LiDAR}
+\initials{LG}
 Der Code zum Auslesen des LiDAR-Sensors basiert auf zwei Informationsquellen zum Protokoll:
 %
 Die offizielle Dokumentation von youyeetoo \cite{youyeetoo-ld20},
@@ -214,6 +220,7 @@ weshalb $n-1$ auf $11$ vereinfacht werden kann. $i$ ist der nullbasierte Index d
 
 
 \subsubsection{Drehgeber}
+\initials{LG}
 Die beiden Drehgeber,
 welche jeweils an einen der Motoren montiert sind,
 werden von dem Modul \texttt{RotaryEncoder} ausgelesen.
@@ -247,6 +254,7 @@ und mittels \texttt{RotaryEncoder\#attachISR()} mit dem Trigger-Pin des Drehgebe
 Beim Auslesen eines Kanals werden sowohl der Zeitstempel als auch der Zähler automatisch zurückgesetzt.
 
 \subsubsection{MPU6050}
+\initials{LG}
 Da für das Auslesen der Rohdaten des eingebautem Gyroskop/Accelerometer
 \texttt{MPU6050} einer externe Bibliothek \cite{adafruit-mpu6050} verwendet wurde,
 war der Aufwand hierfür eher gering.
@@ -262,10 +270,12 @@ wird einfach der zuletzt ausgelesene Wert zurückgegeben.
 
 \subsection{Aktoren}
 \subsubsection{GenericDigitalOutput}
+\initials{LG}
 Das Modul \texttt{GenericDigitalOutput} dient als Grundlage zur Verwendung von anderen Modulen,
 um einen digitalen Ausgang anzusteuern.
 
 \subsubsection{PwmOutput}
+\initials{LG}
 Das Modul \texttt{PWMOutput} dient als Grundlage zur Verwendung von anderen Modulen,
 um einen PWM-Ausgang anzusteuern.
 %
@@ -340,6 +350,7 @@ ergeben sich also folgende Werte:
 \end{table}
 
 \subsubsection{SingleMotorOutput}
+\initials{LG}
 Das Modul \texttt{SingleMotorOutput} verwendet die bereits beschriebenen Module
 \texttt{GenericDigitalOutput} und \texttt{PWMOutput},
 um einen einzelnen Motor mittels eines Motortreibers anzusteuern.
@@ -365,6 +376,7 @@ Das \texttt{SingleMotorOutput}-Modul stellt lediglich eine Steuerung dar,
 die Regelung der Motorgeschwindigkeit mit Rückkopplung durch Drehgeber wird andernorts realisiert.
 
 \subsubsection{BalanceController}
+\initials{LG}
 Die Gesamtheit der Aktoren kommt im \texttt{BalanceController} zusammen:
 Hier werden die Daten vom \texttt{MPU6050} ausgelesen,
 zur Verbesserung der Genauigkeit durch den \texttt{KalmanFilter} gefiltert,
@@ -377,9 +389,11 @@ welche vom Server an die Roboter gesendet wird.
 TODO mehr Beschreibung 
 
 \subsection{Interfaces}
+\initials{LG}
 Interfaces stellen eine Netzwerkverbindung zur Außenwelt dar.
 %
 \subsubsection{WiFiConnection}
+\initials{LG}
 Dieses Modul ist zuständig für die Steuerung der WLAN-Verbindung
 mit dem \texttt{IoT}-Netzwerk der HTL Ettenreichgasse.
 %
@@ -394,6 +408,7 @@ Hierbei wird zu Debugging-Zwecken eine Liste aller verfügbaren Netzwerke über 
 Bei erfolgreicher Verbindung mit einem Netzwerk wird außerdem die eigene IP-Adresse über die UART ausgegeben. 
 
 \subsubsection{WebSocketControls}
+\initials{LG}
 Die WebSocketControls dienen als Wrapper zur \texttt{ESPAsyncWebServer}-Bibliothek,
 mit welcher auf Port 80 ein asynchroner Webserver zur Verfügung gestellt wird,
 der unter dem Pfad \texttt{/ws} WebSocket-Verbindungen (siehe Kapitel \ref{sec:websockets}) akzeptiert.
@@ -416,10 +431,12 @@ Stattdessen muss der Server (welcher als WS-Client agiert) nur die aktuelle IP-A
 welche man leicht bzw. schnell in der Konfiguration des Servers ändern kann.
 
 \subsection{Hilfsklassen}
+\initials{LG}
 Der Robota-Framework stellt zwei Hilfsklassen (engl. ``Utilities''/``Utils'') zur Verfügung:
 \texttt{KalmanFilter} und \texttt{PIDController}.
 
 \subsubsection{KalmanFilter}
+\initials{LG}
 Kalman-Filter werden allgemein zu Schätzung von Systemzuständen verwendet,
 welche nur ungenau gemessen werden können.
 %
@@ -437,6 +454,7 @@ Der verwendete Code zum Kalman-Filter basiert auf einem modifiziertem Beispielco
 % TODO maths?
 
 \subsubsection{PIDController}
+\initials{LG}
 PID-Regler (Proportional, Integral, Differential) werden verwendet,
 um eine Regelstrecke bestmöglich zu regeln.
 %
@@ -449,6 +467,7 @@ Im Kontext der Tumbller werden PID-Regler an zwei Stellen eingesetzt:
 
 \section{Guide}
 \label{subsec:software_guide}
+\initials{LG}
 Die Software von Guide ist in diesem Projekt in dem Sinne einzigartig,
 dass,
 zusätzlich zur Steuerung des Roboters selber,
@@ -468,6 +487,7 @@ ist die Software für den Guide ebenso wie bei den anderen Robotern größtentei
 
 \section{Tamerlan \& Bambi}
 \label{subsec:software_tamerlan}
+\initials{LG}
 Da Tamerlan und Bambi über identische Hardware verfügen,
 ist auch deren Code fast gleich:
 %

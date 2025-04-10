@@ -163,6 +163,19 @@
 	tocnumwidth=1.2cm
 ]{section}
 
+% if WIP (work in progress)
+\newif\ifwip
+
+% TODO comment out in final version:
+\wiptrue
+
+% makes the provided initials appear on the page margin
+\newcommand{\initials}[1]{
+	\ifwip
+		\marginpar{\footnotesize\textcolor{red}{#1}}
+	\fi
+}
+
 \begin{document}
 	% Für fancy headers
 	%\pagestyle{fancy}
@@ -236,8 +249,10 @@
 	\ohead{}
 	\ihead{\headmark}
 	\ohead{\pagemark}
-	% TODO: remove compile date for final version
-	\chead{\textcolor{red}{V. von \today}}
+	% only show the center header while this is still work in progress
+	\ifwip
+		\chead{\textcolor{red}{V. von \today}}
+	\fi
 	\ifoot{Burjak, Gastgeber, Stojkovic, Soliman: SwarmBots}
 	\ofoot{5AHEL 2024/25}
 
