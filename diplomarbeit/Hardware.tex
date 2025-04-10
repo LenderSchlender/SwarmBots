@@ -1,8 +1,10 @@
 % Alles zur Hardware und unseren Modifikationen
 % Zuständig: Mihael
 \chapter{Hardware}
+\initials{MS}
 \label{sec:hardware}
 \section{Elegoo Tumbller Kit}
+\initials{MS}
 \label{subsec:elegoo_tumbller}
 Um den Hardwareaufbau so einfach wie möglich zu gestalten,
 entschieden wir uns dafür,
@@ -54,11 +56,14 @@ Des Weiteren ist der Elegoo Tumbler mit mehreren Modi ausgestattet.
 Diese kann man entweder über die App oder direkt am Roboter über einen Taster steuern,
 zur Visualisierung der Modi hat der Elegoo Tumbler mehrere LEDs eingebaut.
 \section{Subkomponenten}
+\initials{MS}
 \label{subsec:subkomponenten}
 %
 \subsection{PCB}
+\initials{MS}
 %
 \subsubsection{Allgemein}
+\initials{MS}
 Das PCB (Printed Circuit Board) im originalen Elegoo Tumbller ist eine fertig entwickelte Leiterplatte,
 wie in Abbildung \ref{fig:elegoo_tumbller_original_circuit} zu sehen ist.
 %
@@ -67,6 +72,7 @@ Auf dieser Leiterplatte sind alle elektronischen Bauteile des Roboters aufgebaut
 Die einzelnen Komponenten müssen nur noch in die vorgesehenen Sockel gesteckt werden.
 %
 \subsubsection{Technische Umsetzung}
+\initials{MS}
 % TODO redundant v
 Die Leiterplatte im originalen Elegoo Tumbller besteht aus mehreren Leiterbahnen.
 % TODO unnötig v
@@ -96,6 +102,7 @@ Der TB6612FNG Motortreiber ist direkt auf der Platine verlötet und sorgt dafür
 dass die beiden Motoren in beide Richtungen gesteuert werden können.
 %
 \subsubsection{Vorteile}
+\initials{MS}
 Die originale PCB im Elegoo Tumbller bringt mehrere Vorteile mit sich.
 %
 Durch die fertig entwickelte Platine können alle Bauteile einfach angeschlossen werden,
@@ -113,6 +120,7 @@ Da alle Verbindungen direkt auf der Leiterplatte verlaufen,
 gibt es weniger Möglichkeiten für Wackelkontakte oder lockere Verbindungen.
 
 \subsubsection{Einschränkungen}
+\initials{MS}
 Die PCB des originalen Tumbller ist nur für die mitgelieferten Komponenten ausgelegt.
 %
 Wenn man zusätzliche Sensoren oder einen anderen Mikrocontroller (wie im SwarmBots-Projekt) verwenden möchte,
@@ -129,13 +137,16 @@ Siehe Abbildung \ref{fig:elegoo_tumbller_original_circuit} auf Seite \pageref{fi
 %
 \newpage
 \subsection{MPU6050 (Gyroskop- \& Beschleunigungssensor)}
+\initials{MS}
 %
 \subsubsection{Allgemein}
+\initials{MS}
 Der MPU6050 ist ein 6-Achsen-Sensor,
 der aus einem Drehratensensor (Gyroskop, welcher Drehbewegungen in 3 Achsen misst)
 und einem Beschleunigungssensor (Accelerometer, welcher lineare Beschleunigungen in 3 Achsen misst),
 wie in Abbildung \ref{fig:mpu6050} zu sehen ist.
 \subsubsection{Technische Daten}
+\initials{MS}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{img/Hardware/MPU6050.png}
@@ -157,6 +168,7 @@ Der MPU6050 über eine Abtastrate von bis zu 1kHz und über einen integrierten D
 welcher es ermöglicht, Datenfusion durchzuführen.
 %
 \subsubsection{Einschränkungen}
+\initials{MS}
 Der Gyroskop-Sensor hat einen Drift,
 der dazu führt, dass sich die Messwerte bei längerer Laufzeit verschieben.
 %
@@ -164,8 +176,10 @@ Zudem reagiert der MPU6050 empfindlich auf Vibrationen,
 wodurch Messfehler entstehen können.
 %
 \subsection{TB6612FNG (Motortreiber)}
+\initials{MS}
 %
 \subsubsection{Allgemein}
+\initials{MS}
 Der TB6612FNG ist ein Dual-H-Brücke-Motortreiber,
 welcher verwendet wird,
 um einen Schrittmotor oder zwei Gleichstrommotoren wie beim Tumbler zu steuern.
@@ -175,6 +189,7 @@ Gleichstrommotoren in zwei Richtungen zu betreiben,
 wie in Abbildung \ref{fig:motortreiber} dargestellt.
 %
 \subsubsection{Technische Daten}
+\initials{MS}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.3\textwidth]{img/Hardware/Motortreiber.png}
@@ -197,6 +212,7 @@ da der Motortreiber die MOSFET-Technologie verwendet.
 das wie ein elektronischer Schalter funktioniert und in der Motorsteuerung verwendet wird,
 um mit einem kleinen Steuersignal einen großen Stromfluss für Motoren zu kontrollieren)
 \subsubsection{Belegung}
+\initials{MS}
 Pin	-	Funktion
 VM	Versorgungsspannung für die Motoren (2,5–13,5V)
 VCC	Logik-Spannungsversorgung (2,7–5,5V)
@@ -214,14 +230,17 @@ BO1	Ausgang Motor B (Pluspol)
 BO2	Ausgang Motor B (Minuspol)
 
 \subsubsection{Ansteuerung}
+\initials{MS}
 Durch die Kombination Richtungssignale (AIN1, AIN2 / BIN1, BIN2),
 kann der Motor entweder vorwärts-, rückwärtsfahren oder anhalten.
 %
 Der PWMA-/PWMB-Eingang wird verwendet, um die Geschwindigkeit zu steuern.
 %
 \subsection{AMS1117 (3.3V Spannungsregler)}
+\initials{MS}
 %
 \subsubsection{Allgemein}
+\initials{MS}
 Der AMS1117 ist ein linearer Spannungsregler,
 der aus einer höheren Eingangsspannung eine stabile kleinere Ausgansspannung (3,3V) macht.
 %
@@ -235,6 +254,7 @@ damit sie nicht kaputtgehen.
 Wie in Abbildung \ref{fig:ams1117} dargestellt,
 ist der Spannungsregler direkt auf der Platine integriert.
 \subsubsection{Technische Daten}
+\initials{MS}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\textwidth]{img/Hardware/AMS1117.png}
@@ -248,8 +268,10 @@ die Drop-out Spannung beträgt 1,1V (bei 1A).
 Es gibt einen integrierten Übertemperatur- und Kurzschlussschutz.
 %
 \subsection{HC-06 (Bluetooth Modul)}
+\initials{MS}
 %
 \subsubsection{Allgemein}
+\initials{MS}
 Das HC-06 ist ein Bluetooth-Modul,
 das es ermöglicht,
 mittels Bluetooth Daten zu übertragen.
@@ -257,6 +279,7 @@ mittels Bluetooth Daten zu übertragen.
 Wie in Abbildung \ref{fig:hc06} zu sehen ist,
 ist das Modul sehr kompakt aufgebaut.
 \subsubsection{Technische Daten}
+\initials{MS}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\textwidth]{img/Hardware/hc06.png}
@@ -278,6 +301,7 @@ Das HC-06 ferfügt nur über den Slave-Modus.
 (Der Slave-Modus bedeutet, dass ein Gerät keine Verbindung selbst starten kann,
 sondern nur auf Verbindungsanfragen von anderen Geräten wartet und dann darauf reagiert.)
 \subsubsection{Belegung}
+\initials{MS}
 Pin	-	Funktion
 VCC	Versorgungsspannung (3,3V)
 GND	Masse
@@ -286,18 +310,22 @@ RXD	Empfangsdaten (wird mit TX des Arduino verbunden)
 STATE	Verbindungsstatus-Ausgang (optional)
 
 \subsubsection{Einschränkungen}
+\initials{MS}
 Durch die veraltete Bluetooth-Version ist nur eine niedrigere Datenrate möglich
 und es besteht eine höhere Störanfälligkeit als bei modernen Standards.
 %
 \subsection{Arduino Nano (Microcontroller)}
+\initials{MS}
 %
 \subsubsection{Allgemein}
+\initials{MS}
 Der Arduino Nano ist einer der kleineren (ca. 18 x 45 mm) uC (Mikrocontroller),
 dieser wurde verwendet, um alle elektronischen Bauteile im Tumbler zu steuern.
 %
 Wie in Abbildung \ref{fig:arduino_nano} zu sehen ist,
 wird der Arduino Nano direkt auf der PCB eingesteckt und bildet die zentrale Steuerungseinheit des Roboters.
 \subsubsection{Technische Daten}
+\initials{MS}
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{img/Hardware/arduino_nano.png}
@@ -335,8 +363,10 @@ MISO (Daten vom Slave zum Master),
 SCK (Taktsignal)
 und SS (Slave Select, Auswahl des Geräts).
 \subsubsection{Belegung}
+\initials{MS}
 (TODO Bild)
 \subsubsection{Einschränkungen}
+\initials{MS}
 Der Arduino-Nano besitzt ein kleiner Speicher was ihn nicht geeignet macht für komplexen Programmen, die viel Speicher benötigen.
 %
 Zudem hat er nur einen 8-Bit-Prozessor, was ihn auch in der Rechenleistung stark begrenzt.
@@ -345,8 +375,10 @@ Außerdem hat er kein integriertes WLAN-Modul,
 was es nur ermöglicht ihn  über Kabel oder Bluetooth zu verwenden.
 %
 \subsection{SR04 (Ultraschallsensor)}
+\initials{MS}
 %
 \subsubsection{Allgemein}
+\initials{MS}
 Der SR04 ist ein Ultraschallsensor,
 der verwendet wird, um den Abstand zu Objekten zu messen.
 %
@@ -356,6 +388,7 @@ und der Sensor misst die Zeit,
 bis das Echo zurückkommt,
 wie in Abbildung \ref{fig:sr04} dargestellt.
 \subsubsection{Technische Daten}
+\initials{MS}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{img/Hardware/sr04.png}
@@ -371,12 +404,14 @@ und er hat als Ausgänge den Trigger-Pin (Signal senden) und Echo-Pin (Signal em
 %
 Die Frequenz mit der er arbeitet, sind 40 kHz (Ultraschall).
 \subsubsection{Belegung}
+\initials{MS}
 Pin  -   	Funktion
 VCC	Versorgungsspannung (5V)
 GND	Masse
 Trig	Trigger-Eingang → Startet das Signal
 Echo	Echo-Ausgang → Gibt das empfangene Signal weiter
 \subsubsection{Einschränkungen}
+\initials{MS}
 Der Ultraschallsensor ist sehr empfindlich
 gegenüber schrägen Flächen und arbeitet relativ langsam,
 was ihn ungeeignet für bestimmte Orte und Aufgaben macht.
@@ -384,8 +419,10 @@ was ihn ungeeignet für bestimmte Orte und Aufgaben macht.
 Zudem kann er bei Objekten unter 2cm Entführung keine Messung machen.
 %
 \subsection{Infrarot-Sensoren (IR204C-A \& IRM-56384)}
+\initials{MS}
 %
 \subsubsection{Allgemein}
+\initials{MS}
 Die Infrarot-Sensoren IR204C-A und IRM-56384 werden im Elegoo Tumbller verwendet,
 um Hindernisse und Linien zu erkennen.
 %
@@ -393,6 +430,7 @@ Sie funktionieren mit unsichtbarem Infrarotlicht (kurz: IR)
 und arbeiten nach dem Reflexionsprinzip,
 wie in Abbildung \ref{fig:infrarot_sensoren} zu sehen ist.
 \subsubsection{Technische Daten}
+\initials{MS}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.4\textwidth]{img/Hardware/Infrarot_Sensor.png}
@@ -422,6 +460,7 @@ Der IRM-56384 ist ein Infrarot-Empfänger.
 Er empfängt Infrarot-Signale und erkennt,
 ob Licht von der Infrarot-LED zurückkommt oder ob ein Signal von einer Fernbedienung gesendet wird.
 \subsubsection{Einschränkungen}
+\initials{MS}
 Da die Infrarot LED nicht stark ist und der Empfänger nicht genau kann es zu Problemen führen bei Tageslicht oder Lampen.
 %
 Zudem funktionier diese Verfahren nur auf sehr kurzer Distanz (meist unter 10cm),
@@ -429,8 +468,10 @@ und das Material welcher als Reflektor dient, kann ein Problem aufweisen da,
 Schwarze oder matte Flächen schlechter reflektieren.
 %
 \subsection{Gleichstrommotoren (TT130 DC Motor mit 1:48 Getriebe)}
+\initials{MS}
 %
 \subsubsection{Allgemein}
+\initials{MS}
 Im Elegoo Tumbller werden zwei kleine Gleichstrommotoren (DC-Motoren) verwendet.
 %
 Diese Motoren sind dafür verantwortlich,
@@ -441,6 +482,7 @@ Ein Gleichstrommotor wandelt elektrische Energie in mechanische Bewegung um -- a
 In Abbildung \ref{fig:gleichstrommotor} ist der verwendete Motor zu sehen.
 
 \subsubsection{Technische Daten}
+\initials{MS}
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{img/Hardware/gleichstrommotor.png}
@@ -459,6 +501,7 @@ wie stark er etwas drehen kann,
 der Wellen-Durchmesser beschreibt,
 wie dick die Achse des Motors ist)
 \subsubsection{Funktionsweise}
+\initials{MS}
 Bei einem Gleichstrommotor wird durch Anlegen einer elektrischen Spannung ein Magnetfeld erzeugt,
 welches den Rotor bewegt.
 %
@@ -468,7 +511,9 @@ Die Geschwindigkeit wird durch PWM-Signale (Pulsweitenmodulation) geregelt,
 die Richtung durch digitale Signale. %TODO welche?
 %
 \subsection{Encoder}
+\initials{MS}
 \subsubsection{Allgemein}
+\initials{MS}
 Die Encoder im Elegoo Tumbller sind in den Motoren eingebaut und dienen dazu,
 die Drehbewegung der Räder zu messen.
 %
@@ -481,6 +526,7 @@ das ist wichtig für die Stabilität, Steuerung und Navigation.
 In Abbildung \ref{fig:encoder} ist der Encoder dargestellt.
 
 \subsubsection{Technische Daten}
+\initials{MS}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{img/Hardware/encoder.png}
@@ -492,6 +538,7 @@ Sie arbeiten mit digitalen Impulssiganlen und haben eine Impulszahl von 330 Impu
 %
 Sie werden mit 5V betrieben und sind direkt am Motor befestigt.
 \subsubsection{Funktionsweise}
+\initials{MS}
 Am Motor ist ein kleiner Magnet eingebaut,
 der sich mit dreht.
 %
@@ -504,14 +551,17 @@ Die eingebauten Encoder können nur relative Bewegungen messen,
 sie geben keine absolute Position der Räder aus.
 %
 \subsection{Li-Ion Akku (7,4V)}
+\initials{MS}
 %
 \subsubsection{Allgemein}
+\initials{MS}
 Der Li-Ion Akku (Lithium-Ionen-Akku) ist die Hauptstromquelle des Roboters.
 % 
 Er liefert die elektrische Energie, die der Roboter benötigt,
 um alle Komponenten wie Motoren, Sensoren und den Mikrocontroller zu betreiben.
 %
 \subsubsection{Technische Daten}
+\initials{MS}
 Beim Akku handelt es sich um einen Lithium-Ionen-Akku mit einer Nennspannung von 7,4V.
 %
 Der Akku besteht aus 2 LiIon-Zellen in Serie (2S), mit jeweils 3,7V Nennspannung pro Zelle.
@@ -521,11 +571,13 @@ Zudem ist er gegen Überladung, Tiefentladung und Kurzschlüsse geschützt.
 %
 
 \section{Modifikationen}
+\initials{MS}
 \label{subsec:hardware_modifikationen}
 
 Für das SwarmBots-Projekt mussten die originalen Elegoo Tumbller Roboter technisch verändert werden, damit sie als Schwarm zusammenarbeiten können und über WLAN steuerbar sind.
 
 \subsubsection{Austausch des Mikrocontrollers}
+\initials{MS}
 Im originalen Tumbller wurde ein Arduino Nano verwendet, der jedoch nur Bluetooth-Kommunikation unterstützt.
 %
 Für unser Projekt war das nicht ausreichend, weil wir die Roboter über WLAN steuern wollten.
@@ -544,11 +596,13 @@ In Abbildung \ref{fig:nanoesp32} ist das verbaute ESP32-Board zu sehen.
 \end{figure}
 
 \subsubsection{Entfernung des Bluetooth-Moduls}
+\initials{MS}
 Da wir die Kommunikation über WLAN umgestellt haben, wurde das HC-06 Bluetooth-Modul aus allen Robotern entfernt.
 %
 Die Steuerung per Smartphone-App war dadurch nicht mehr notwendig.
 
 \subsubsection{Anpassung der Stromversorgung}
+\initials{MS}
 Für die neuen Module (vor allem den LiDAR-Sensor beim Guide-Roboter) musste die Stromversorgung angepasst werden.
 %
 Dafür haben wir einen zusätzlichen Step-Down-Konverter eingebaut, um eine sichere 5V-Spannung für den Sensor bereitzustellen.
@@ -563,6 +617,7 @@ Der verbaute Step-Down-Konverter ist in Abbildung \ref{fig:stepdown} dargestellt
 \end{figure}
 
 \subsubsection{Mechanische Änderungen am Guide}
+\initials{MS}
 Der Guide-Roboter bekam zusätzlich einen LiDAR-Sensor auf der obersten Ebene montiert.
 %
 Dafür wurde das Chassis verändert:
@@ -582,8 +637,10 @@ wurde der LiDAR-Sensor auf der oberen Ebene des Guide-Roboters befestigt.
 
 
 \section{Guide}
+\initials{MS}
 \label{subsec:hardware_guide}
 \subsection{Allgemein}
+\initials{MS}
 Die Aufgabe von \textit{Guide} ist es,
 mithilfe eines LiDAR-Sensors die Umgebung nach Hindernissen und den anderen Robotern abzusuchen.
 
@@ -595,6 +652,7 @@ mithilfe eines LiDAR-Sensors die Umgebung nach Hindernissen und den anderen Robo
 \end{figure}
 
 \subsection{Technische Umsetzung}
+\initials{MS}
 Damit der Guide die Umgebung erkennen kann, wurde das Fahrgestell des Roboters modifiziert.
 %
 Die obere Ebene (Akku-Halterung) wurde höher gesetzt, um Platz für den LiDAR-Sensor und seine Halterung zu schaffen.
@@ -606,12 +664,14 @@ Dieser liefert die benötigte Spannung für den LiDAR-Sensor.
 In Abbildung~\ref{fig:lidar_guide} ist der verbaute LiDAR-Sensor auf dem Guide-Roboter zu sehen.
 
 \subsection{Einschränkungen}
+\initials{MS}
 Da der Guide durch den zusätzlichen Sensor schwerer ist, hat er eine etwas kürzere Akkulaufzeit als die anderen Roboter.
 %
 Außerdem ist der LiDAR-Sensor anfällig für Spiegelungen oder Glasflächen,
 weil die Laserstrahlen dort falsch reflektiert werden können.
 
 \section{Tamerlan \& Bambi}
+\initials{MS}
 \label{subsec:hardware_tamerlan_bambi}
 
 Auch bei Tamerlan und Bambi wurden die originalen Elegoo Tumbller Kits technisch angepasst:
