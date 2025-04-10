@@ -213,21 +213,30 @@ das wie ein elektronischer Schalter funktioniert und in der Motorsteuerung verwe
 um mit einem kleinen Steuersignal einen großen Stromfluss für Motoren zu kontrollieren)
 \subsubsection{Belegung}
 \initials{MS}
-Pin	-	Funktion
-VM	Versorgungsspannung für die Motoren (2,5–13,5V)
-VCC	Logik-Spannungsversorgung (2,7–5,5V)
-GND	Masse (gemeinsames Minus)
-AIN1	Richtungssignal Motor A (Logik-Eingang)
-AIN2	Richtungssignal Motor A (Logik-Eingang)
-PWMA	PWM-Signal für Geschwindigkeit Motor A
-BIN1	Richtungssignal Motor B (Logik-Eingang)
-BIN2	Richtungssignal Motor B (Logik-Eingang)
-PWMB	PWM-Signal für Geschwindigkeit Motor B
-STBY	Standby-Pin (aktiv bei HIGH)
-AO1	Ausgang Motor A (Pluspol)
-AO2	Ausgang Motor A (Minuspol)
-BO1	Ausgang Motor B (Pluspol)
-BO2	Ausgang Motor B (Minuspol)
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|p{10cm}|}
+    \hline
+    \textbf{Pin} & \textbf{Funktion} \\
+    \hline
+    VM    & Versorgungsspannung für die Motoren (2,5–13,5V) \\
+    VCC   & Logik-Spannungsversorgung (2,7–5,5V) \\
+    GND   & Masse (gemeinsames Minus) \\
+    AIN1  & Richtungssignal Motor A (Logik-Eingang) \\
+    AIN2  & Richtungssignal Motor A (Logik-Eingang) \\
+    PWMA  & PWM-Signal für Geschwindigkeit Motor A \\
+    BIN1  & Richtungssignal Motor B (Logik-Eingang) \\
+    BIN2  & Richtungssignal Motor B (Logik-Eingang) \\
+    PWMB  & PWM-Signal für Geschwindigkeit Motor B \\
+    STBY  & Standby-Pin (aktiv bei HIGH) \\
+    AO1   & Ausgang Motor A (Pluspol) \\
+    AO2   & Ausgang Motor A (Minuspol) \\
+    BO1   & Ausgang Motor B (Pluspol) \\
+    BO2   & Ausgang Motor B (Minuspol) \\
+    \hline
+    \end{tabular}
+    \caption{Pinbelegung und Funktionen}
+    \end{table}
 
 \subsubsection{Ansteuerung}
 \initials{MS}
@@ -302,12 +311,21 @@ Das HC-06 ferfügt nur über den Slave-Modus.
 sondern nur auf Verbindungsanfragen von anderen Geräten wartet und dann darauf reagiert.)
 \subsubsection{Belegung}
 \initials{MS}
-Pin	-	Funktion
-VCC	Versorgungsspannung (3,3V)
-GND	Masse
-TXD	Sendedaten (wird mit RX des Arduino verbunden)
-RXD	Empfangsdaten (wird mit TX des Arduino verbunden)
-STATE	Verbindungsstatus-Ausgang (optional)
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|p{10cm}|}
+    \hline
+    \textbf{Pin} & \textbf{Funktion} \\
+    \hline
+    VCC    & Versorgungsspannung (3,3V) \\
+    GND    & Masse \\
+    TXD    & Sendedaten (wird mit RX des Arduino verbunden) \\
+    RXD    & Empfangsdaten (wird mit TX des Arduino verbunden) \\
+    STATE  & Verbindungsstatus-Ausgang (optional) \\
+    \hline
+    \end{tabular}
+    \caption{Pinbelegung und Funktionen des Bluetooth-Moduls}
+    \end{table}
 
 \subsubsection{Einschränkungen}
 \initials{MS}
