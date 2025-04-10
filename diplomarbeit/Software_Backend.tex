@@ -104,21 +104,54 @@ Zurzeit nicht realisiert.
 % spätester schritt weil funktionierende Strategie benötigt wird zur Erkennung
 % Datenbank/ Datenbearbeitung
 
-Die aufträge der einzelnen Bots sind in den Entsprechenden Kaüitel genauer beschrieben.
+Die aufträge der einzelnen Bots sind in den Entsprechenden Kapitel genauer beschrieben.
 % schau was da steht und was speziell hier klargemacht werden muss
 
 Stattdessen ein Test Programm zur Überprüfung zur theoretischen Steuerung.
 % verwendung von code vom vorgänger Projekt
 
+\section{Aktueller Stand}
+Zum zeitpunkt dieser Diplomarbeits Abgabe sind nicht alle geplanten Features zeitlich zusammengekommen.
+Wodurch der großteil der Backend Server Seite nicht realisiert werden konnte.
+
+Zur Überbrückung wurde der Kommunikationsteil so realisiert das es als Weitergabe fungieren soll.
+Dies wurde so realisiert das Daten zwischen einem Bots und dem server weitergegeben werden, 
+essenziell ein Router. 
+Der nächste schritt besteht dann über eine Prototyp Steuerung 
+Befehle zu den einzelnen Bots zu senden.
+
+Die Prototyp Steuerung ist realisiert als eine manuelle Steuerung, 
+wo dem gewählten Roboter manuell von einem Bediener bedient.
+In Zukunft kann die manuelle Steuerung als eine weitere Option beibehalten werden, 
+die die Automatisierte Steuerung überschreiben kann. 
+Dies kann verwendet werden um Beispielweise den Guide manuell in bestimmte Bereiche zu führen.
+Anderes falls auch für Test und Debug Zwecke, sowie manuell eine neue Datenerfassung zu erzwingen.
 
 \section{Backend - Code}
-% was passiert hier 
+In diesem Abschnitt wird genauer zum Code des Backend Prototyps eingegangen 
+und dessen Technischen Realisierung. 
+Was genau die einzelnen Teile des Backends zu erledigen haben, 
+wie diese Probleme bewältigt und realisiert wurden.
+Weiters beschrieben welche Bibliotheken und werkzeuge verwendet wurden 
 
-\subsection{Protobufs generieren}
-% siehe md file
+\subsection{zusätzlich verwendete tools/ workflow?}
+% algemein zu python workflow
+% womöglich unötig
+\subsubsection{linter/formatter} 
+% weil vscode es standart mäßig Formatierung nicht mitliefert
+\subsubsection{venv/environment management}
+
+
+
+\subsection{Protobuf files}
+% siehe server/README.md
+% verlege zu Backend probleme?
 
 \subsection{Python Packages}
-% welche python packet verwendet wurden
+Um gegebene Funktionen zu gewehrleisten sind weitere externe Bibliotheken nötig, 
+die nicht teil der standard Bibliotheken sind.
+Welche zu diesen Stand verwendet wurden ist in diesem Abschnitt erklärt.
+
 \subsubsection{websockets}
 Für Python ist ein Websocket Paket namens 'websockets' vorhanden welches die Client-Server Kommunikation
 um ein Vielfaches vereinfacht da man sich keine Sorge über Handshakes, Ping Pongs, oder anderes verhalten
@@ -157,12 +190,15 @@ und von den gegebenen Tasks weiterverarbeitet werden kann.
 % und alle Informationen hauptsächlich von der Anleitungen zu Wünschen übrig lässt.
 % Ich hatte einfach ein wenig probleme es anfänglich zu kapieren aber ging schnell
 
-\subsection{}
+\subsection{Prototyp Kommunikation - test\_server\_passby.py}
+
 % übersichtsgrafik über teilnehmer und wie datenablauf funktioniert
 % asyncio - warum
 % main task überblick (server und drei clients) warum so aufgeteilt?
 % subtask
 
+
+\subsubsection{asyncio}
 % erklärung zu asyncio
 Asyncio funktioniert, indem Tasks sich den Event loop nehmen und mit dem 'await' 
 Befehl anderen tasks erlaubt sich den event loop zu nehmen, im vergleich zu üblichen multitasking
@@ -170,6 +206,7 @@ wo jeder task eine feste zeit zugeschrieben bekommt vom Betriebsystem.
 
 TODO
 
+\subsubsection{Queue Buffers}
 % FIFO Queues
 % Wichtigkeit nicht blockierendes verhalten um asynchrones workflow zu gewährleisten
 Damit die Prozesse im Backend nicht gezwungen sind immer zu bearbeiten, 
@@ -181,6 +218,12 @@ Somit können wir einen Prozess starten, welches auf eingehende Nachrichten wart
 während unser Backend andere Prozesse ausführt.
 % kann mehr dazu schreiben
 % ermöglicht auch sachen etc.
+
+\subsection{Prototyp Manuelle Steuerung}
+Die Prototyp Steuerung soll ein Bediener erlauben Befehle zu Bot zu senden
+
+\subsection{Konsolen Ausgabe}
+% siehe print_wrapper_content.py
 
 \subsection{Optimierungsmöglichkeiten}
 \label{subsec:Optimierungsmöglichkeiten}
@@ -197,3 +240,43 @@ Als drop-in Ersetzung geht dies so weit dass, die Abweichungen als Fehler katego
 Es ist möglich Python code genau so wie jedes andere Programm zu kompilieren,
 jedoch ist dies standardmäßig nicht nötig da der Interpreter Cpython automatisch Python byte code kompeliert (in PYC Dateien).
 
+\subsection{Probleme}
+\subsubsection{Linux Modifikationen}
+Es kam das Problem auf, dass die locale IP suche auf Linux ubuntu nicht funktionierte.
+Dies lag daran das die vorherige Variante 
+mit Hilfe der Domain name auf die lokale IP Adresse findig wurde.
+Jedoch wurde auf Linux eine andere Adresse zurückgeliefert, 
+zwar die Loopback Adresse \texttt{127.0.1.1}. 
+Diese Adresse wird verwendet um den host\_name eine Adresse zu zuweisen,
+im Falle das kein Netzwerk vorhanden ist. 
+Sonst kann eine permanente IP Adresse hier zugewiesen werden.
+% https://askubuntu.com/questions/754213/what-is-difference-between-localhost-address-127-0-0-1-and-127-0-1-1
+
+Als Lösung öffnet das Programm temporär ein Socket und findet mit der die locale IP Adresse.
+\begin{lstlisting}[language=python, gobble=4]
+    import socket
+
+    def get_local_ip():
+    """
+    opens a temporary socket connection and retrieves the local IP
+    """
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        # doesn't even have to be reachable
+        s.connect(('10.255.255.255', 1))
+        IP = str(s.getsockname()[0])
+    except Exception as b:
+        print("error at figuring out local ip")
+        print(b)
+        exit
+    finally:
+        s.close()
+    return IP
+\end{lstlisting}
+
+\section{Test Codes}
+Es wurden weitere allgemeinere Test Codes geschrieben, 
+welche die Funktion dienten, die Kommunikation Kanäle und Daten Bearbeitung innerhalb 
+und außerhalb des Backends zu testen und gegebenenfalls von anderen Team mitglieder modifiziert.
+Diese Codes haben große Ähnlichkeiten mit der Prototyp Kommunikation, 
+deshalb wird in diesem Abschnitt hauptsächlich auf dessen Funktion eingegangen.
