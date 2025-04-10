@@ -4,14 +4,15 @@
 \chapter{Software - Roboter}
 \label{sec:software_robots}
 \initials{LG}
-Was die Ansteuerung der einzelnen Roboter angeht, folgen wir so gut wie möglich dem DRY-Prinzip (``Don't repeat yourself''),
+Was die Ansteuerung der einzelnen Roboter angeht,
+wird so so gut wie möglich dem DRY-Prinzip (``Don't repeat yourself'') gefolgt,
 um Redundanzen zu vermeiden und dadurch den Wartungsaufwand möglichst gering zu halten.
 
 \section{Kameras}
 \label{subsec:robots_cams}
 \initials{LG}
-Wir verwenden jeweils ein ESP32-CAM AI-Thinker Modul zur erweiterten
-Fernüberwachung der Roboter.
+Es wird jeweils ein ESP32-CAM AI-Thinker Modul zur erweiterten
+Fernüberwachung der Roboter verwendet.
 %
 Dieses verbindet sich über WLAN mit dem \texttt{IoT}-Netzwerk und bietet über HTTP einen MJPEG-Videostream an.
 %
@@ -32,12 +33,12 @@ sondern dienen nur als weiterer Input für die Bediener.
 \initials{LG}
 Die Core-Bibliothek bildet eine weitere Abstrahierungsschicht zu den Funktionalitäten der Roboter-Hardware.
 %
-In unserem Modell stellt die Arduino-Bibliothek die erste Abstrahierungsschicht dar,
-während die Code-Bibliothek diese weiter vereinfacht.
+In diesem Modell stellt die Arduino-Bibliothek die erste Abstrahierungsschicht dar,
+während die Core-Bibliothek diese weiter vereinfacht.
 %
 Durch diese Abstrahierung werden die Programme für die einzelnen Roboter um ein Vielfaches vereinfacht und dementsprechend übersichtlicher.
 %
-Wir können also die hier definierte Logik für jeden Roboter wiederverwenden,
+Die hier definierte Logik kann also für jeden Roboter wiederverwendet werden,
 anstatt drei mal fast genau das Gleiche zu programmieren.
 %
 Die Core-Bibliothek übernimmt alles von der WLAN-Verbindung,
@@ -49,8 +50,8 @@ die einzelnen Komponenten zu konfigurieren und miteinander zu verbinden.
 %
 Da Herr Gastgeber während der Projektwoche 2023/24 (Siehe Abschnitt \ref{sec:vorgeschichte}) bereits viel Zeit darin investiert hat,
 die Bibliothek so modular und wiederverwendbar wie möglich zu gestalten,
-konnten wir diese mit nur wenigen Modifikationen für unsere Diplomarbeit nutzen,
-obwohl wir einen ganz anderen Hardwareaufbau verwenden.
+konnte diese mit nur wenigen Modifikationen für diese Diplomarbeit genutzt werden,
+obwohl ein ganz anderer Hardwareaufbau verwendet wird.
 
 \subsection{Module Allgemein}
 \label{subsec:software_common_modules}
@@ -107,7 +108,7 @@ Hierzu gibt es drei Variablen, welche für die vollständige Funktion relevant s
         % TODO check if 100ns is realistic: ((2^32) - 1) / (t * (10^-9)) / (60 * 60 * 24 * 365.25)
         Bei einer durchschnittlichen Zeit von $t_{tick}=100ns$ pro Tick reichen 32 Bits aus,
         um die Roboter für etwas mehr als $t_{overflow}=1.36*10^{-9}$ Jahre zu betreiben,
-        was für unsere Zwecke mehr als ausreichend sein sollte.
+        was für die Zwecke dieses Projekts mehr als ausreichend sein sollte.
     \item \lstinline[language=c]|uint16_t moduleTypes[MAX_MODULE_AMOUNT]|:
         Hier wird Typeninformation zu den Modulen gespeichert.
         %
