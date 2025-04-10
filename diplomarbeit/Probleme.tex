@@ -36,13 +36,10 @@ wie in Listing \ref{lst:docker_address_pools} konfiguriert.
 \section{Modifikationen am Tumbller}
 \label{subsec:problem_tumbbler_mods}
 \initials{LG}
-%TODO kein "wir"
-Als wir das Projekt geplant haben,
+Als das Projekt geplant wurde,
 war die Idee,
 einfach ein fertiges Kit ein bisschen zu modifizieren,
-fast schon zu schön um wahr zu sein.
-%
-Und das war es dann auch.
+fast schon zu schön um wahr zu sein -- und das war es dann auch.
 %
 Bei den Hardware-Modifikationen am Tumbller (siehe Kapitel \ref{subsec:elegoo_tumbller}) gab es zwei relativ große Probleme:
 
@@ -77,7 +74,7 @@ den LiDAR-Sensor direkt mit dem Spannungswandler des Mikrocontroller-Boards zu v
 %
 Deshalb haben wir für den Guide einen zusätzlichen Step-Down-Konverter eingebaut,
 welcher die Versorgungsspannung des Akkus auf 5V für den LiDAR herunterregelt.
-\section{Blockierte UART-Schnittstelle}
+\subsection{Blockierte UART-Schnittstelle}
 \label{subsec:problem_bluetooth_serial}
 \initials{LG}
 Als das Problem der inkompatiblen Spannungen gelöst,
@@ -107,7 +104,7 @@ um sicherzustellen, das die UART-Verbindung keinesfalls beeinflusst wird
 %TODO Bilder und Erläuterung zu Entfernen des Bluetooth Moduls
 
 
-\section{Nicht identische Pinbelegung}
+\subsection{Nicht identische Pinbelegung}
 % TODO muss überarbeitet werden?
 \label{subsec:arduino_to_esp32}
 \initials{JS}
@@ -148,7 +145,8 @@ Jedoch kam es zu Störungen an diesem Pin trotz internen Pull-up-Widerstand,
 wodurch wir den Pin entfernt haben mehr dazu siehe Abschnitt \ref{subsec:gestoert_boot}.
 
 
-\section{Gestörter Boot Prozess} \label{subsec:gestoert_boot}
+\subsection{Gestörter Boot Prozess}
+\label{subsec:gestoert_boot}
 \initials{JS}
 In unseren nächsten Test nachdem wir das Bluetooth-Modul entfernt haben 
 und erfolgreich code laden konnten, verweigerte der ESP wieder den Programmierungprozess.
