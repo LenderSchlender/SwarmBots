@@ -46,7 +46,7 @@ Bei den Hardware-Modifikationen am Tumbller (siehe Kapitel \ref{subsec:elegoo_tu
 \subsection{Falsche Betriebsspannungen}
 \label{subsec:problem_betriebsspannungen}
 \initials{LG}
-Beim Austausch des mitgelieferten Arduino Nano mit einem ESP32 im Nano-Format haben wir einen wichtigen Faktor übersehen:
+Beim Austausch des mitgelieferten Arduino Nano mit einem ESP32 im Nano-Format wurde ein wichtiger Faktor übersehen:
 %
 Der Arduino Nano hat eine Betriebsspannung von 5V,
 während der ESP32 mit 3.3V arbeitet.
@@ -58,21 +58,22 @@ welche eine höhere Spannung benötigen,
 sind die auf der Platine angelöteten farbigen Leuchtdioden.
 %
 Um nicht das ganze Projekt von Grund auf neu aufbauen zu müssen,
-haben wir uns entschieden,
+wurde entschieden,
 dieses kleine optische Detail fürs Erste auszulassen.
 %
 %TODO schaltplan
 In der originalen Beschaltung (siehe Abbildung \ref{fig:elegoo_tumbller_original_circuit})
 wurde das Bluetooth-Modul mithilfe des Spannungswandlers \texttt{U3} mit 3.3V versorgt.
 %
-Diesen Spannungswandler haben wir ausgebaut und mittels einer Lötbrücke $V_{in}$ mit $V_{out}$ verbunden.
+Dieser Spannungswandler wurde ausgebaut und $V_{in}$ wurde mittels einer Lötbrücke mit $V_{out}$ verbunden.
 Allerdings erwies sich das Bluetooth Modul später als problematisch (siehe Abschnitt \ref{subsec:problem_bluetooth_serial}),
 weshalb die Überbrückung eigentlich nicht notwendig ist.
 \\\\
 Außerdem war es beim Guide-Roboter aufgrund des Wechsels auf 3.3V nicht mehr möglich,
 den LiDAR-Sensor direkt mit dem Spannungswandler des Mikrocontroller-Boards zu versorgen.
 %
-Deshalb haben wir für den Guide einen zusätzlichen Step-Down-Konverter eingebaut,
+% TODO die CAMs brauchen auch 5V
+Deshalb wurde in den Guide einen zusätzlichen Step-Down-Konverter eingebaut,
 welcher die Versorgungsspannung des Akkus auf 5V für den LiDAR herunterregelt.
 \subsection{Blockierte UART-Schnittstelle}
 \label{subsec:problem_bluetooth_serial}
@@ -80,10 +81,10 @@ welcher die Versorgungsspannung des Akkus auf 5V für den LiDAR herunterregelt.
 Als das Problem der inkompatiblen Spannungen gelöst,
 und die erste Version des Programmes zum Testen der einzelnen Komponenten geschrieben war,
 %TODO Formulierung: "großes Problem" hab ich schon vorher verwendet
-sind wir auch schon auf das nächste nennenswerte Problem gestoßen:
+ist auch schon die nächste Hürde aufgekommen:
 %
 Das externe Bluetooth-Modul,
-was bereits auf der Platine verlötet war,
+welches bereits auf der Platine verlötet war,
 belegt die UART-Schnittstelle des eingebauten ESP32.
 %
 Das führte dazu, dass der ESP32 nur neu programmiert werden konnte,
@@ -91,15 +92,14 @@ wenn das ESP32-Devboard aus dem Roboter ausgebaut war.
 %
 Außerdem wurde dadurch das Debuggen mittels UART über USB unmöglich gemacht.
 \\
-Da wir die Roboter über WLAN steuern,
+Da die Roboter über WLAN gesteuert werden,
 und der ESP32 auch ohne externe Erweiterungen bereits sowohl über WLAN- als auch Bluetooth-Kapazitäten verfügt,
-haben wir entschlossen,
-die mitgelieferte Platine weiter zu modifizieren,
-indem wir das Bluetooth-Modul entfernen.
+wurde die mitgelieferte Platine durch Entfernen des Bluetooth-Moduls weiter modifiziert.
 %
-Außerdem haben wir den Transistor \texttt{Q1} und den Spannungsteiler,
-welcher aus \texttt{R9} und \texttt{R10} besteht entfernt,
-um sicherzustellen, das die UART-Verbindung keinesfalls beeinflusst wird
+Außerdem wurde der Transistor \texttt{Q1} und der Spannungsteiler,
+welcher aus \texttt{R9} und \texttt{R10} besteht,
+entfernt, um sicherzustellen,
+das die UART-Verbindung keinesfalls beeinflusst wird
 (siehe Original-Schaltplan in Abbildung \ref{fig:elegoo_tumbller_original_circuit}).
 %TODO Bilder und Erläuterung zu Entfernen des Bluetooth Moduls
 
