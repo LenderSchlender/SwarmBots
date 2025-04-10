@@ -80,10 +80,10 @@ void setup() {
   leftEncoder.attachISR(leftEncoderISR);
   rightEncoder.attachISR(rightEncoderISR);
 
-  //robota.addModule(&mpu);
+  robota.addModule(&mpu);
 
   // Balancing
-  //robota.addModule(&balancer);
+  robota.addModule(&balancer);
 
   // WiFi Connection
   robota.addModule(&wifi);
@@ -145,6 +145,7 @@ void lidarMeasurementHandler(SingleLiDARMeasurement measurement) {
 void moveCommandHandler(MoveCmd cmd) {
   Serial.printf("MOVE for max. %d!\n", cmd.duration);
   Serial.printf("Speed: %d, Steer: %d\n", cmd.speed, cmd.steer);
+  balancer.setTarget(cmd.speed, cmd.steer);
   // TODO move
 }
 
@@ -170,5 +171,4 @@ void loop() {
   //if (controls.isConnected()) {
   //  controls.send(&msg);
   //}
-  controls.sendEncoderData(42, 2332);
 }

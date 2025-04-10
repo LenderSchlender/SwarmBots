@@ -11,10 +11,25 @@ BalanceController::BalanceController(SingleMotorOutput *left, SingleMotorOutput 
 
 void BalanceController::init() {
   kalman.setAngle(0);
+  pidLeft.setWeights(2,0,0);
+  targetSpeed = 1 / 3.75 * INT16_MAX;
 }
 
 void BalanceController::tick() {
   updateAngle();
+  // max speed = 3.8 rps
+  if (robota->getTicks() % 10 == 0) {
+    RotationData rotL = leftEnc->get(0);
+    // left speed [rps]
+    float rpsL = RotaryEncoder::pulsesToRotations(rotL.pulses) / (rotL.time / 1000.0);
+    float targetRps = targetSpeed / (float) INT16_MAX * 3.75;
+    double lOut = pidLeft.pid(targetRps - rpsL, rotL.time / 1000.0);
+    Serial.printf("%f rps; lOut: %f", rpsL, lOut);
+    lOut = min(1.0, max(-1.0, lOut));
+    left->setSpeed(-(INT16_MAX));
+    Serial.printf("; ss: %f\n", lOut * (INT16_MAX-1));
+  }
+  //pidLeft.pid(0,0);
   //Serial.printf("Angle: %f\n", angle);
 }
 
@@ -37,4 +52,9 @@ void BalanceController::updateAngle() {
   } else {
     angle = kalman.getAngle(roll, gyroX, dt); // Calculate the angle using a Kalman filter
   }
+}
+
+void BalanceController::setTarget(int32_t speed, int32_t steer) {
+  targetSpeed = speed;
+  targetSteer = steer;
 }
