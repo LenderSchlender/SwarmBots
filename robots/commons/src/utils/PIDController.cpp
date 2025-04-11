@@ -15,6 +15,7 @@ float PIDController::pid(float error, float dt) {
   integral += error * dt;
   // D
   float derivative = (error - previous) / dt;
+  previous = error;
 
   return (kp * proportional) +
          (ki * integral) +
