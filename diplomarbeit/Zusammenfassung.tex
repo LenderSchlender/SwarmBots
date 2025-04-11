@@ -5,19 +5,38 @@ Ziel dieser Diplomarbeit ist es, drei Roboter zu entwickeln,
 welche kooperativ die Umgebung erkunden können.
 %
 Hierbei ist ein Roboter (``Guide'') mit einem LiDAR-Sensor ausgestattet,
-welcher Entfernungsmessungen durchführt.
+welcher rundum Entfernungsmessungen durchführt.
 %
 Die anderen beiden Roboter (getauft ``Tamerlan'' und ``Bambi'')
 sollen komplett ``blind'' sein.
 %
-Koordiniert wird das ganze über einen zentralen Server,
-welcher die gesammelten Daten zusätzlich über ein Webinterface darstellt.
+Die Entfernungsmessungen des LiDAR-Sensors werden
+gemeinsam mit allen anderen gesammelten Sensordaten
+(Gyroskop, Accelerometer, Thermometer, Drehgeber)
+über WebSocket-Verbindungen an einen zentralen Server gesendet,
+welcher die Daten aller Roboter in Echtzeit verarbeitet.
 %
-Als zusätzliche Aufgabe sollen sich die Roboter auf nur einer Achse balancieren,
-da wir Kits für balancierende Roboter verwenden,
-welche wir für unsere Zwecke modifiziert haben.
+Ziel ist es, dass der Server aufgrund dieser Daten
+vollautomatische Entscheidungen treffen kann,
+und die Roboter dementsprechend fernsteuert.
+%
+Alternativ können die Roboter auch mittels einem Webinterface manuell ferngesteuert werden.
+%
+Im Webinterface werden zusätzlich zu den gesammelten Sensordaten
+auch Livestreams von Kameras dargestellt,
+welche auf den Robotern montiert werden.
+%
+Diese Livestreams dienen nur der menschlichen Interpretation,
+sie werden nicht automatisch ausgewertet.
+%
+Als zusätzliche Aufgabe sollen sich die Roboter auf nur einer Radachse balancieren,
+da Kits für balancierende Roboter verwendet werden,
+welche teilweise modifiziert werden,
+um den Anforderungen des Projekts gerecht zu werden.
+%
 Die Software basiert auf den Robotern,
-die wir letztes Jahr im Zuge der Projektwoche als Vorbereitung auf die Diplomarbeit gebaut haben.
+die letztes Jahr im Zuge der Projektwoche als Vorbereitung auf die Diplomarbeit gebaut wurden.
+
 \section{Abstract (English)}
 Goal of this diploma thesis is to develop three robots which
 can explore the environment cooperatively.
@@ -28,11 +47,29 @@ which carries out distance measurements.
 The other two robots (named ``Tamerlan'' and ``Bambi'')
 are to be completely ``blind''.
 %
-The diploma thesis is coordinated via a central server,
-which also displays the collected data via a web interface.
+The distance measurements from the LiDAR sensor and all other collected sensor data
+(gyroscope, accelerometer, thermometer, rotary encoder)
+is sent to a central server via WebSocket connections.
+This server processes the data from all robots in real time.
 %
-As an additional task, the robots should balance themselves on only one axis,
-as we use kits for balancing robots,
-which we have modified for our purposes.
+The aim is for the server to be able to make fully automated decisions based on this data,
+and control the robots remotely accordingly.
+%
+Alternatively, the robots can also be remote-controlled manually via a web interface.
+%
+In addition to the collected sensor data,
+the web interface also displays live streams from cameras,
+which are mounted on the robots.
+%
+In addition to the collected sensor data, the web interface
+also displays live streams from cameras,
+which are mounted on the robots.
+%
+These live streams are for human interpretation only,
+they are not evaluated automatically.
+%
+As an additional task, the robots should balance themselves on only one wheel axis,
+as kits for balancing robots were used,
+which have been modified for our purposes.
 The software is based on the robots
-that we built last year during the project week in preparation for the diploma thesis.
+that were built last year during the project week in preparation for the diploma thesis.
