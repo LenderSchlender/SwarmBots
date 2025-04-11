@@ -2,6 +2,7 @@
 % Zuständig: Arthur
 
 \chapter{Software - Frontend}
+\initials{AB}
 \label{sec:software_frontend}
 Das Frontend wurde als Webanwendung realisiert,
 welche die vom Server gesammelten Daten visualisiert.
@@ -50,6 +51,7 @@ in anderen Komponenten wiederverwendet werden,
 was eine schöne Abstrahierung ermöglicht.
 
 \section{Webseite}
+\initials{AB}
 \label{subsec:frontend_Webseite}
 Nach der Einführung des Frontendes in Kapitel \ref{sec:software_frontend} folgt eine detaillierte
 Beschreibung der Webseite sowie ihrer Funktionen. 
@@ -90,6 +92,7 @@ zeigt perfekt, welche Komponente als Sender bzw. als Empfänger agiert.
 \end{figure}
 
 \subsection{Webseite - Startseite}
+\initials{AB}
 \label{subsubsec:Webseite_Startseite}
 
 \begin{figure}[H]
@@ -117,6 +120,7 @@ Der zweite wesentliche Punkt der Startseite ist es die Navigationslinks anzuzeig
 gesammelten Sensordaten zu kommen. 
 
 \subsection{Webseite - Daten}
+\initials{AB}
 \label{subsubsec:Webseite_Daten}
 
 \begin{figure}[H]
@@ -136,6 +140,7 @@ Die bereitstehende Websocket verbindung dient zur schriftlichen Kommunikation mi
 Dieser Abschnitt der Webseite ist Aufgrund der Datenvisualisierung der wichtigste im Bereich des Frontends.
 
 \section{LiDAR-Karte}
+\initials{AB}
 \label{subsec:frontend_lidar_map}
 Die LiDAR-Karte wird im Frontend mithilfe von Vue.js generiert und in stetig aktualisert. 
 Die Karte dient der Darstellung von Hindernissen in der Umgebung und zeigt Objekte wie Wände, 
@@ -189,6 +194,7 @@ an denen der Laser bereits schon frühzeitig abgeprallt ist.
 Die beiden nicht markierten Punkte-``Cluster'' stellen Dachstützen dar.
 
 \section{Anzeigen der Sensordaten}
+\initials{AB}
 \label{subsec:frontend_sensors}
 Die Sensordaten werden alle auf dem Frontend dargestellt und stetig aktualisiert.
 %
@@ -214,6 +220,7 @@ im Graphen abhängig von der Zeit angezeigt,
 um die aktuellen Werte mit der Vergangenheit vergleichen zu können.
 
 \section{Fernüberwachung per Kamera}
+\initials{AB}
 \label{subsec:frontend_cam_stream}
 Auf allen drei Robotern befinden sich fest montierte
 \texttt{ESP32-CAM}-Kameramodule zur Überwachung,
@@ -232,6 +239,7 @@ So können wir mithilfe der Fernsteuerung (Siehe Abschnitt \ref{subsec:frontend_
 die Roboter z.B. aus einer Gefahrenzone zu entfernen.
 
 \section{Fernsteuerung}
+\initials{AB}
 \label{subsec:frontend_control}
 Das Konzept der Fernsteuerung wurde aus den Prototypen der Projektwoche aus dem Jahr 2023/2024 übernommen.
 %
@@ -245,6 +253,7 @@ Die Fernsteuerungsfunktion sollte aber nur zu Testzwecken dienen um die Roboter
 vor potentiellen Gefahrensituation zu Retten. 
 
 \section{Frontend - Code}
+\initials{AB}
 \label{subsec:frontend_Code}
 In diesem Kapitel wird sich hauptsächlich auf die Beschreibung der verschiedenen Module des
 Frontend-Codes konzentriert. Die Struktur und Funktionalität werden mit der \texttt{``4+1 architectural view model''} beschrieben.
@@ -265,6 +274,7 @@ sondern auch auf seine Funktion im Gesamtsystem
 sowie seiner Abhängigkeit und interaktion mit anderen Komponenten des Projektes.
 
 \subsection{Protobufs generieren - TypeScript}
+\initials{AB}
 \label{subsec:proto_gen_TS}
 Bevor die Struktur sowie das Verhalten der Codes im Detail erläutert werden können,
 müssen zunächst die Protobuf-Dateien generiert werden. 
@@ -303,6 +313,7 @@ im Verzeichnis ``lib''.
 Dieses Verzeichnis dient als Zielordner für alle generierten Protobuf-Dateien für die Webseite.
 
 \subsection{SwarmBotsApp.vue}
+\initials{AB}
 \label{subsec:frontend_SwarmBotsApp.vue}
 Der Code ``SwarmBotsApp.vue'' beschreibt eine einfache Navigations- und Anzeige-Komponente
 für die Webseite und nutzt Vue-Router um diese Links verwenden zu können.  
@@ -357,6 +368,7 @@ welches die genauen Abläufe des Codes zur Erstellung der Navigationslinks wiede
   \end{enumerate}
 
 \subsection{Vue Router}
+\initials{AB}
 \label{subsec:frontend_VueRouter}
 Vue Router ist die offizielle Routing-Bibliothek für Vue.js. Sie ermöglicht es, 
 SPA mit mehreren Seiten bzw. Ansichten zu erstellen. 
@@ -380,6 +392,7 @@ Der zentrale Teil des Codes schaut so aus:
 \end{lstlisting}
 
 \subsection{websocket.vue}
+\initials{AB}
 \label{subsec:frontend_websocket.vue}
 
 Bevor die genauer Erklärung bezüglich des websockets.vue Codes kommt,
@@ -433,6 +446,7 @@ dass der Websocket die Werte für die Diagramme aktualisert.
 \end{enumerate}
 
 \subsection{daten.vue}
+\initials{AB}
 \label{subsec:frontend_daten.vue}
 Die Komponente ``daten.vue'' basiert in weiten Teilen auf derselben strukturellen 
 und funktionalen Grundlage wie die in Abschnitt \ref{subsec:frontend_websocket.vue} beschrieben 
@@ -501,6 +515,7 @@ Zur Veranschaulichung wurde ein Flussdiagramm hinzugefügt:
 \end{enumerate}
 
 \subsection{charts.vue}
+\initials{AB}
 \label{subsec:frontend_charts.vue}
 Die Komponente ``charts.vue'' sorgt für die Darstellung von Diagrammen,
 welche die Messwerte unterschiedlicher Sensoren visuell darstellt.
@@ -557,6 +572,7 @@ welche in der WebSocket-Komponente umgewandelt werden, präzise und reaktiv dars
 \end{enumerate}
 
 \section{Webseitenprobleme}
+\initials{AB}
 \label{subsec:problem_Webseite}
 Im Laufe der Entwicklung der Webseite traten unterschiedliche Probleme auf,
 ob nun technischer oder struktureller Natur, 
@@ -567,6 +583,7 @@ waren die Fehler nicht immer unmittelbar erkennbar,
 weshalb bei einigen Fehlern die analyse von Mitschülern oder Lehrkräften benötigt wurde.
 
 \subsection{Pfadfindung}
+\initials{AB}
 \label{subsubsec:problem_Pfadfindung}
 Um bei Vue.js Module zu importieren muss die Funktion \texttt{Import from 'PFAD'} verwendet werden.
 %
@@ -600,6 +617,7 @@ Dies war leicht zu beheben mit dem Befehl:\\ \texttt{npm install -D @types/googl
 heruntergeladen.
 
 \subsection{Variablen einlesung}
+\initials{AB}
 \label{subsubsec:problem_variablen_einlesen}
 Ein hartnäckiges Problem in der Entwicklung des Codes zum Auslesen der Sensordaten, 
 stellte das korrekte Einlesen von Variablen aus den generierten TypeScript-Protobuf Dateien dar.
@@ -652,6 +670,7 @@ EncoderData wird ausgelesen und als ``decodedData'' gespeichert, davon werden di
 dann rausgelesen und weitergeschickt.
 
 \subsection{Diagramm anzeigen}
+\initials{AB}
 \label{subsubsec:problem_chart_anzeige}
 Ein weiteres Problem welches auftrat, wenn auch glücklicherweise nur von kurzer Dauer,
 bezog sich auf die Darstellung der Diagramme im Frontend.
@@ -679,6 +698,7 @@ Da dieser entsprechende Codeabschnitt ursprünglich aus der Datei ``charts.vue''
 Der Fehler lag darin, dass die Kontextabhängigen Aspekte berücksichtigt. 
 
 \subsection{Build-Probleme}
+\initials{AB}
 \label{subsubsec:problem_Builden}
 Zu beinn der Diplomarbeit arbeitete jedes Gruppenmitglied lokal auf dem eigenen Rechner.
 %
