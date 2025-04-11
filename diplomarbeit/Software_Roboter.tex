@@ -87,7 +87,8 @@ welche die folgenden Funktionen definiert:
         Im Sinne der Vollständigkeit gibt es trotzdem die Möglichkeit,
         diese Funktion zu implementieren.
 \end{itemize}
-
+Außerdem stellt der Robota-Framework zwei Hilfsklassen (engl. ``Utilities''/``Utils'') zur Verfügung:
+\texttt{KalmanFilter} und \texttt{PIDController}.
 
 \subsection{Robota}
 \initials{LG}
@@ -431,12 +432,7 @@ das die URL des Servers zum Zeitpunkt des Kompilieren bekannt sein müsste.
 Stattdessen muss der Server (welcher als WS-Client agiert) nur die aktuelle IP-Adressen der Clients wissen,
 welche man leicht bzw. schnell in der Konfiguration des Servers ändern kann.
 
-\subsection{Hilfsklassen}
-\initials{LG}
-Der Robota-Framework stellt zwei Hilfsklassen (engl. ``Utilities''/``Utils'') zur Verfügung:
-\texttt{KalmanFilter} und \texttt{PIDController}.
-
-\subsubsection{KalmanFilter}
+\subsection{KalmanFilter}
 \initials{LG}
 Kalman-Filter werden allgemein zu Schätzung von Systemzuständen verwendet,
 welche nur ungenau gemessen werden können.
@@ -454,7 +450,7 @@ um einen genauen Wert zu erreichen.
 Der verwendete Code zum Kalman-Filter basiert auf einem modifiziertem Beispielcode von Kristian Lauszus \cite{lauszus}.
 % TODO maths?
 
-\subsubsection{PIDController}
+\subsection{PIDController}
 \initials{LG}
 PID-Regler (Proportional, Integral, Differential) werden verwendet,
 um eine Regelstrecke bestmöglich zu regeln.
@@ -464,7 +460,69 @@ Im Kontext der Tumbller werden PID-Regler an zwei Stellen eingesetzt:
     \item Regelung der Motorgeschwindigkeit
     \item Regelung der Neigung und Auslenkung der Roboter
 \end{itemize}
-% TODO more elaborate description; maths?
+
+\subsubsection{Theorie}
+\initials{LG}
+Digitale (bzw. diskrete) PID-Regler lassen sich grundlegend sehr einfach implementieren:
+
+% P
+\begin{equation}
+    u_P[k] = e[k]
+\end{equation}
+% I
+\begin{equation}
+    u_I[k] = u_I[k-1] + e[k] * \Delta t
+\end{equation}
+% D
+\begin{equation}
+    u_D[k] = \frac{e[k] - e[k-1]}{\Delta t}
+\end{equation}
+% combined
+\begin{equation}
+    u[k] = k_P * u_P[k] + k_I * u_I[k] + k_D * u_D[k]
+\end{equation}
+
+Hierbei ist $e[k]$ die aktuelle Regelabweichung,
+während $u[k]$ die Stellgröße repräsentiert.
+%
+$k_P$, $k_I$, und $k_D$ sind Verstärkungsfaktoren,
+mit denen man den Regler einstellen kann,
+indem der Einfluss der jeweiligen Anteile
+auf das Ausgangssignal $u[k]$ variiert wird.
+%
+Die Größe $\Delta t$ bezeichnet die Abtastzeit und wird zur zeitdiskreten
+Berechnung des Integral- und Differentialanteils benötigt.
+
+\subsubsection{Praxis}
+In C-Code implementiert schaut das dann wie folgt aus:
+\begin{lstlisting}[caption={Implementierung des PID-Reglers in C}]
+float PIDController::pid(float error, float dt) {
+  static float integral, previous;
+
+  // P
+  float proportional = error;
+  // I
+  integral += error * dt;
+  // D
+  float derivative = (error - previous) / dt;
+  previous = error;
+
+  return (kp * proportional) +
+         (ki * integral) +
+         (kd * derivative);
+}
+\end{lstlisting}
+Hier ist zu beachten,
+dass \texttt{error}
+jede gewünschte Einheit haben kann,
+solange der Code,
+der \texttt{PIDController::pid} aufruft,
+den zurückgegebenen Wert korrekt verarbeitet.
+%
+Der Standardisierung halber wird empfohlen,
+dass \texttt{dt} (delta time) in Sekunden angegeben wird,
+allerdings ist es theoretisch möglich,
+jegliche Zeiteinheit zu verwenden. 
 
 \section{Guide}
 \label{subsec:software_guide}
