@@ -20,27 +20,26 @@ Wodurch es verantwortlich für die Kommunikation und Datenerfassung zwischen all
 Dazu gehören die drei Roboter, welche uns die Daten liefern wie LiDAR, Beschleunigungssensor etc., 
 und das Frontend zu dem die Daten zur Visualisierung und Mitverfolgung gesendet werden 
 und gegebenenfalls auch Befehle empfingt.
-
+\\
 Weiters findet hier die Zentrale Datenverarbeitung und Verwaltung statt, 
 dies ist verantwortlich für die Erstellung der LiDAR Map, 
 der Ermittlung der Roboter Positionen 
 und gegeben falls Berechnung der Messwerte. 
 % im falle ineffizient etc
-
+\\
 Und Steuerung der Roboter mithilfe eines Erkennungssystems 
 welches bestimmte Kennzeichen in den erhaltenen Daten Ausschau hält und 
 darauf Kennzeichen für die einzelnen Bots erkennt und verfolgt, 
 um entsprechend die Positionen aller Bots relativ zur LiDAR Map ausfindig zu machen.
-
-Die Zentrale Datenverarbeitung und autonome Steuerung der Roboter sind 
-im zu zeitigen Prototypen stand nicht implementiert.
-% stattdessen weiterleitung und fernsteuerung
-TODO 
-
+% 
+% Die Zentrale Datenverarbeitung und autonome Steuerung der Roboter sind 
+% im zu zeitigen Prototypen stand nicht implementiert.
+% % stattdessen weiterleitung und fernsteuerung
+% TODO 
+\\
 Und letztendlich die Datenbank welches die etwaigen Daten speichert 
 von der Datenverarbeitung und Erkennungssystems, 
 dazu gehört insbesondere die LiDAR map.
-
 
 Für das Backend wurde Python gewählt, 
 welches von seiner Vielzahl von Standardpaketen und 
@@ -96,6 +95,7 @@ welches im Vergleich zu gewöhnlichen HTTP-Anfragen offen bleibt, wodurch Echtze
 
 \section{Datenverarbeitung}
 \initials{JS}
+% TODO
 Zurzeit nicht realisiert.
 
 Geplant war das die erhaltenen Daten über das Datenverarbeitungssystem 
@@ -110,6 +110,7 @@ Dafür haben wir einige Konzepte erstellt:
 \section{Steuerung der Roboter}
 \label{subsec:backend_robot_detection}
 \initials{JS}
+% TODO
 Zurzeit nicht realisiert.
 % spätester schritt weil funktionierende Strategie benötigt wird zur Erkennung
 % Datenbank/ Datenbearbeitung
@@ -121,13 +122,17 @@ Stattdessen ein Test Programm zur Überprüfung zur theoretischen Steuerung.
 % verwendung von code vom vorgänger Projekt
 
 \section{Aktueller Stand}
+\label{subsec:backend_aktueller_stand}
 \initials{JS}
-Zum Zeitpunkt dieser Diplomarbeit Abgabe sind nicht alle geplanten Features zeitlich zusammengekommen.
+% Womöglich Teile zu Ergebnisse verschieben?
+Zum Zeitpunkt dieser Diplomarbeit Abgabe 
+sind nicht alle geplanten Features für das Backend zeitlich zusammengekommen.
 Wodurch der Großteil der Backendserver Seite nicht realisiert werden konnte.
 
-Zur Überbrückung wurde der Kommunikationsteil so realisiert, dass es als Weitergabe fungieren soll.
-Dies wurde so realisiert, indem die Daten zwischen einem Bot und dem Server weitergegeben werden, 
-essenziell ein Router. 
+Zur Überbrückung wurde der Kommunikationsteil so realisiert, 
+dass es als Weitergabe fungieren soll.
+Dies wurde so realisiert, indem die Daten 
+zwischen einem Bot und dem Server weitergegeben werden, essenziell ein Router. 
 Der nächste Schritt besteht dann über eine Prototyp Steuerung 
 Befehle zu den einzelnen Bots zu senden.
 
@@ -135,8 +140,10 @@ Die Prototyp Steuerung ist realisiert als eine manuelle Steuerung,
 wo dem gewählten Roboter manuell von einem Bediener bedient.
 In Zukunft kann die manuelle Steuerung als eine weitere Option beibehalten werden, 
 die die automatisierte Steuerung überschreiben kann. 
-Dies kann verwendet werden, um Beispielweise den Guide manuell in bestimmte Bereiche zu führen.
-Anderes falls auch für Test und Debug Zwecke, sowie manuell eine neue Datenerfassung zu erzwingen.
+Dies kann verwendet werden, 
+um Beispielweise den Guide manuell in bestimmte Bereiche zu führen.
+Anderes falls auch für Test und Debug Zwecke, 
+sowie manuell eine neue Datenerfassung zu erzwingen.
 
 \section{Backend - Code}
 \initials{JS}
@@ -150,6 +157,7 @@ Weiters werden auch beschrieben welche Pakete und Werkzeuge verwendet wurden.
 \initials{JS}
 % algemein zu python workflow
 % womöglich unötig
+% TODO
 \subsubsection{Formatter und Linter} 
 \initials{JS}
 Um gute Lesbarkeit zu gewährleisten ist eine ordentliche Struktur und Format in jedem Code zu erwarten, 
@@ -169,11 +177,12 @@ den gleichen Styleguide \text{PEP 8} folgt.
 % weil vscode es standart mäßig Formatierung nicht mitliefert
 \subsubsection{venv/environment management}
 \initials{JS}
-
+% TODO
 
 
 \subsection{Python Packages}
 \initials{JS}
+% TODO schau dir dieses abschniit nochmal durch
 Um gegebene Funktionen zu Gewehrleisten sind weitere externe Paketen nötig, 
 die nicht teil der Standard Paketen sind.
 Welche zu diesem Stand verwendet wurden, ist in diesem Abschnitt erklärt.
@@ -184,7 +193,8 @@ Für Python ist ein Websocket Paket namens 'websockets' vorhanden welches die Cl
 um ein Vielfaches vereinfacht da man sich keine Sorge über Handshakes, Ping Pongs, oder anderes verhalten
 der Websocket Spezifikation, da es alles von dem Paket behandelt wird 
 und man sich mehr auf die Applikation fokussieren kann. 
-Es sind dennoch einige Parameter zum zur Verfügung gestellt zur Modifizierung, falls benötigt.
+Es sind dennoch einige Parameter zum zur Verfügung gestellt zur Modifizierung, 
+falls benötigt.
 % code beispiele?
 
 % erklärung zu den packet Webscoket
@@ -238,7 +248,8 @@ dies Bedeutet, dass die Clients eine Verbindung mit dem Backend Server herstelle
 \initials{JS}
 % erklärung zu asyncio
 Asyncio funktioniert, indem Tasks sich den Event Loop nehmen und mit dem 'await' 
-Befehl anderen Tasks erlaubt sich den Event Loop zu nehmen, im Vergleich zu üblichen Multitasking
+Befehl anderen Tasks erlaubt sich den Event Loop zu nehmen, 
+im Vergleich zu üblichen Multitasking
 wo jeder Task eine feste Zeit zugeschrieben bekommt vom Betriebssystem.
 
 TODO
@@ -256,6 +267,7 @@ Somit können wir einen Prozess starten, welches auf eingehende Nachrichten wart
 während unser Backend andere Prozesse ausführt.
 % kann mehr dazu schreiben
 % ermöglicht auch sachen etc.
+% TODO
 
 \subsection{Prototyp manuelle Steuerung}
 \initials{JS}
@@ -265,14 +277,20 @@ Dafür verwenden wir ein Controller aufgrund dessen das wir bereits im Vorgänge
 eine Form solcher Steuerung realisiert haben. 
 Deshalb ist ein Großteil der Arbeit hier die Anpassung auf dem neuen Datenformat, 
 Verwendung neuer Websocket Pakete und Modifizierung der Berechnungen.
-
-Zum Zeitpunkt des Schreibens diesen Abschnitt der Diplomarbeit ist dies mitten in der Bearbeitung.
+% 
+Anfänglich ist geplant es, als einzelnen Skript zu realisieren, 
+welcher den Platz des Frontends nimmt, 
+und im Laufe des Projekts ins Frontend integriert oder neu implementiert wird.
+% TODO aktualisiere dies entsprechend
+Zum Zeitpunkt des Schreibens diesen Abschnitt der Diplomarbeit 
+ist dies mitten in der Bearbeitung.
 % TODO
 \subsubsection{Vorgänger Code}
 \initials{JS}
-
+Erklärung was der alte Code alles macht.
 \subsubsection{Anpassung}
 \initials{JS}
+Wie es angepasst wurde.
 
 \subsection{Konsolen Ausgabe}
 \initials{JS}
@@ -288,34 +306,62 @@ Hauptsächlich genutzt für Debug und Entwicklungsschritte.
     \label{fig:py_konsole_o}
 \end{figure}
 
-In Zukunft kann dies durch die Datenbank oder ein CSV log abgelöst werden.
+In Zukunft kann dies durch die Datenbank oder ein CSV log abgelöst werden 
+und somit auch bessere Systeme implementiert werden.
+% 
+Diese könnten automatisch für sonderbare Änderungen suchen 
+und entsprechen Melden und in einem Log abspeichern.
 
 \subsection{Optimierungsmöglichkeiten}
 \initials{JS}
 \label{subsec:Optimierungsmöglichkeiten}
+\subsubsection{uvloop - schnellere Koroutinen}
+\initials{JS}
 % uvloop - drop in replacement
 % https://github.com/MagicStack/uvloop
 uvloop ist ein schneller drop-in Ersetzung von der eingebauten asyncio Event Loop, 
-dieser ist entsprechend in Cython entwickelt (Cython ist entsprechend Python aber als Performanten C code compiliert).
-Ziel dieser Ersetzung ist es asyncio um einiges schneller zu machen aber nicht von der Referenz verhalten von asyncio abzuweichen. 
-Als drop-in Ersetzung geht dies so weit dass, die Abweichungen als Fehler kategorisiert werden.
+dieser ist entsprechend in Cython entwickelt 
+(Cython ist entsprechend Python aber als Performanten C code compiliert).
+Ziel dieser Ersetzung ist es asyncio um einiges schneller zu machen 
+aber nicht von der Referenz verhalten von asyncio abzuweichen. 
+Als drop-in Ersetzung geht dies so weit, 
+dass die Abweichungen als Fehler kategorisiert werden.
+% 
+Während der Prototyp Phase dieses Projekts 
+ist man auf der Standard Implementierung geblieben, aufgrund Stabilität
+und weil uvloop bis später im Projekt unbekannt geblieben ist.
+In Zukunft wird jedoch eine Implementierung in Betracht gezogen,
+aufgrund der vorhin genannten Eigenschaften.
+% 
+Insbesondere wenn die nachfolgenden Projekte weiter skalieren.
+
+% compelierung python code
+\subsubsection{Kompilierung}
+\initials{JS}
+Es ist möglich Python code genau so wie jedes andere Programm zu kompilieren,
+jedoch ist dies standardmäßig nicht nötig 
+da der Interpreter Cpython automatisch Python byte code kompeliert (in PYC Dateien).
+Das prekompilieren wird hauptsächlich dafür verwendet um die Start zeit zu verringern 
+und um den Code für die gewählte Platform einfacher zu verteilen,
+weil man keine weiteren Pakete installieren muss sondern
+nur die PYC Datei allein genügt.
+% Dies ist jedoch für dieses Projekt irrelevant.
+
+% \subsection{threading vs asyncio}
 % TODO threading warum nicht streng nötig 
 % (hauptsächlich limitiert über Wifi I/O nicht anzahl an geräten & )
 % falls anzahl größer wird dann villeicht
-% compelierung python code
-Es ist möglich Python code genau so wie jedes andere Programm zu kompilieren,
-jedoch ist dies standardmäßig nicht nötig da der Interpreter Cpython automatisch Python byte code kompeliert (in PYC Dateien).
 
 \subsection{Probleme}
 \initials{JS}
 \subsubsection{Linux Modifikationen}
 \initials{JS}
 Es kam das Problem auf, dass die lokale IP suche auf Linux Ubuntu nicht funktionierte.
-Dies lag daran, dass die vorherige Variante 
-mithilfe der Domain Name auf die lokale IP-Adresse findig wurde.
+Dies lag daran, dass die vorherige Variante, 
+welcher mithilfe der Domain Name auf die lokale IP-Adresse findig wurde.
 Jedoch wurde auf Linux eine andere Adresse zurückgeliefert, 
 zwar die Loopback-Adresse \texttt{127.0.1.1}. 
-Diese Adresse wird verwendet, um den host\_name eine Adresse zuzuweisen,
+Diese Adresse wird verwendet, um den \texttt{host\_name} eine Adresse zuzuweisen,
 im Falle das kein Netzwerk vorhanden ist. 
 Sonst kann eine permanente IP-Adresse hier zugewiesen werden.
 % https://askubuntu.com/questions/754213/what-is-difference-between-localhost-address-127-0-0-1-and-127-0-1-1
@@ -345,13 +391,27 @@ Als Lösung öffnet das Programm temporär ein Socket und findet mit dieser die 
 \subsubsection{Potenzielles blockierendes verhalten}
 \initials{JS}
 % bot_handler und server nicht separat gestartet werden.
-TODO nim notiz im code
+Obwohl die Kommunikation in hauptsächlich zwei  teile aufgeteilt ist, mit 
+Bot Händler und Server, 
+jedoch werden sie zu diesem Zeitpunkt gesammelt und gemeinsam gestartet.
+Dies führt zu einer womöglich ungewollten Konsequenz,
+dass falls der Bot Händler sich frühzeitig oder ungewollt beendet, 
+nicht neu gestartet wird bis sich einen neuen Client verbindet.
+% 
+Da jedoch für diese Diplomarbeit zu erwarten ist, 
+dass die Bots stets zur Verfügung stehen sollten,
+wird der Prozess, bei einer geschlossenen Verbindung,
+für eine gewisse Zeit pausiert bevor ein neuer Verbindungsversuch gestartet wird.
 
-\subsection{Protobuf Generierung}
+In den nächsten Iterationen sollten jedoch 
+die zwei Aufträge unabhängig gestartet werden können, 
+um die Situation zu vermeiden, dass die ganze Kommunikation neu gestartet werden muss.
+
+\subsubsection{Protobuf Generierung}
 \initials{JS}
 % siehe server/README.md
 % verlege zu Backend probleme?
-Während des migrieren vom Vorentwicklung Ordner, 
+Während des migrieren vom Vorentwicklungs Ordner, 
 aufgrund dessen das es noch nicht klar wie mit Protobuf 
 und der neuen Websocket Implementation zu hantieren ist, 
 wurde für eine gewisse Zeit in einem Testordner experimentiert.
@@ -371,6 +431,11 @@ mit dem Ordner prefixed werden müssen.
     import protobuf.imu_data_pb2 as imu__data__pb2
 \end{lstlisting}
 
+
+% \subsection{Protobuf Generierung}
+% \initials{JS}
+% TODO schreib ein skript dafür
+
 \section{Test Codes}
 \initials{JS}
 Es wurden weitere allgemeinere Test Codes geschrieben, 
@@ -380,14 +445,7 @@ Aber auch für die Fehlersuche
 und sind im Allgemeinen eine Schnelle Option um die Kommunikation und Datentausch zu testen.
 
 Diese Codes haben große Ähnlichkeiten mit der Prototyp Kommunikation, 
-deshalb wird in diesem Abschnitt hauptsächlich auf dessen Funktion eingegangen.
-
-\subsection{Client und Server}
-\initials{JS}
-Dazu gehören \texttt{test\_wrap\_client.py} und \texttt{test\_wrap\_bot\_transceiver.py}.
-Diese sind einfache Codes welcher Client uns Server (Bots und Server) emuliert, 
-indem sich beide Protobuf Pakete zueinander schicken. 
-Diese dienten hauptsächlich zum Testen der Prototyp Kommunikation.
+deshalb wird in diesem Abschnitt hauptsächlich auf deren Nutzen eingegangen.
 
 \subsection{Einzelverbindung - Robot\_ws\_test.py}
 \initials{JS}
@@ -397,3 +455,14 @@ und wird im Laufe des Projektes angepasst, wenn nötig.
 Zurzeit wurde es bereits verwendet, um die Kommunikation zu testen, 
 die Bearbeitung von erhaltenen Daten vom Bot und genereller Fehler suche.
 
+\subsection{Client und Server}
+\initials{JS}
+Dazu gehören \texttt{test\_wrap\_client.py} (als den Frontend) 
+und \texttt{test\_wrap\_bot\_transceiver.py} (als die Bots).
+Diese sind einfache Codes welcher Client uns Server (Bots und Server) emuliert, 
+indem sich beide Protobuf Pakete zueinander schicken. 
+Diese sind dienen hauptsächlich zum Testen der Websocket Kommunikation 
+und auch zur Übung wie Protobuf in Python zu verwenden sind, 
+und nehmen die Position des Frontends und Bots.
+Die zwei Senden und Empfangen die Protobuf Wrapper über die Backend Kommunikation 
+und geben diese in die Konsole aus.
