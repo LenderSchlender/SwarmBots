@@ -479,8 +479,7 @@ geben die Stellgröße $u(t)$ aus.
 Die Aufgabe des Reglers besteht normalerweise darin,
 die Regelabweichung so gut wie möglich zu minimieren.
 \begin{figure}[H]
-    % have to resize or the figure gets too big for the page
-    %\resizebox{\linewidth}{!}{
+    \centering
     \begin{tikzpicture}[auto, node distance=2.5cm, >=Latex]
       % define style of blocks
       \tikzstyle{block} = [
@@ -502,19 +501,16 @@ die Regelabweichung so gut wie möglich zu minimieren.
       % helper node
       \node[coordinate, below=2cm of sum] (x_corner) {};
 
-      % TODO change labels
       \draw[->] (w) -- node[above] {\(w(t)\)} (sum);
       \draw[->] (sum) -- node[above] {\(e(t)\)} (regler);
       \draw[->] (regler) -- node[above] {\(u(t)\)} (strecke);
       \draw[-] (strecke) -- node[above] {\(x(t)\)} (x_knot);
       \fill (x_knot) circle[radius=1mm];
       \draw[->] (x_knot) -- (x_output);
-      %\draw[-] (x_knot) |- node[below,pos=0.75] {\(x(t)\)} (x_corner);
       \draw[-] (x_knot) |- node[above,pos=0.75] {Rückführung}
                            node[below,pos=0.75] {\(x(t)\)} (x_corner);
       \draw[->] (x_corner) -| node[pos=0.98, right] {$-$} (sum);
     \end{tikzpicture}
-    %}
     \caption{Standardregelkreis}
     \label{fig:allgemeiner-regelkreis}
 \end{figure}
