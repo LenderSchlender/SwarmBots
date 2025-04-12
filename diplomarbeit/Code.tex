@@ -43,7 +43,11 @@
 
         \texttt{\tl_to_str:N \l_lst_title}:
         % include listing (and forward any options)
-        \lstinputlisting[caption="{\tl_to_str:N \l_lst_title}",captionpos=below,#1]{\l_input_line}
+        \lstinputlisting[
+          style=code-lst,
+          caption="{\tl_to_str:N \l_lst_title}",
+          captionpos=below,
+          #1]{\l_input_line}
       }
     }
     % close file
@@ -70,6 +74,28 @@
 }
 
 \ExplSyntaxOff
+
+% custom style for these listings (smaller font)
+\lstdefinestyle{code-lst}{
+	backgroundcolor=\color{white},
+	commentstyle=\color{gray},
+	keywordstyle=\color{magenta},
+	numberstyle=\scriptsize\color{gray},
+	stringstyle=\color{purple},
+	basicstyle=\ttfamily\scriptsize,
+	breakatwhitespace=false,
+	breaklines=true,
+	columns=fullflexible,
+	postbreak=\raisebox{0ex}[0ex][0ex]{$\hookrightarrow$\space},
+	captionpos=b,
+	keepspaces=true,
+	numbers=left,
+	numbersep=5pt,
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
+	tabsize=2
+}
 
 \chapter{Code}
 Es folgt die aktuelle Version der Sourcecodes vom \today.
@@ -125,4 +151,5 @@ technisch anspruchsvoll ist,
 ist dieser hier auch inkludiert,
 auch wenn er nicht direkt zum Diplomprojekt beiträgt:
 
-\lstinputlisting[caption="\texttt{Code.tex}",captionpos=below]{./Code.tex}
+\lstinputlisting[style=code-lst,
+  caption="\texttt{Code.tex}",captionpos=below]{./Code.tex}
