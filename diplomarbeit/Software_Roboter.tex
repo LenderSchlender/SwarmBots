@@ -463,6 +463,53 @@ Im Kontext der Tumbller werden PID-Regler an zwei Stellen eingesetzt:
 
 \subsubsection{Theorie}
 \initials{LG}
+Im Model des allgemeinem Regelkreises ist der PID-Regler,
+wie der Name schon impliziert,
+an der Position des Reglers einzusetzen.
+%
+In Abbildung \ref{fig:allgemeiner-regelkreis} wurde dieser fett eingerahmt.
+%
+Regler akzeptieren im Allgemeinen die Regelabweichung $e(t)$ als Eingang und
+geben die Stellgröße $u(t)$ aus.
+%
+Die Aufgabe des Reglers besteht normalerweise darin,
+die Regelabweichung so gut wie möglich zu minimieren.
+\begin{figure}[H]
+    % have to resize or the figure gets too big for the page
+    \resizebox{\linewidth}{!}{
+    \begin{tikzpicture}[auto, node distance=2.5cm, >=Latex]
+      % define style of blocks
+      \tikzstyle{block} = [draw, rectangle, minimum height=1.2cm, minimum width=2.5cm, align=center]
+
+      % Eingang (Führungsgröße)
+      \node[] (w) {};
+      % Summierer
+      \node[circle, draw, minimum size=0.6cm, right=3cm of w] (sum) {};
+      % Regler
+      \node[block, right=4cm of sum, line width=2pt] (regler) {Regler};
+      % Regelstrecke
+      \node[block, right=3cm of regler] (strecke) {Regelstrecke};
+      % Ausgang
+      \node[coordinate, right=2.5cm of strecke] (x_output) {};
+      % TODO delete?
+      \node[block, below=2cm of strecke] (feedback) {Rückführung?};
+      % helper node
+      \node[coordinate] (x_corner) at (feedback-|sum) {};
+
+      % TODO change labels
+      \draw[->] (w) -- node[above] {Führungsgröße} node[below] {\(w(t)\)} (sum);
+      \draw[->] (sum) -- node[above] {Regelabweichung} node[below] {\(e(t)\)} (regler);
+      \draw[->] (regler) -- node[above] {Stellgröße} node[below] {\(u(t)\)} (strecke);
+      \draw[->] (strecke) -- node[above] {Regelgröße} node[below] {\(x(t)\)} (x_output);
+      % TODO schirch
+      \draw[->] (x_output) |- (feedback);
+      \draw[-] (feedback) -- node[above] {Rückführung} node[below] {\(x(t)\)} (x_corner);
+      \draw[->] (x_corner) -| node[pos=0.98, right] {$-$} (sum);
+    \end{tikzpicture}
+    }
+    \caption{Allgemeiner Regelkreis (TODO unfertig)}
+    \label{fig:allgemeiner-regelkreis}
+\end{figure}
 Digitale (bzw. diskrete) PID-Regler lassen sich grundlegend sehr einfach implementieren:
 
 % P
@@ -523,6 +570,9 @@ Der Standardisierung halber wird empfohlen,
 dass \texttt{dt} (delta time) in Sekunden angegeben wird,
 allerdings ist es theoretisch möglich,
 jegliche Zeiteinheit zu verwenden. 
+%
+Der Code zum PID-Regler wurde absichtlich so abstrakt wie möglich gehalten,
+um die Möglichkeit zur Verwendung in vielen unterschiedlichen Situationen zu gewährleisten.
 
 \section{Guide}
 \label{subsec:software_guide}
