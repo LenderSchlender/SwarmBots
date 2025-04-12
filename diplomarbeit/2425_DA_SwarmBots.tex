@@ -1,4 +1,4 @@
-\documentclass[a4paper,12pt,oneside,headsepline]{scrreprt}
+\documentclass[a4paper,12pt,oneside,headsepline,parskip]{scrreprt}
 % set document margin
 \usepackage[margin=3cm]{geometry}
 % proper utf8 support
@@ -151,10 +151,9 @@
 % Disable single lines at the start of a paragraph (Schusterjungen)
 \clubpenalty = 10000
 % Disable single lines at the end of a paragraph (Hurenkinder)
-\widowpenalty = 10000 \displaywidowpenalty = 10000
+\widowpenalty = 10000
+\displaywidowpenalty = 10000
 
-\parindent0em	% Einzug bei neuen Absätzen
-\parskip1mm		% Abstand zwischen Absätzen
 \sloppy			% nicht soooo genau mit dem Blocksatz
 
 % toc customization
@@ -176,12 +175,7 @@
 	\fi
 }
 
-\begin{document}
-	% Für fancy headers
-	%\pagestyle{fancy}
-	%\fancyhf{}
-	%\setlength{\parindent}{0pt}
-	
+\begin{document}	
 	% Keine Seitennummern von Titelblatt bis Inhalt
 	\pagenumbering{gobble}
 	
