@@ -463,11 +463,15 @@ Im Kontext der Tumbller werden PID-Regler an zwei Stellen eingesetzt:
 
 \subsubsection{Theorie}
 \initials{LG}
-Im Model des allgemeinem Regelkreises ist der PID-Regler,
+Im Model des Standardregelkreises ist der PID-Regler,
 wie der Name schon impliziert,
 an der Position des Reglers einzusetzen.
 %
-In Abbildung \ref{fig:allgemeiner-regelkreis} wurde dieser fett eingerahmt.
+Der Standardregelkreis besteht aus
+der Führungsgröße (dem Sollwert) $w(t)$,
+der Regelgröße (dem Istwert) $x(t)$,
+der Regelabweichung $e(t)=w(t)-x(t)$,
+und der Stellgröße $u(t)$.
 %
 Regler akzeptieren im Allgemeinen die Regelabweichung $e(t)$ als Eingang und
 geben die Stellgröße $u(t)$ aus.
@@ -476,38 +480,42 @@ Die Aufgabe des Reglers besteht normalerweise darin,
 die Regelabweichung so gut wie möglich zu minimieren.
 \begin{figure}[H]
     % have to resize or the figure gets too big for the page
-    \resizebox{\linewidth}{!}{
+    %\resizebox{\linewidth}{!}{
     \begin{tikzpicture}[auto, node distance=2.5cm, >=Latex]
       % define style of blocks
-      \tikzstyle{block} = [draw, rectangle, minimum height=1.2cm, minimum width=2.5cm, align=center]
+      \tikzstyle{block} = [
+        draw, rectangle, minimum height=1cm,
+        minimum width=2cm, align=center]
 
       % Eingang (Führungsgröße)
       \node[] (w) {};
       % Summierer
-      \node[circle, draw, minimum size=0.6cm, right=3cm of w] (sum) {};
+      \node[circle, draw, minimum size=0.6cm, right=2cm of w] (sum) {};
       % Regler
-      \node[block, right=4cm of sum, line width=2pt] (regler) {Regler};
+      \node[block, right=2cm of sum] (regler) {Regler};
       % Regelstrecke
-      \node[block, right=3cm of regler] (strecke) {Regelstrecke};
-      % Ausgang
-      \node[coordinate, right=2.5cm of strecke] (x_output) {};
-      % TODO delete?
-      \node[block, below=2cm of strecke] (feedback) {Rückführung?};
+      \node[block, right=2cm of regler] (strecke) {Regelstrecke};
+      % x verbindung
+      \node[coordinate, right=2cm of strecke] (x_knot) {};
+      % x Ausgang
+      \node[coordinate, right=0.8cm of x_knot] (x_output) {};
       % helper node
-      \node[coordinate] (x_corner) at (feedback-|sum) {};
+      \node[coordinate, below=2cm of sum] (x_corner) {};
 
       % TODO change labels
-      \draw[->] (w) -- node[above] {Führungsgröße} node[below] {\(w(t)\)} (sum);
-      \draw[->] (sum) -- node[above] {Regelabweichung} node[below] {\(e(t)\)} (regler);
-      \draw[->] (regler) -- node[above] {Stellgröße} node[below] {\(u(t)\)} (strecke);
-      \draw[->] (strecke) -- node[above] {Regelgröße} node[below] {\(x(t)\)} (x_output);
-      % TODO schirch
-      \draw[->] (x_output) |- (feedback);
-      \draw[-] (feedback) -- node[above] {Rückführung} node[below] {\(x(t)\)} (x_corner);
+      \draw[->] (w) -- node[above] {\(w(t)\)} (sum);
+      \draw[->] (sum) -- node[above] {\(e(t)\)} (regler);
+      \draw[->] (regler) -- node[above] {\(u(t)\)} (strecke);
+      \draw[-] (strecke) -- node[above] {\(x(t)\)} (x_knot);
+      \fill (x_knot) circle[radius=1mm];
+      \draw[->] (x_knot) -- (x_output);
+      %\draw[-] (x_knot) |- node[below,pos=0.75] {\(x(t)\)} (x_corner);
+      \draw[-] (x_knot) |- node[above,pos=0.75] {Rückführung}
+                           node[below,pos=0.75] {\(x(t)\)} (x_corner);
       \draw[->] (x_corner) -| node[pos=0.98, right] {$-$} (sum);
     \end{tikzpicture}
-    }
-    \caption{Allgemeiner Regelkreis (TODO unfertig)}
+    %}
+    \caption{Standardregelkreis}
     \label{fig:allgemeiner-regelkreis}
 \end{figure}
 Digitale (bzw. diskrete) PID-Regler lassen sich grundlegend sehr einfach implementieren:
