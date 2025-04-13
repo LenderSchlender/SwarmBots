@@ -72,8 +72,18 @@ denn ein wesentlicher Teil davon bestand auf die Kommunikation über Websockets.
 % wegen math Funktionen...
 % schnelle Modifizierung 
 % packet/ Bibliothek Fokussierung auf Einfachheit
+\section{Systembeschreibung}
+\initials{JS}
+% drunter verschoben weil besseres layout?
+In disem Abschnitt wird genauer 
+über die geplanten einzelnen Komponenten gesprochen 
+und deren Funktion.
 
-\section{Datenverwaltung}
+Zu beachten ist, dass nicht alle geplanten Systeme, die hier Beschrieben sind,
+implementiert wurden und manche noch in der Konzeptphase sind.
+Für den tatsächlichen Stand siehe Abschnitt \ref{subsec:backend_aktueller_stand}.
+
+\subsection{Datenverwaltung}
 \label{subsec:backend_data}
 \initials{JS}
 % übersicht über die drei komponenten und wie ungefähr der datenfluss aussieht?
@@ -84,7 +94,7 @@ TODO
 Weil die Datenverarbeitung noch nicht realisiert ist 
 kann noch nicht viel weiter zur Verwaltung gesprochen werden.
 
-\section{Kommunikation}
+\subsection{Kommunikation}
 \label{subsec:Kommunikation}
 \initials{JS}
 Die drei Roboter sind aktive Teilnehmer in der Kommunikation, 
@@ -100,21 +110,47 @@ welches im Vergleich zu gewöhnlichen HTTP-Anfragen offen bleibt,
 wodurch Echtzeitkommunikation möglich ist.
 % könnte man mehr ausschreiben aber schau ma später
 
-\section{Datenverarbeitung}
+\subsection{Datenverarbeitung}
 \initials{JS}
 % TODO
-Zurzeit nicht realisiert.
+Ein Teil des Servers ist die Verarbeitung der erhaltenen Daten, 
+die entweder zum Frontend weitergeleitet wird, oder vom Server verarbeitet.
+% 
+Um große Belastung mit Sensordaten Berechnung auf den Roboter zu vermeiden,
+werden einige Arbeiten auch auf den Server entlasten.
+Ein weiterer Grund dafür ist, aufgrund dessen das mit Python 
+bereits ausgebaute Mathematik Pakete zur Verfügung stehen
+und die Sensordaten zu Bearbeiten.
+Und auch ausgebautes Daten Analyse und Manipulation Pakete.
 
+
+\subsection{Erkennungssystem}
+\initials{JS}
 Geplant war das die erhaltenen Daten über das Datenverarbeitungssystem 
 über die Zeit hinaus eine Karte erstellt sozusagen die LiDAR map,
 welche in einer Datenbank abgespeichert werden.
-
-Dazu ein Erkennungssystem welche die einzelnen Roboter ausfindig machen soll.
-Dafür haben wir einige Konzepte erstellt:
+% 
+Über die Zeit werden Datenpunkte gesammelt, 
+die sich mehr nach einem gewissen Muster sammeln 
+und ein klareres Bild über die Form eines Raumes geben.
+Diese Muster, wie gerade Linien und Ecken werden vom System erkannt
+und mit diesen Eigenschaften auch ermittelt, 
+wo ungefähr sich der Guide im Raum befindet.
+% 
+Dies wird mit einem weiteren Erkennungssystem für Tamerlan \& Bambi,
+welches zuständig ist die position der zwei zu ermitteln.
+Indem die Bots identifizierbare reflektieren Objekte befestigt kriegen,
+Beispielweise mehrere Zylinder wodurch sie erkannt werden können.
+%
+Mit diesen Informationen kann die Steuerung der Roboter folgen.
 % füge skizzen hier oder erklär anderen Kapitel?
 % Kugel, stab, mehrere stäbe, reflektierendes material
 
-\section{Steuerung der Roboter}
+Eine genauere Beschreibung der LiDAR Karte und wie diese aussieht
+ist im Frontend Abschnitt \ref{subsec:frontend_lidar_map} 
+auf Seite \pageref{subsec:frontend_lidar_map} zu finden.
+
+\subsection{Steuerung der Roboter}
 \label{subsec:backend_robot_detection}
 \initials{JS}
 % TODO
@@ -394,7 +430,8 @@ weil man keine weiteren Pakete installieren muss sondern
 nur die PYC Datei allein genügt.
 % Dies ist jedoch für dieses Projekt irrelevant.
 
-% \subsection{threading vs asyncio}
+\subsection{threading vs asyncio}
+\initials{JS}
 % TODO threading warum nicht streng nötig 
 % (hauptsächlich limitiert über Wifi I/O nicht anzahl an geräten & )
 % falls anzahl größer wird dann villeicht
