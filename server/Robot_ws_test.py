@@ -173,7 +173,7 @@ async def bot1_handler1():
                         wrp_send.seq = i
 
                         # wrp_send.ping_pong = 1
-                        
+
                         steer = random.randint(-1, 1)
                         wrp_send.move_cmd.steer = steer
                         wrp_send.move_cmd.speed = 69
@@ -188,7 +188,7 @@ async def bot1_handler1():
                         await asyncio.sleep(3)
 
         except ConnectionClosed:
-            print ("closed :C")
+            print("closed :C")
             await asyncio.sleep(1)  # wait time before repeated attempt
 
 

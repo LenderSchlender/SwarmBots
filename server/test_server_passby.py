@@ -1,6 +1,7 @@
 """
 test code which passes packets between clients and bots
-currently acts as a transfer which passes from client to one bot and from one bot to client
+currently acts as a transfer which passes from client to one bot
+and from one bot to client
 
 can be slightly modified to check if client or bot sends wrappers to the server
 (potential issue of a FIFO buffer filling up but never emptying for client)
@@ -11,9 +12,11 @@ recommended to be done in when the FIFO Queues are being emptied or the recv tas
 
 TODO & NOTES:
 - separate send and recv to separate task to prevent unnecessary blocking
-    - [done] should be done for recv as "checking" if data is available doesn't work otherwise
+    - [done] should be done for recv as "checking" if data is available
+        doesn't work otherwise
     - preferably trough a single websocket connection for each bot/client
-    - [done with Queue check] expand to only execute recv and send code if something is actually available for full standby
+    - [done with Queue check] expand to only execute recv and send code
+        if something is actually available for full standby
     - separate task for sending to all clients?
 - add more bots to be handled
     - bot 2 & 3
@@ -23,7 +26,6 @@ TODO & NOTES:
 """
 import asyncio
 import socket
-# import queue
 
 import websockets
 from websockets.asyncio.server import serve

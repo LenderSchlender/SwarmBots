@@ -6,7 +6,8 @@
 \chapter{Software - Backend}
 \label{sec:software_backend}
 \initials{JS}
-Das Backend ist die Zentrale Rechenstelle, welches in mehrere Komponenten aufgeteilt ist.
+Das Backend ist die Zentrale Rechenstelle, 
+welches in mehrere Komponenten aufgeteilt ist.
 % generell zum backend
 
 \begin{figure}[H]
@@ -16,9 +17,11 @@ Das Backend ist die Zentrale Rechenstelle, welches in mehrere Komponenten aufget
 \end{figure}
 % grafik anpassen
 
-Wodurch es verantwortlich für die Kommunikation und Datenerfassung zwischen allen Teilnehmer. 
-Dazu gehören die drei Roboter, welche uns die Daten liefern wie LiDAR, Beschleunigungssensor etc., 
-und das Frontend zu dem die Daten zur Visualisierung und Mitverfolgung gesendet werden 
+Wodurch es verantwortlich für die Kommunikation und Datenerfassung 
+zwischen allen Teilnehmer. 
+Dazu gehören die drei Roboter, welche uns die Daten liefern 
+wie LiDAR, Beschleunigungssensor etc., 
+und das Frontend zu dem die Daten zur Visualisierung und Mitverfolgung gesendet werden
 und gegebenenfalls auch Befehle empfingt.
 \\
 Weiters findet hier die Zentrale Datenverarbeitung und Verwaltung statt, 
@@ -58,7 +61,8 @@ die uns ermöglichen aufs wesentliche zu fokussieren.
 % 
 Eine schnelle Programmierung und Modifizierung, 
 weil das Backend voraussichtlich mit dem zum zeitigen Projektstand wächst, 
-ganz wichtig für die Datenverarbeitung und Steuerung da diese sich im Laufe des Projekts stark ändern kann,
+ganz wichtig für die Datenverarbeitung und Steuerung 
+da diese sich im Laufe des Projekts stark ändern kann,
 aufgrund dessen, dass die Methoden und Systeme nicht endgültig feststehen, 
 und teilweise noch definiert werden müssen.
 % 
@@ -86,11 +90,14 @@ kann noch nicht viel weiter zur Verwaltung gesprochen werden.
 Die drei Roboter sind aktive Teilnehmer in der Kommunikation, 
 das heißt es ist zu erwarten, dass die Verbindung konstant aufrechtzuerhalten ist,
 bidirektional und dies auch in einem zeitlichen verhalten geschieht. 
-Insofern muss weiter sichergestellt werden das ein konstanter Kommunikationsfluss ermöglicht bleibt.
+Insofern muss weiter sichergestellt werden das ein konstanter Kommunikationsfluss 
+ermöglicht bleibt.
 
 Zur Verbindung entschieden wir uns für das Kommunikations-Protokoll Websocket, 
-diese ermöglicht eine bidirektionale, persistente Verbindung zwischen einem Client und einem Server,
-welches im Vergleich zu gewöhnlichen HTTP-Anfragen offen bleibt, wodurch Echtzeitkommunikation möglich ist.
+diese ermöglicht eine bidirektionale, 
+persistente Verbindung zwischen einem Client und einem Server,
+welches im Vergleich zu gewöhnlichen HTTP-Anfragen offen bleibt, 
+wodurch Echtzeitkommunikation möglich ist.
 % könnte man mehr ausschreiben aber schau ma später
 
 \section{Datenverarbeitung}
@@ -160,12 +167,15 @@ Weiters werden auch beschrieben welche Pakete und Werkzeuge verwendet wurden.
 % TODO
 \subsubsection{Formatter und Linter} 
 \initials{JS}
-Um gute Lesbarkeit zu gewährleisten ist eine ordentliche Struktur und Format in jedem Code zu erwarten, 
-jedoch ist es schwierig eine gute konsistent beizubehalten, weshalb Formatierungstool 
-und Linters häufig Verwendung finden. 
-Linters sind Tools welche automatisch den code überprüfen, 
-um auf Fehler zu prüfen, stilistische Fehler und Einhaltung von Codierung Standards festzustellen.
-Diese soll helfen die code Qualität zu verbessern und womögliche Fehler vorzeitig zu erkennen.
+Um gute Lesbarkeit zu gewährleisten 
+ist eine ordentliche Struktur und Format in jedem Code zu erwarten, 
+jedoch ist es schwierig eine gute konsistent beizubehalten, 
+weshalb Formatierungstool und Linters häufig Verwendung finden. 
+% 
+Linters sind Tools welche automatisch den code überprüfen, um auf Fehler zu prüfen, 
+stilistische Fehler und Einhaltung von Codierung Standards festzustellen.
+Diese soll helfen die code Qualität zu verbessern 
+und womögliche Fehler vorzeitig zu erkennen.
 
 Die Standard Erweiterung für Python von Visual Studio Code 
 beinhaltet keinen Standard Formatierungstool.
@@ -189,9 +199,11 @@ Welche zu diesem Stand verwendet wurden, ist in diesem Abschnitt erklärt.
 
 \subsubsection{websockets}
 \initials{JS}
-Für Python ist ein Websocket Paket namens 'websockets' vorhanden welches die Client-Server Kommunikation
-um ein Vielfaches vereinfacht da man sich keine Sorge über Handshakes, Ping Pongs, oder anderes verhalten
-der Websocket Spezifikation, da es alles von dem Paket behandelt wird 
+Für Python ist ein Websocket Paket namens 'websockets' vorhanden 
+welches die Client-Server Kommunikation um ein Vielfaches vereinfacht 
+da man sich keine Sorge über Handshakes, Ping Pongs, 
+oder anderes verhalten der Websocket Spezifikation, 
+da es alles von dem Paket behandelt wird 
 und man sich mehr auf die Applikation fokussieren kann. 
 Es sind dennoch einige Parameter zum zur Verfügung gestellt zur Modifizierung, 
 falls benötigt.
@@ -206,10 +218,11 @@ dies erlaubt das Schreiben von asynchronen Frameworks,
 % snippet zu asyncio, könnte mehr schreiben?
 Alternative ist eine threading Implementierung verfügbar für Websockets, 
 die üblichere Implementierung von mehreren Tasks, 
-jedoch haben wir uns für den zum zeitigen Prototyp Entwicklung-Stand dagegen entschieden,
+jedoch würde für den zum zeitigen Prototyp Entwicklung-Stand dagegen entschieden,
 aufgrund der möglichen erweiterten Komplexität von Thread sicheren code Ausführung.
 % warum nicht? kann später bei optimierungsmöglichkeiten erklärt werden
-Eine Sans-I/O Implementierung ist auch vorhanden jedoch für dieses Projekt zurzeit irrelevant.
+Eine Sans-I/O Implementierung ist auch vorhanden 
+jedoch für dieses Projekt zurzeit irrelevant.
 
 \subsubsection{protobuf}
 \initials{JS}
@@ -223,7 +236,7 @@ und von den gegebenen Tasks weiterverarbeitet werden kann.
 % verhalten in python
 % wie anders
 
-% Kurzeitig gab es das Problem wie genau mit der mit dem Python protobuf paket zu arbeiten ist, 
+% Kurzeitig gab es das Problem wie genau mit dem Python protobuf paket zu arbeiten ist,
 % aufgrund dessen das die dokumentation nicht der von anderen Python Paketen gleicht
 % und alle Informationen hauptsächlich von der Anleitungen zu Wünschen übrig lässt.
 % Ich hatte einfach ein wenig probleme es anfänglich zu kapieren aber ging schnell
@@ -234,19 +247,48 @@ In diesem Abschnitt wird über den zu zeitigen Prototyp Kommunikation
 und bestimmten technischen Implementierungen angesprochen.
 
 Der Prototyp hat die Funktion zwei Typen von Verbindungen zu bearbeiten.
+% 
 Einer seit die Bots welche als Server agieren, 
 dies Bedeuten, dass dieser Backend Server muss sich mit den drei Robotern verbinden.
 Während das Frontend standardmäßig als Client fungiert, 
 dies Bedeutet, dass die Clients eine Verbindung mit dem Backend Server herstellen.
+% 
+Anderer seits die Verbindung mit den Frontend 
+welcher vom Server für einkommende Verbindungen bereitgestellt werden müssen.
+% 
+Die Daten die von der jeweiligen Seite ankommt, 
+wird zurzeit zur gegenseitigen Stelle weitergeleitet.
+
+Dementsprechend ist die Kommunikation auf zwei Tasks aufgeteilt,
+die des Frontends und die der Roboter.
+Beide Tasks starten ein weiteren Subtask, welcher nebenbei laufen wird, 
+dieser hat entsprechend die Aufgabe so lange die Websocket Verbindung offen ist,
+die ankommende Pakete erwartet und diese entsprechend in eine Queue Puffer ablegt, 
+um weiter verarbeitet zu werden. 
+
+Beide Task verarbeiten die Queues, 
+in dem eine bestimmte Anzahl der Elemente im Puffer 
+einzeln geholt und die Protobuf Wrapper verarbeitet zu werden.
+% 
+Im zum zeitigen Prototyp werden die Daten in die Konsole ausgegeben,
+und zur Sendung der Gegenseite in eine weitere Queue 
+für einen beliebigen Roboter bereitgestellt, 
+oder im Fall beim zum zeitigen Roboter Händler an alle verbundenen Frontends gesendet.
+% 
+Dies symbolisiert in den nächsten Iterationen die Weitergabe 
+in die Datenbank und Datenverarbeitung.
+
 % übersichtsgrafik über teilnehmer und wie datenablauf funktioniert
 % asyncio - warum
 % main task überblick (server und drei clients) warum so aufgeteilt?
 % subtask
 
-
 \subsubsection{asyncio}
 \initials{JS}
 % erklärung zu asyncio
+Um mehrere separate Task auszuführen wurde Asyncio,
+die eingebaute Implementierung von Koroutinen in Python verwendet.
+% 
 Asyncio funktioniert, indem Tasks sich den Event Loop nehmen und mit dem 'await' 
 Befehl anderen Tasks erlaubt sich den Event Loop zu nehmen, 
 im Vergleich zu üblichen Multitasking
@@ -262,8 +304,10 @@ Damit die Prozesse im Backend nicht gezwungen sind immer zu bearbeiten,
 wenn und falls Einkommen Nachrichten zu bearbeiten sind, 
 wird der Empfang von Websockets abgekoppelt von der backend Logik.
 Dafür wurden Queues, realisiert als FIFO, verwendet, also ein zwischen speicher 
-wo die erhaltenen Daten von den Websockets landen, um dann entsprechen weiter zu bearbeiten.
-Somit können wir einen Prozess starten, welches auf eingehende Nachrichten warten kann, 
+wo die erhaltenen Daten von den Websockets landen, 
+um dann entsprechen weiter zu bearbeiten.
+% 
+Somit können wir einen Prozess starten, welches auf eingehende Nachrichten warten kann,
 während unser Backend andere Prozesse ausführt.
 % kann mehr dazu schreiben
 % ermöglicht auch sachen etc.
@@ -273,7 +317,9 @@ während unser Backend andere Prozesse ausführt.
 \initials{JS}
 Die Prototyp Steuerung soll ein Bediener erlauben manuell den Bot zu Steuern,
 indem wir mit einer Eingabe bewegen können. 
-Dafür verwenden wir ein Controller aufgrund dessen das wir bereits im Vorgänger Projekt,
+% 
+Dafür verwenden wir ein Controller 
+aufgrund dessen das wir bereits im Vorgänger Projekt,
 eine Form solcher Steuerung realisiert haben. 
 Deshalb ist ein Großteil der Arbeit hier die Anpassung auf dem neuen Datenformat, 
 Verwendung neuer Websocket Pakete und Modifizierung der Berechnungen.
@@ -281,6 +327,7 @@ Verwendung neuer Websocket Pakete und Modifizierung der Berechnungen.
 Anfänglich ist geplant es, als einzelnen Skript zu realisieren, 
 welcher den Platz des Frontends nimmt, 
 und im Laufe des Projekts ins Frontend integriert oder neu implementiert wird.
+
 % TODO aktualisiere dies entsprechend
 Zum Zeitpunkt des Schreibens diesen Abschnitt der Diplomarbeit 
 ist dies mitten in der Bearbeitung.
@@ -364,9 +411,11 @@ zwar die Loopback-Adresse \texttt{127.0.1.1}.
 Diese Adresse wird verwendet, um den \texttt{host\_name} eine Adresse zuzuweisen,
 im Falle das kein Netzwerk vorhanden ist. 
 Sonst kann eine permanente IP-Adresse hier zugewiesen werden.
-% https://askubuntu.com/questions/754213/what-is-difference-between-localhost-address-127-0-0-1-and-127-0-1-1
+% https://askubuntu.com/questions/754213
+% /what-is-difference-between-localhost-address-127-0-0-1-and-127-0-1-1
 
-Als Lösung öffnet das Programm temporär ein Socket und findet mit dieser die lokale IP-Adresse.
+Als Lösung öffnet das Programm temporär ein Socket 
+und findet mit dieser die lokale IP-Adresse, und dadurch Plattform unabhängig.
 \begin{lstlisting}[language=python, gobble=4]
     import socket
 
@@ -436,20 +485,28 @@ mit dem Ordner prefixed werden müssen.
 % \initials{JS}
 % TODO schreib ein skript dafür
 
+% \subsection{Konfiguration Datei}
+% \initials{JS}
+% TODO schreib ein skript dafür
+
 \section{Test Codes}
 \initials{JS}
 Es wurden weitere allgemeinere Test Codes geschrieben, 
 welche die Funktion dienten, die Kommunikation Kanäle und Daten Bearbeitung innerhalb 
-und außerhalb des Backends zu testen und gegebenenfalls von anderen Team Mitglieder modifiziert.
+und außerhalb des Backends zu testen und gegebenenfalls 
+von anderen Team Mitglieder modifiziert.
+% 
 Aber auch für die Fehlersuche 
-und sind im Allgemeinen eine Schnelle Option um die Kommunikation und Datentausch zu testen.
+und sind im Allgemeinen eine Schnelle Option 
+um die Kommunikation und Datentausch zu testen.
 
 Diese Codes haben große Ähnlichkeiten mit der Prototyp Kommunikation, 
 deshalb wird in diesem Abschnitt hauptsächlich auf deren Nutzen eingegangen.
 
 \subsection{Einzelverbindung - Robot\_ws\_test.py}
 \initials{JS}
-Dieser Testcode ist verantwortlich sich mit den Bots zu verbinden und dessen Daten zu lesen.
+Dieser Testcode ist verantwortlich sich mit den Bots zu verbinden 
+und dessen Daten zu lesen.
 Es wurde mit einigen Konfigurationen erweitert und modifiziert, 
 und wird im Laufe des Projektes angepasst, wenn nötig.
 Zurzeit wurde es bereits verwendet, um die Kommunikation zu testen, 
