@@ -91,8 +91,14 @@ TODO
 % Datenbank für lidar?
 TODO
 
+Dieser Abschnitt bespricht kurz den Datenablauf 
+zwischen den Teilnehmer und den internen Komponenten.
+% 
 Weil die Datenverarbeitung noch nicht realisiert ist 
 kann noch nicht viel weiter zur Verwaltung gesprochen werden.
+
+Das Frontend und die Roboter kommunizieren hauptsächlich 
+über Websockets mit den Protobufs.
 
 \subsection{Kommunikation}
 \label{subsec:Kommunikation}
@@ -161,7 +167,16 @@ Zurzeit nicht realisiert.
 Die Aufträge der einzelnen Bots sind in den Entsprechenden Kapitel genauer beschrieben.
 % schau was da steht und was speziell hier klargemacht werden muss
 
-Stattdessen ein Test Programm zur Überprüfung zur theoretischen Steuerung.
+Es sind zwei Steuerungen geplannt die manuelle Steuerung 
+und die Automatisierte.
+% 
+Die manuelle Steuerung geschieht über das Frontend 
+womit man die Roboter mit hilfe der Visualisierungen 
+und oder Video Übertragung steuern kann.
+% 
+Die Automatisierte Steuerung geschieht mithilfe das Erkennungsystem 
+und soll die Bots erlauben die erstellte LiDAR Karte zu navigieren
+und erlauben die zwei Blinden Bots Tamerlan \& Bambi den Guide zu folgen.
 % verwendung von code vom vorgänger Projekt
 
 \section{Aktueller Stand}
@@ -436,9 +451,9 @@ nur die PYC Datei allein genügt.
 % (hauptsächlich limitiert über Wifi I/O nicht anzahl an geräten & )
 % falls anzahl größer wird dann villeicht
 
-\subsection{Probleme}
+\section{Probleme}
 \initials{JS}
-\subsubsection{Linux Modifikationen}
+\subsection{Linux Modifikationen}
 \initials{JS}
 Es kam das Problem auf, dass die lokale IP suche auf Linux Ubuntu nicht funktionierte.
 Dies lag daran, dass die vorherige Variante, 
@@ -474,7 +489,7 @@ und findet mit dieser die lokale IP-Adresse, und dadurch Plattform unabhängig.
     return IP
 \end{lstlisting}
 
-\subsubsection{Potenzielles blockierendes verhalten}
+\subsection{Potenzielles blockierendes verhalten}
 \initials{JS}
 % bot_handler und server nicht separat gestartet werden.
 Obwohl die Kommunikation in hauptsächlich zwei  teile aufgeteilt ist, mit 
@@ -493,7 +508,7 @@ In den nächsten Iterationen sollten jedoch
 die zwei Aufträge unabhängig gestartet werden können, 
 um die Situation zu vermeiden, dass die ganze Kommunikation neu gestartet werden muss.
 
-\subsubsection{Protobuf Generierung}
+\subsection{Protobuf Generierung}
 \initials{JS}
 % siehe server/README.md
 % verlege zu Backend probleme?
@@ -518,11 +533,11 @@ mit dem Ordner prefixed werden müssen.
 \end{lstlisting}
 
 
-% \subsection{Protobuf Generierung}
+% \section{Protobuf Generierung}
 % \initials{JS}
 % TODO schreib ein skript dafür
 
-% \subsection{Konfiguration Datei}
+% \section{Konfiguration Datei}
 % \initials{JS}
 % TODO schreib ein skript dafür
 
