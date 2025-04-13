@@ -148,10 +148,21 @@ es wird nur für Debugging-Zwecke und menschliche Intervention benötigt.
 
 \subsection{Kommunikationswege}
 \label{subsec:ueberblick_comms}
-TODO Beschreibung
+\initials{LG}
+Die Kommunikation zwischen den einzelnen Systemkomponenten
+funktioniert über das WebSocket-Protokoll (siehe \ref{sec:websockets}).
+%
+Tamerlan, Guide, und Bambi senden jeweils
+Sensordaten an das Backend und empfangen Befehle von diesem.
+%
+Das Backend leitet die Sensordaten dann an das Frontend weiter,
+wo sie angezeigt werden.
+%
+Bei manueller Steuerung werden die Steuerungsbefehle vom Frontend an das Backend gesendet,
+welche diese an den jeweiligen Roboter weiterleitet. 
 \begin{figure}[H]
     \centering
-        \includegraphics[width=\textwidth, center]{img/Kommunikationswege.png}  
+        \includegraphics[width=0.8\textwidth, center, trim={135 90 215 20}, clip]{img/Kommunikationswege.png}  
     \caption{Kommunikationswege}
     \label{fig:kommunikationswege}
 \end{figure}
@@ -324,6 +335,25 @@ wie in der Datei \texttt{server/README.md} dokumentiert. (Siehe Abschnitt \ref{l
 
 \subsection{LiDAR}
 \label{subsec:ueberblick_lidar}
+\initials{LG}
+Der LiDAR-Sensor ermöglicht es dem \textit{Guide},
+einen ``Rundumblick'' auf die Umgebung zu werfen.
+%
+Dies allerdings nur auf einer Ebene,
+da der verwendete Sensor (\texttt{youyeetoo LD20})
+nur ein 2D-LiDAR ist.
+%
+Trotz dieser Einschränkungen ist ein 360° LiDAR-Sensor aufgrund der Möglichkeit,
+Entfernungen in jede mögliche Richtung zu messen,
+immer noch um Welten besser als ein Ultraschallsensor.
+%
+Außerdem ist die Genauigkeit von LiDAR-Sensoren im Allgemeinen
+um ein Vielfaches höher als bei ultraschallbasierten Alternativen.
+%
+Um den 360°-Rundumblick zu gewähren,
+muss der LiDAR-Sensor am höchsten Punkt des Roboters installiert werden,
+da sonst Teile des Blickfelds
+durch andere Komponenten des Roboters verdeckt werden könnten.
 
 \subsection{Gyroskop}
 \initials{LG}
