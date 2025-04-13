@@ -571,6 +571,40 @@ welche in der WebSocket-Komponente umgewandelt werden, präzise und reaktiv dars
     \end{itemize}
 \end{enumerate}
 
+\subsection{Vergleiche}
+\initials{AB}
+\label{subsec:frontend_Vergleich}
+
+\subsubsection{Warum ApexCharts?}
+Beim Frontend wurde sich für die Verwendung von ApexCharts entschieden,
+da diese Bibliothek eine Vielzahl an Diagrammtypen unterstützt,
+und eine einfache Integration in Vue3 ermöglicht.
+%
+Neben der vielen unterschiedlichen Diagrammtypen,
+bietet die Bibliothek eine Vielzahl an Anpassungsmöglichkeiten,
+sowie eine einfache Handhabung.
+%
+Außerdem bieten die Diagramme von ApexCharts viele Funktionen an, 
+welche bei anderen Diagramm-Bibliotheken nicht vorhanden sind, z.B. bei Chart.js.
+Diese kleinen Funktionen sind z.B. das ``Tooltip''-Feature,
+welches es dem Nutzer ermöglicht, bei Mouseover über einen Punkt, 
+die genauen Werte zu sehen oder, das ``Zoom''-Feature, das es dem Nutzer ermöglicht,
+einen bestimmten Bereich des Diagramms zu vergrößern.
+%
+Diese Funktionen sind alle in die Bibliothek integriert und können mit wenigen Zeilen Code aktiviert werden.
+Außerdem punktet ApexCharts bei komplexen Diagrammen und datenintensiven Visualisierungen.
+% 
+\\\\
+Bei Chart.js ist dies nicht der Fall,
+da diese Funktionen nicht in die Bibliothek integriert sind.
+%
+Ein Ausschlaggebender Punkt weshalb wir nun ApexCharts verwenden, 
+ist die hervoragende Dokumentation der Bibliothek \cite{ApexCharts} 
+sowie die Vielzahl an Beispielen, die auf der Webseite zu finden sind.
+%
+Die Dokumentation und die zahlreichen Beispiele sorgten dafür, 
+dass die Gruppe sich für die Bibliothek von ApexCharts entschieden hat.  
+
 \section{Webseitenprobleme}
 \initials{AB}
 \label{subsec:problem_Webseite}
@@ -712,6 +746,7 @@ Das erstmalige Testen des Codes der auf GitHub gepushed wurde, führte zu unerwa
 Der lokale Code konnte problemos kompilierte und ausgeführt werden, 
 der Code welcher auf GitHub jedoch hochgeladen worden ist, nicht.
 %
+\\\\
 Nach kurzer begutachtung, konnte das Problem identifiziert und behoben werden.
 Es musste einfach nur das Verzeichnis geändert werden, 
 da die gebrauchten Vue-Funktionen nicht im gesammten GitHub Verzeichnis funktionieren.
