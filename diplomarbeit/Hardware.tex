@@ -20,14 +20,16 @@ welche die Roboter über Bluetooth fernsteuern kann.
 Da wir die Roboter stattdessen über WLAN steuern wollten, 
 und die Tumbller-Kits standardmäßig nur ein Bluetooth-Modul eingebaut haben,
 haben wir die mitgelieferten Arduino Nano durch ESP32-Boards im Arduino Nano-Format ersetzt.
-% TODO Spannungsunterschiede Arduino Nano vs ESP
+Doch der Arduino Nano arbeitet mit 5V Logic Level,
+während der Arduino Nano ESP32 nur 3.3V Logic Level verwendet und nicht 5V-tolerant ist.
+Wodurch dann einige Modifikationen nötig waren, siehe Abschnitt \ref{subsec:hardware_modifikationen}.
 \begin{figure}[H]
     \includegraphics[width=0.7\textwidth, center]{img/elegoo_tumbller.png}
     \caption{Rendering des Elegoo Tumbller}
     \label{fig:elegoo_tumbller}
 \end{figure}
 
-% TODO der ganze Absatz muss neu strukturiert werden
+% ETODO der ganze Absatz muss neu strukturiert werden????
 Wie in Abbildung \ref{fig:elegoo_tumbller} zu sehen ist,
 besteht der unmodifizierte Elegoo Tumbler aus einem Arduino Nano,
 der zur Steuerung des gesamten Roboters verwendet wird.
@@ -73,11 +75,9 @@ Die einzelnen Komponenten müssen nur noch in die vorgesehenen Sockel gesteckt w
 %
 \subsubsection{Technische Umsetzung}
 \initials{MS}
-% TODO redundant v
-Die Leiterplatte im originalen Elegoo Tumbller besteht aus mehreren Leiterbahnen.
-% TODO unnötig v
-Diese Leiterbahnen sind feine Kupferstreifen,
-die dafür sorgen,
+Die Leiterplatte im originalen Elegoo Tumbller besteht aus mehreren Leiterbahnen
+die feine Kupferstreifen sind
+und dafür sorgen,
 dass alle elektronischen Bauteile miteinander verbunden sind.
 %
 Auf der PCB befinden sich alle wichtigen Anschlüsse und Lötpunkte,
@@ -92,9 +92,10 @@ die für den Betrieb des Roboters notwendig sind. Dazu gehören:
     \item Lötpads für die Stromversorgung (Li-Ion Akku)
     \item Anschluss für den AMS1117 Spannungsregler
 \end{itemize}
-% TODO redundant v
 Die Leiterbahnen sind so angeordnet,
-dass der Strom von der Stromquelle zu allen Bauteilen auf der Platine verteilt wird.
+dass der Strom von der Stromquelle als auch die Siganle,
+zu allen Bauteilen auf der Platine verteilt werden
+und dabei so EMV sicher wie möglich sind.
 %
 Außerdem hat die PCB eigene Lötpunkte für die Motorsteuerung.
 %
@@ -131,7 +132,7 @@ Siehe Abbildung \ref{fig:elegoo_tumbller_original_circuit} auf Seite \pageref{fi
 %
 \begin{sidewaysfigure}
     \includegraphics[width=\textwidth, center]{img/elegoo_tumbller_original_circuit.pdf}
-    \caption{Originaler Schaltplan des Tumbllers (TODO: neu zeichnen)}
+    \caption{Originaler Schaltplan des Tumbllers (ETODO: neu zeichnen)}
     \label{fig:elegoo_tumbller_original_circuit}
 \end{sidewaysfigure}
 %
@@ -383,7 +384,7 @@ und SS (Slave Select, Auswahl des Geräts).
 \newpage
 \subsubsection{Belegung}
 \initials{MS}
-(TODO Bild)
+(ETODO Bild)
 \subsubsection{Einschränkungen}
 \initials{MS}
 Der Arduino-Nano besitzt ein kleiner Speicher was ihn nicht geeignet macht für komplexen Programmen, die viel Speicher benötigen.
@@ -527,7 +528,25 @@ welches den Rotor bewegt.
 Durch Umpolen (Richtungsänderung des Stroms) kann die Drehrichtung geändert werden.
 %
 Die Geschwindigkeit wird durch PWM-Signale (Pulsweitenmodulation) geregelt,
-die Richtung durch digitale Signale. %TODO welche?
+die Richtung durch digitale Signale.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|p{10cm}|}
+    \hline
+    \textbf{Pin} & \textbf{Funktion} \\
+    \hline
+    AIN1  & Richtungssignal Motor A (Logik-Eingang) \\
+    AIN2  & Richtungssignal Motor A (Logik-Eingang) \\
+    PWMA  & PWM-Signal für Geschwindigkeit Motor A \\
+    BIN1  & Richtungssignal Motor B (Logik-Eingang) \\
+    BIN2  & Richtungssignal Motor B (Logik-Eingang) \\
+    PWMB  & PWM-Signal für Geschwindigkeit Motor B \\
+    \hline
+    \end{tabular}
+    \caption{Pinbelegung und Funktionen des Motortreibers}
+    \end{table}
+
 %
 \subsection{Encoder}
 \initials{MS}
