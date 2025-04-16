@@ -1,6 +1,6 @@
 """basic test code to simulate one of the bots sending and receiving a wrappers"""
 import asyncio
-import socket
+import get_ip
 from websockets.asyncio.server import serve
 from websockets.exceptions import ConnectionClosed
 
@@ -12,25 +12,9 @@ import random
 
 recv_wait_time = 0.001
 
-
-def get_local_ip():
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    try:
-        # doesn't even have to be reachable
-        s.connect(('10.255.255.255', 1))
-        IP = str(s.getsockname()[0])
-    except Exception as b:
-        print("error at figuring out local ip")
-        print(b)
-        exit
-    finally:
-        s.close()
-    return IP
-
-
 # ip = socket.gethostbyname(socket.gethostname())
 # print(ip)
-ip = get_local_ip()
+ip = get_ip.get_local_ip()
 
 wrp_send = Wrapper()
 wrp_recv = Wrapper()

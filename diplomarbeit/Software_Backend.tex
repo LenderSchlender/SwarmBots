@@ -164,7 +164,8 @@ Zurzeit nicht realisiert.
 % spätester schritt weil funktionierende Strategie benötigt wird zur Erkennung
 % Datenbank/ Datenbearbeitung
 
-Die Aufträge der einzelnen Bots sind in den Entsprechenden Kapitel genauer beschrieben.
+Die Aufträge der einzelnen Bots 
+sind in den Entsprechenden Kapitel genauer beschrieben.
 % schau was da steht und was speziell hier klargemacht werden muss
 
 Es sind zwei Steuerungen geplant, 
@@ -289,7 +290,7 @@ und von den gegebenen Tasks weiterverarbeitet werden kann.
 % verhalten in python
 % wie anders
 
-% Kurzeitig gab es das Problem wie genau mit dem Python protobuf paket zu arbeiten ist,
+% Kurzeitig gab es das Problem wie genau mit dem protobuf paket zu arbeiten ist,
 % aufgrund dessen das die dokumentation nicht der von anderen Python Paketen gleicht
 % und alle Informationen hauptsächlich von der Anleitungen zu Wünschen übrig lässt.
 % Ich hatte einfach ein wenig probleme es anfänglich zu kapieren aber ging schnell
@@ -326,7 +327,8 @@ einzeln geholt und die Protobuf Wrapper verarbeitet werden.
 Im zum zeitigen Prototyp werden die Daten in die Konsole ausgegeben,
 und zur Sendung der Gegenseite in eine weitere Queue 
 für einen beliebigen Roboter bereitgestellt, 
-oder im Fall beim zum zeitigen Roboter-Handler an alle verbundenen Frontends gesendet.
+oder im Fall beim zum zeitigen Roboter-Handler 
+an alle verbundenen Frontends gesendet.
 % 
 Dies symbolisiert in den nächsten Iterationen die Weitergabe 
 in die Datenbank und Datenverarbeitung.
@@ -360,7 +362,8 @@ Dafür wurden Queues, realisiert als FIFO, verwendet, also ein zwischen speicher
 wo die erhaltenen Daten von den Websockets landen, 
 um dann entsprechen weiter zu bearbeiten.
 % 
-Somit können wir einen Prozess starten, welcher auf eingehende Nachrichten warten kann,
+Somit können wir einen Prozess starten, 
+welcher auf eingehende Nachrichten warten kann,
 während unser Backend andere Prozesse ausführt.
 % kann mehr dazu schreiben
 % ermöglicht auch sachen etc.
@@ -458,7 +461,8 @@ Insbesondere, wenn die nachfolgenden Projekte weiter skalieren.
 Es ist möglich, Python Code genauso wie jedes andere Programm zu kompilieren,
 jedoch ist dies standardmäßig nicht nötig, 
 da der Interpreter Cpython automatisch Python byte code kompeliert (in PYC Dateien).
-Das prekompilieren wird hauptsächlich dafür verwendet, um die Startzeit zu verringern 
+Das prekompilieren wird hauptsächlich dafür verwendet, 
+um die Startzeit zu verringern 
 und um den Code für die gewählte Platform einfacher zu verteilen,
 weil man keine weiteren Pakete installieren muss, 
 sondern nur die PYC Datei allein genügt.
@@ -475,7 +479,8 @@ Unsicher, ob dieser abschnitt nötig ist.
 \initials{JS}
 \subsection{Linux Modifikationen}
 \initials{JS}
-Es kam das Problem auf, dass die lokale IP suche auf Linux Ubuntu nicht funktionierte.
+Es kam das Problem auf, 
+dass die lokale IP suche auf Linux Ubuntu nicht funktionierte.
 Dies lag daran, dass die vorherige Variante, 
 welche mithilfe der Domain Name auf die lokale IP-Adresse findig wurde.
 Jedoch wurde auf Linux eine andere Adresse zurückgeliefert, 
@@ -526,7 +531,8 @@ für eine gewisse Zeit pausiert, bevor ein neuer Verbindungsversuch gestartet wi
 
 In den nächsten Iterationen sollten jedoch 
 die zwei Aufträge unabhängig gestartet werden können, 
-um die Situation zu vermeiden, dass die ganze Kommunikation neu gestartet werden muss.
+um die Situation zu vermeiden, 
+dass die ganze Kommunikation neu gestartet werden muss.
 
 \subsection{Protobuf Generierung}
 \initials{JS}

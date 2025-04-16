@@ -25,7 +25,7 @@ TODO & NOTES:
 - define how large the FIFO buffers should at most be? (currently no limit)
 """
 import asyncio
-import socket
+import get_ip
 
 import websockets
 from websockets.asyncio.server import serve
@@ -36,30 +36,8 @@ from websockets.exceptions import ConnectionClosed
 from protobuf.wrapper_pb2 import Wrapper
 import print_wrapper_content as print_wrp  # used for console prints
 
-
-def get_local_ip():
-    """
-    opens a temporary socket connection and retrieves the local IP
-    """
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    try:
-        # doesn't even have to be reachable
-        s.connect(('10.255.255.255', 1))
-        IP = str(s.getsockname()[0])
-    except Exception as b:
-        print("error at figuring out local ip")
-        print(b)
-        exit
-    finally:
-        s.close()
-    return IP
-
-
 # ip = socket.gethostbyname(socket.gethostname()) # doesn't work sometimes
-ip = get_local_ip()
-DNSinfo = socket.gethostbyaddr(ip)
-print(DNSinfo)
-del DNSinfo  # not needed anywhere so might as well
+ip = get_ip.get_local_ip()
 
 uri_bot1 = f"ws://{ip}:8083"  # bot1
 uri_bot2 = f"ws://{ip}:8083"  # bot2

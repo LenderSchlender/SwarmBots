@@ -7,9 +7,10 @@ as well as print formats directly before and after queue
 uri_bot1 can be changed too if necessary, currently set to use local IP
 """
 import asyncio
-import socket
+# import socket
 import random
 
+import get_ip
 
 import websockets
 # from websockets.asyncio.server import serve
@@ -42,29 +43,9 @@ def code_at_socket_recv(websocket_data):
     pass
 
 
-def get_local_ip():
-    """
-    opens a temporary socket connection and retrieves the local IP
-    """
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    try:
-        # doesn't even have to be reachable
-        s.connect(('10.255.255.255', 1))
-        IP = str(s.getsockname()[0])
-    except Exception as b:
-        print("error at figuring out local ip")
-        print(b)
-        exit
-    finally:
-        s.close()
-    return IP
-
-
 # ip = socket.gethostbyname(socket.gethostname()) # doesn't work sometimes
-ip = get_local_ip()
-DNSinfo = socket.gethostbyaddr(ip)
-print(DNSinfo)
-del DNSinfo  # not needed anywhere so might as well
+ip = get_ip.get_local_ip()
+
 
 # uri_bot1 = f"ws://{ip}:8083"  # bot1
 uri_bot1 = "ws://sb-guide.htlw10.at:80/ws"  # bot1

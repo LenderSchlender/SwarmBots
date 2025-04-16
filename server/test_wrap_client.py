@@ -1,6 +1,6 @@
 """basic testcode simulating a sending and receiving wrappers"""
 import asyncio
-import socket
+import get_ip
 from websockets.asyncio.client import connect
 from websockets.exceptions import ConnectionClosed
 
@@ -15,25 +15,9 @@ wrp_recv = Wrapper()
 
 ip = '172.16.2.116'
 
-
-def get_local_ip():
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    try:
-        # doesn't even have to be reachable
-        s.connect(('10.255.255.255', 1))
-        IP = str(s.getsockname()[0])
-    except Exception as b:
-        print("error at figuring out local ip")
-        print(b)
-        exit
-    finally:
-        s.close()
-    return IP
-
-
 # ip = socket.gethostbyname(socket.gethostname())
 # print(ip)
-ip = get_local_ip()
+ip = get_ip.get_local_ip()
 
 
 async def ws_recv_task(Queue, websocket):
