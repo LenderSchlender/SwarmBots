@@ -1,12 +1,12 @@
 <script lang="ts"> // indicates that we are using typescript
 import { ref } from "vue" // standard import from vue for references  
 import { EncoderData } from  '../lib/encoder_data'
-import encoder_Chart from './charts.vue'
+import Chart from './charts.vue'
 
 export default {
   name: "Websocket",
   components: {
-    encoder_Chart,
+    Chart,
   },
   setup(){
     const Nachricht = ref('') // reactive reference, used for input, empty string
