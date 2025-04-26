@@ -19,18 +19,18 @@ welcher die Daten aller Roboter in Echtzeit verarbeitet.
 Ziel ist es, dass der Server aufgrund dieser Daten
 vollautomatische Entscheidungen treffen kann und die Roboter dementsprechend fernsteuert.
 %
-Alternativ können die Roboter auch mittels einem Webinterface manuell ferngesteuert werden.
+Alternativ können die Roboter auch mittels eines Webinterfaces manuell ferngesteuert werden.
 %
 Im Webinterface werden zusätzlich zu den gesammelten Sensordaten
 auch Livestreams von Kameras dargestellt,
-welche auf den Robotern montiert werden.
+welche auf den Robotern montiert sind.
 %
 Diese Livestreams dienen nur der menschlichen Interpretation,
 sie werden nicht automatisch ausgewertet.
 %
-Als zusätzliche Aufgabe sollen sich die Roboter auf nur einer Radachse balancieren,
+Als zusätzliche Aufgabe sollen die Roboter auf nur einer Radachse balancieren,
 da Kits für balancierende Roboter verwendet werden,
-welche teilweise modifiziert werden,
+welche teilweise modifiziert wurden,
 um den Anforderungen des Projekts gerecht zu werden.
 %
 Die Software basiert auf den Robotern,
@@ -44,11 +44,12 @@ One robot (``Guide'') is equipped with a LiDAR sensor,
 which carries out distance measurements.
 %
 The other two robots (named ``Tamerlan'' and ``Bambi'')
-are to be completely ``blind''.
+are completely ``blind''.
 %
 The distance measurements from the LiDAR sensor and all other collected sensor data
 (gyroscope, accelerometer, thermometer, rotary encoder)
-is sent to a central server via WebSocket connections.
+are sent to a central server via WebSocket connections.
+%
 This server processes the data from all robots in real-time.
 %
 The aim is for the server to be able to make fully automated decisions based on this data,
@@ -63,8 +64,9 @@ which are mounted on the robots.
 These live streams are for human interpretation only,
 they are not evaluated automatically.
 %
-As an additional task, the robots should balance themselves on only one wheel axis,
+As an additional task, the robots balance on only one axle,
 as kits for balancing robots were used,
-which have been modified for our purposes.
+which have been modified to fit the needs of this project.
+%
 The software is based on the robots
 that were built last year during the project week in preparation for the diploma thesis.
