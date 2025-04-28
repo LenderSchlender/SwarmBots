@@ -2,6 +2,7 @@
 import socket from './websocket.vue'
 import { ref } from "vue" // standard import from vue for references
 import Chart from './charts.vue'
+import Map from './map.vue'
 
 const Nachricht = ref('') // reactive reference, used for input, empty string
 const output = ref([] as string[])  // stores the string from 'Nachricht'
@@ -25,7 +26,10 @@ function senden() {
     <span v-for="msg in output":key="msg" class="WebsocketOUT">{{ msg }}<br></span>
   </p> 
   <p>
-    <Chart :chartOptions="chartOptions" :series="series" />
+    <Chart />
+  </p>
+  <p>
+    <Map />
   </p>
 </template>
 
@@ -37,6 +41,7 @@ function senden() {
       max-width: 250px;
       font-size: 1rem;
       text-align: center;
+      margin-top: 10px;
     }
   .WebsocketBTN{
       position: relative;
