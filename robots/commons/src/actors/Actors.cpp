@@ -20,12 +20,7 @@ void GenericDigitalOutput::init() {
 }
 
 uint8_t GenericDigitalOutput::getState() {
-  uint8_t bit = digitalPinToBitMask(pin);
-  int8_t port = digitalPinToPort(pin);
-  if (port == NOT_A_PIN)
-    return LOW;
-
-  return (*portOutputRegister(port) & bit) ? HIGH : LOW;
+  return digitalRead(pin);
 }
 
 void GenericDigitalOutput::write(uint8_t state) {
@@ -41,12 +36,7 @@ void GenericDigitalOutput::disable() {
 }
 
 void GenericDigitalOutput::toggle() {
-  uint8_t bit = digitalPinToBitMask(pin);
-  uint8_t port = digitalPinToPort(pin);
-  if (port == NOT_A_PIN)
-    return;
-
-  *portOutputRegister(port) ^= bit;
+  write(getState() == HIGH ? LOW : HIGH);
 }
 
 uint16_t PwmOutput::getType() {
