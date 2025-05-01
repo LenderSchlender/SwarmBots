@@ -10,7 +10,8 @@
 
 \subsection{Git}
 \initials{LG}
-Zur Versionskontrolle der Software und der Diplomarbeit selber (siehe Abschnitt \ref{subsec:latex}) wurde Git eingesetzt.
+Zur Versionskontrolle der Software und der Dokumentation einschließlich des vorliegenden Textes
+(siehe Abschnitt \ref{subsec:latex}) wurde Git eingesetzt.
 %
 Das Repository ist auf GitHub, aber aktuell privat.
 
@@ -79,7 +80,7 @@ wie Microsoft Word oder LibreOffice Writer wird zum Erstellen dieser Diplomarbei
 ein plattformunabhängiges Plaintext-Format namens \LaTeX \cite{latex} verwendet.
 % TODO not happy with wording above
 Eine LaTeX-Datei ist (ähnlich wie Markdown) einfach nur eine Textdatei mit zusätzlichen Befehlen.
-Deshalb können ist es möglich, \texttt{.tex}-Dateien sehr gut mit Versionskontrollsoftware wie Git zu verwenden
+Deshalb ist es möglich, \texttt{.tex}-Dateien sehr gut mit Versionskontrollsoftware wie Git zu verwenden
 und somit genau Änderungen rückzuverfolgen und gegebenenfalls zurückzusetzen.
 %
 Weiters ist es möglich, mit LaTeX das Dokument in mehrere Dateien aufzuteilen,
@@ -88,11 +89,6 @@ was das Ganze um einiges übersichtlicher macht.
 Der größte Vorteil von LaTeX ist aber wohl,
 dass die Formatierung einheitlich für den Author übernommen wird,
 sodass sich dieser besser auf den Inhalt konzentrieren kann.
-%
-Wenn man aber dann doch mal selber etwas anders formatieren will,
-ist das mit LaTeX durch die Verwendung von Textbefehlen oft
-aber immer noch schneller als in MS Word zur Maus zu greifen
-und sich durch GUIs durchzuklicken.
 
 \section{Funktionsbeschreibung}
 \label{subsec:funktionsbeschreibung}
@@ -126,7 +122,8 @@ und sendet Befehle an die Roboter.
 Die LiDAR-Daten und die Ergebnisse der Verarbeitung werden auch
 über eine Websocket-Verbindung ans Frontend weitergeleitet.
 %
-Außerdem empfängt es die Sensordaten der Gyroskope und Accelerometer der Roboter, und auch ans Frontend weiter. 
+Außerdem empfängt es die Sensordaten der Gyroskope und Accelerometer der Roboter,
+und gibt diese auch an das Frontend weiter. 
 %
 Gegebenenfalls empfängt das Backend auch Befehle vom Frontend, und leitet diese an die Roboter weiter.
 
@@ -174,7 +171,7 @@ WebSockets nach RFC6455 \cite{rfc6455} erlauben bidirektionale Kommunikation zwi
 %
 Das WebSocket-Protokoll ist ein unabhängiges TCP-basiertes Verfahren;
 seine einzige Beziehung zu HTTP besteht darin,
-dass der WebSocket-Handshake als HTTP-Anfrage nach mit Antwort vom Typ
+dass der WebSocket-Handshake als HTTP-Anfrage mit Antwort vom Typ
 \texttt{101 Switching Protocols} nach RFC2616 \cite{rfc2616} interpretiert werden kann.
 %
 Standardmäßig verwendet das WebSocket-Protokoll Port 80 für normale WebSocket
@@ -196,7 +193,7 @@ Beide Verbindungsteilnehmer können ungefragt Informationen an den jeweils ander
 Bei HTTP müssen Informationen immer zuerst vom Client angefragt werden,
 was insbesondere bei zeitkritischen Anwendungen wie Spielen,
 Messenger-Apps,
-oder eben bei der Fernsteuerung von Robotern von großen Vorteil ist.
+oder eben bei der Fernsteuerung von Robotern von großem Nachteil ist.
 %
 Es ist zwar möglich,
 mittels HTTP die Funktionalität von WebSockets anzunähern (long Polling),
@@ -225,7 +222,7 @@ Gegenüber Datenformaten wie JSON und XML gibt es drei wesentliche Vorteile:
     %
     Diese Datenstrukturen sind (bei korrekter Verwendung) mit älteren Versionen rückwärts-kompatibel.
 
-    \item Für wie Verwendung mit unterschiedlichen Programmiersprachen kann (und soll) man aus protobuf-Definitionen
+    \item Für die Verwendung mit unterschiedlichen Programmiersprachen kann (und soll) man aus protobuf-Definitionen
     Wrapper-Bibliotheken generieren.
     %
     Diese Wrapper-Bibliotheken können ohne weiteren Aufwand direkt verwendet werden,
@@ -259,16 +256,16 @@ Zum Vergleich ist die gleiche Nachricht im JSON-Format um einiges länger:
 \end{lstlisting}
 So wie in Listing \ref{lst:testnachricht-json} dargestellt,
 werden 71 Bytes benötigt.
-%
-Da im JSON Leerzeichen ignoriert werden können,
+% TODO im?
+Da im JSON-Format Leerzeichen ignoriert werden können,
 ist es möglich, die Größe der Nachricht auf 51 Bytes zu reduzieren.
 %
-Das ist immer noch mehr als zehn mal so viel wie mit Protocol Buffers.
+Das ist immer noch mehr als fünf mal so viel wie mit Protocol Buffers.
 
 Der Unterschied in Nachrichtengröße ist stark von der Nachricht selbst abhängig;
 Bei größeren Nachrichten schrumpft der Overhead von JSON,
 und damit der ``Vorsprung'' von Protocol Buffers,
-allerdings werden Protocol Buffers immer effizienter als JSON sein.
+allerdings sind Protocol Buffers jedenfalls effizienter als JSON.
 %
 Zu beachten ist auch,
 dass bei JSON die Länge der Variablennamen einen Einfluss auf die Nachrichtengröße hat.
@@ -314,8 +311,8 @@ welche es ermöglichen,
 mit dem in den \texttt{.proto}-Dateien definiertem Format
 Nachrichten zu erstellen und zu verarbeiten.
 %
-Da in diesem Projekt mehrere Programmiersprachen angewendet wurden,
-wurden für die einzelnen Programme natürlich auch unterschiedliche Bibliotheken verwendet:
+Da in diesem Projekt mehrere Programmiersprachen verwendet wurden,
+wurden für die einzelnen Programme natürlich auch unterschiedliche Bibliotheken genutzt:
 %
 Für die Implementierung der Roboter in C++ wurde die Bibliothek \texttt{Nanopb} verwendet,
 welche insbesondere für die Verwendung in Systemen mit limitierten Ressourcen gedacht ist.
@@ -324,14 +321,16 @@ Im Server wurde die Python-Bibliothek \texttt{protobuf} verwendet,
 während am Frontend \texttt{protobufjs} mit eingebautem TypeScript-Support angewandt wurde.
 
 Zur automatischen Generierung der Dateien zur Verwendung von Protobufs in der jeweiligen Programmiersprache
-wurden von Herrn Gastgeber zwei kleine Skripten für die Roboter und das Frontend entwickeln,
+wurden von Herrn Gastgeber zwei kleine Skripts für die Roboter und das Frontend entwickelt,
 welche bei Bedarf die jeweiligen Bibliotheksfunktionen aufrufen.
 %
 Beim Server ist leider das Ausführen eines Befehls und die manuelle Modifikation einer Datei notwendig,
-wie in der Datei \texttt{server/README.md} dokumentiert. (Siehe Abschnitt \ref{lstsec:incl-server} auf Seiten \pageref{lstsec:incl-server}ff) 
+wie in der Datei \texttt{server/README.md} dokumentiert. (Siehe Abschnitt \ref{lstsec:incl-server} auf Seite \pageref{lstsec:incl-server} ff.) 
 
 \section{Sensoren}
 \label{subsec:ueberblick_sensors}
+Mehr Details (und Bilder) zu den Sensoren und den anderen Hardwarekomponenten sind im
+Abschnitt \ref{sec:hardware} auf Seite \pageref{sec:hardware} ff. zu finden.
 
 \subsection{LiDAR}
 \label{subsec:ueberblick_lidar}
@@ -375,4 +374,4 @@ welcher mit Hall-Sensoren funktioniert.
 %
 Mit diesem Drehgeber kann die aktuelle Motorgeschwindigkeit als Feedback zur Motorsteuerung gemessen werden.
 %
-Die Impulse des Drehgebers werden auf eine gewisse Zeitspanne im Format zusammengefasst und dann regelmäßig an den Server weitergeleitet.
+Die Impulse des Drehgebers werden für eine gewisse Zeitspanne zusammengefasst und dann regelmäßig an den Server weitergeleitet.
