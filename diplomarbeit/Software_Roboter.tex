@@ -101,15 +101,18 @@ Die Klasse \texttt{Robota}%
         Seit dem Wechsel von der Arduino IDE auf PlatformIO stellt dieser potentielle Konflikt kein Problem mehr da}
 ist für das Management der Module zuständig.
 %
-Hierzu gibt es drei Variablen, welche für die vollständige Funktion relevant sind:
+Hierzu gibt es drei Variablen, welche für die Funktion zentral sind:
 \begin{itemize}
     \item \lstinline[language=c]|uint32_t ticks|:
         Eine globaler Zähler, welche einmal pro Tick ausgeführt wird.
         Dieser kann von Modulen verwendet werden, um bestimmte Tätigkeiten nur alle $n$ Ticks auszuführen.
-        % TODO check if 100ns is realistic: ((2^32) - 1) / (t * (10^-9)) / (60 * 60 * 24 * 365.25)
-        Bei einer durchschnittlichen Zeit von $t_{tick}=100ns$ pro Tick reichen 32 Bits aus,
-        um die Roboter für etwas mehr als $t_{overflow}=1.36*10^{-9}$ Jahre zu betreiben,
+        % t is in microseconds: ((2^32) - 1) * (t * (10^-6)) / (60 * 60 * 24)
+        Bei einer durchschnittlichen Zeit von ungefähr $t_{tick}=2700\mu s$ pro Tick reichen 32 Bits aus,
+        um die Roboter für etwas mehr als $t_{overflow}=134$ Tage zu betreiben,
         was für die Zwecke dieses Projekts mehr als ausreichend sein sollte.
+        \begin{equation*}
+            t_{overflow} = (2^{32}-1) * t_{tick}
+        \end{equation*}
     \item \lstinline[language=c]|uint16_t moduleTypes[MAX_MODULE_AMOUNT]|:
         Hier wird Typeninformation zu den Modulen gespeichert.
         %
@@ -150,7 +153,9 @@ welcher die Art des Pakets angibt.
     \caption{Pakettypen des LD20}
     \label{tab:ld20-packet-overview}
 \end{table}
-Jedes Paket ist von einem Prüfbyte zur Fehlererkennung mittels CRC\footnote{Cyclic Redundancy Check} gefolgt.
+Jedes Paket ist von einem Prüfbyte zur Fehlererkennung mittels CRC%
+\footnote{Cyclic Redundancy Check, ein Algorithmus zum Erzeugen von Prüfsummen}
+gefolgt.
 %
 Nur Pakete mit Sensordaten werden tatsächlich verarbeitet,
 alle anderen werden verworfen,
@@ -163,12 +168,14 @@ dem Startwinkel der Messung,
 dem Endwinkel der Messung,
 und einem Zeitstempel.
 %
-Die Messpunkte selber bestehen nur aus der gemessenen Entfernung und Intensität;
-der Winkel muss selber berechnet werden.
+Die Messpunkte bestehen nur aus der gemessenen Entfernung und Intensität;
+der Winkel muss bei der Auswertung der Daten berechnet werden.
 %
-Bei allen Einträgen die mehr als einen Byte beanspruchen wird der niederwertigste Byte zuerst übertragen,
-des Protokoll ist also little-endian,
-was bedeutet das die Rohdaten direkt in den Arbeitsspeicher von z.B. einem Arduino oder ESP32 übernommen werden können.
+Bei allen Einträgen, die mehr als ein Byte beanspruchen,
+wird das niederwertigste Byte zuerst übertragen.
+%
+Das Protokoll ist also little-endian,
+was bedeutet, dass die Rohdaten direkt in den Arbeitsspeicher von z.B. einem Arduino oder ESP32 übernommen werden können.
 \begin{table}[H]
     \centering
     \begin{tabular}{l|l|l}
@@ -195,14 +202,16 @@ was bedeutet das die Rohdaten direkt in den Arbeitsspeicher von z.B. einem Ardui
     \caption{Format der rohen Messdaten}
     \label{tab:ld20-measurement-data}
 \end{table}
-Der Winkel einer einzelnen Messung kann mittels linearer Interpolation wie folgt berechnet werden:
+Der Winkel $\alpha$ einer Messung kann mittels linearer Interpolation wie folgt berechnet werden:
 \begin{equation}
     \alpha = \alpha_{s} + \frac{\alpha_{e}-\alpha_{s}}{n-1}*i = \alpha_{s} + \frac{\alpha_{e}-\alpha_{s}}{11}*i
 \end{equation}
-Hierbei ist $\alpha$ der Winkel einer einzelnen Messung,
-während $\alpha_{s}$ und $\alpha_{e}$ respektive den Start- und Endwinkel der Messserie repräsentieren.
-$n$ steht für die Anzahl an Messungen pro Messserie und ist bei uns konstant $12$,
-weshalb $n-1$ auf $11$ vereinfacht werden kann. $i$ ist der nullbasierte Index der einzelnen Messung im Kontext der Messserie.
+Hierbei repräsentieren $\alpha_{s}$ und $\alpha_{e}$ den Start- und Endwinkel der Messserie.
+%
+$n$ steht für die Anzahl der Messungen pro Messserie und ist bei dieser Anwendung konstant $12$,
+weshalb $n-1$ auf $11$ vereinfacht werden kann.
+%
+$i$ ist der nullbasierte Index der jeweiligen Messung im Kontext der Messserie.
 
 %\begin{tikzpicture}[node distance = 3cm]
 %    \node [terminator, fill=blue!20] (start) {\textbf{Komplettes Packet empfangen}};
@@ -224,7 +233,7 @@ weshalb $n-1$ auf $11$ vereinfacht werden kann. $i$ ist der nullbasierte Index d
 \subsubsection{Drehgeber}
 \initials{LG}
 Die beiden Drehgeber,
-welche jeweils an einen der Motoren montiert sind,
+welche jeweils in den Motoren integriert sind,
 werden von dem Modul \texttt{RotaryEncoder} ausgelesen.
 %
 Dieses Modul hat eine beim Kompilieren festgelegte Anzahl an sogenannten ``Ausgabe-Kanälen'',
@@ -233,16 +242,16 @@ da die Daten der Drehgeber an mehreren separaten Stellen verarbeitet werden müs
 Die verwendete Zahl an Kanälen wurde auf Vier festgelegt, kann in der Zukunft aber sehr einfach geändert werden.
 %
 Anstatt die aktuelle Geschwindigkeit zu berechnen,
-werden jeweils für jeden Kanal der Zeitpunkt des letzten Auslesens
+werden für jeden Kanal der Zeitpunkt des letzten Auslesens
 und die Zahl an Impulsen vom Drehgeber seit ebendiesem Zeitpunkt gespeichert.
 %
 Dadurch können Module, welche die Daten verarbeiten,
-selber wählen, über welchen Zeitraum die Geschwindigkeit berechnet wird.
+selbst wählen, über welchen Zeitraum die Geschwindigkeit berechnet wird.
 %
 Das ist ein netter Nebeneffekt, aber eigentlich wurde dieser Ansatz gewählt,
 weil das Datenformat zur Übertragung an den Server Daten in ebendiesem Format erwartet.
 %
-Da das Zählen selber durch Interrupts gelöst wurde
+Da das Zählen selbst durch Interrupts gelöst wurde
 und ISRs\footnote{Interrupt Service Routines}
 nicht Mitglieder einer instanziierten Klasse sein dürfen (bzw. können),
 muss zur Verwendung des \texttt{RotaryEncoder}-Moduls eine globale Funktion erstellt werden,
@@ -257,8 +266,8 @@ Beim Auslesen eines Kanals werden sowohl der Zeitstempel als auch der Zähler au
 
 \subsubsection{MPU6050}
 \initials{LG}
-Da für das Auslesen der Rohdaten des eingebautem Gyroskop/Accelerometer
-\texttt{MPU6050} einer externe Bibliothek \cite{adafruit-mpu6050} verwendet wurde,
+Da für das Auslesen der Rohdaten des eingebauten Gyroskops und Accelerometers
+\texttt{MPU6050} eine externe Bibliothek \cite{adafruit-mpu6050} verwendet wurde,
 war der Aufwand hierfür eher gering.
 %
 Das \texttt{MPU6050}-Modul sorgt also lediglich dafür,
@@ -285,13 +294,13 @@ Hierzu wird anstatt den standardmäßigen Arduino-Funktionen
 direkt die ESP32 \texttt{ledc}-API verwendet,
 um bestmögliche Konfigurationsoptionen zu erreichen \cite{esp32-ledc}. %TODO not sure if this sounds good
 %
-Weiters gibt es sowohl die Möglichkeit den Duty-Cycle direkt einzustellen,
+Es gibt es sowohl die Möglichkeit den Duty-Cycle direkt einzustellen,
 oder anhand der erwünschten Breite des Impulses (in Mikrosekunden) zu berechnen;
 dies ist insbesondere zum Einstellen vom Servomotoren nützlich.
 %
 Das Modul wählt automatisch den bestmöglichen PWM-Kanal:
 %
-Da beim ESP32 sich jeweils zwei PWM-Kanäle einen Timer teilen,
+Da sich beim ESP32 jeweils zwei PWM-Kanäle einen Timer teilen,
 müssen diese die gleiche Frequenz haben.
 %
 Beim Initialisieren des PWM-Moduls wird automatisch nach einem Timer mit gleicher Frequenz gesucht,
@@ -306,7 +315,7 @@ dass die höchstmögliche Auflösung verwendet wird.
 Die PWM-Kanäle des ESP32 haben eine zur Frequenz indirekt proportionale Auflösung \cite{esp32-technical-reference}.
 Die maximale Signalfrequenz $f_{out}$ bei gegebener Auflösung $R$ lässt sich wie folgt berechnen:
 \begin{equation}
-    f = \frac{f_{clk}}{N*2^{R}}
+    f_{out} = \frac{f_{clk}}{N*2^{R}}
 \end{equation}
 Daraus ergibt sich zur Berechnung der maximalen Auflösung bei gegebener Signalfrequenz:
 \begin{equation}
@@ -318,9 +327,8 @@ $R_{max}$ wird abgerundet.
 
 Zur Berechnung der höchstmöglichen Auflösung $R_{max}$ wird $N=1$ gesetzt und das Ergebnis abgerundet.
 %
-Zu Beachten ist hierbei, das alle Ergebnisse,
-welche größer als 20 sind,
-als 20 anzunehmen sind.
+Zu beachten ist hierbei,
+dass alle Ergebnisse auf einen Maximalwert von 20 limitiert sind.
 % ^ TODO komische docs
 %
 Tatsächlich gibt es auch eine minimale Auflösung,
@@ -381,7 +389,7 @@ die Regelung der Motorgeschwindigkeit mit Rückkopplung durch Drehgeber wird and
 \initials{LG}
 Die Gesamtheit der Aktoren kommt im \texttt{BalanceController} zusammen:
 Hier werden die Daten vom \texttt{MPU6050} ausgelesen,
-zur Verbesserung der Genauigkeit durch den \texttt{KalmanFilter} gefiltert,
+zur Glättung durch einen Kalman-Filter (siehe Abschnitt \ref{subsubsec:kalman}) gefiltert,
 und als Rückkopplung in einen PID-Regler eingegeben,
 welcher mittels zwei \texttt{SingleMotorOutput}s die beiden Motoren kontrolliert.
 %
@@ -391,14 +399,15 @@ welche vom Server an die Roboter gesendet wird.
 TODO mehr Beschreibung 
 
 \subsection{Interfaces}
-\initials{LG}
-Interfaces stellen eine Netzwerkverbindung zur Außenwelt dar.
-%
 \subsubsection{WiFiConnection}
 \initials{LG}
-Dieses Modul ist zuständig für die Steuerung der WLAN-Verbindung
-mit dem \texttt{IoT}-Netzwerk der HTL Ettenreichgasse.
+Dieses Modul ist zuständig für die Steuerung der WLAN-Verbindung.
 %
+Die Zugangsdaten des Netzwerks können während dem Kompilieren
+als Umgebungsvariablen zur Verfügung gestellt werden.
+%
+In der HTL Ettenreichgasse wird das \texttt{IoT}-Netzwerk verwendet.
+% TODO 13:50
 Im Konstruktor des Moduls wird es mit dem erwünschtem Hostnamen des Geräts
 und den Details zur Verbindung mit dem WLAN-Netzwerk (SSID/Passwort) versorgt.
 %
@@ -420,7 +429,8 @@ können mittels Callback-Funktionen Befehle empfangen werden.
 %
 Mittels der Funktion \texttt{WebSocketControls::send(Wrapper *message)} können Daten an den Client gesendet werden.
 %
-Ein Client wäre in diesem Anwendungsfall der zentrale Server, welche die Roboter kontrolliert.
+Ein Client wäre in diesem Anwendungsfall der zentrale Server,
+welcher die Roboter kontrolliert.
 %
 Hier ist die Terminologie leider etwas verwirrend.
 %
@@ -433,6 +443,7 @@ Stattdessen muss der Server (welcher als WS-Client agiert) nur die aktuelle IP-A
 welche man leicht bzw. schnell in der Konfiguration des Servers ändern kann.
 
 \subsection{KalmanFilter}
+\label{subsubsec:kalman}
 \initials{LG}
 Kalman-Filter werden allgemein zu Schätzung von Systemzuständen verwendet,
 welche nur ungenau gemessen werden können.
@@ -514,7 +525,7 @@ die Regelabweichung so gut wie möglich zu minimieren.
     \caption{Standardregelkreis}
     \label{fig:allgemeiner-regelkreis}
 \end{figure}
-Digitale (bzw. diskrete) PID-Regler lassen sich grundlegend sehr einfach implementieren:
+Digitale (bzw. diskrete) PID-Regler lassen sich sehr einfach implementieren:
 
 % P
 \begin{equation}
@@ -541,12 +552,16 @@ mit denen man den Regler einstellen kann,
 indem der Einfluss der jeweiligen Anteile
 auf das Ausgangssignal $u[k]$ variiert wird.
 %
+Diese drei Konstanten richtig zu wählen,
+ist notwendig,
+damit der Regler optimal funktioniert. 
+%
 Die Größe $\Delta t$ bezeichnet die Abtastzeit und wird zur zeitdiskreten
 Berechnung des Integral- und Differentialanteils benötigt.
 
 \subsubsection{Praxis}
 In C-Code implementiert schaut das dann wie folgt aus:
-\begin{lstlisting}[caption={Implementierung des PID-Reglers in C}]
+\begin{lstlisting}[caption={Implementierung des PID-Reglers in C},label=lst:pid]
 float PIDController::pid(float error, float dt) {
   static float integral, previous;
 
@@ -563,7 +578,10 @@ float PIDController::pid(float error, float dt) {
          (kd * derivative);
 }
 \end{lstlisting}
-Hier ist zu beachten,
+Listing \ref{lst:pid} ist ein Ausschnitt aus der \texttt{PIDController} Klasse,
+in welcher die drei schon vorhin erwähnten Verstärkungsfaktoren als globale Variablen definiert sind.
+%  
+Es ist zu beachten,
 dass \texttt{error}
 jede gewünschte Einheit haben kann,
 solange der Code,
@@ -596,7 +614,7 @@ Befehle werden vom Server empfangen und ausgeführt,
 Messwerte werden an den Server weitergeleitet.
 %
 Da auch die Aufbereitung der LiDAR-Daten bereits in der Core-Bibliothek realisiert wurde,
-ist die Software für den Guide ebenso wie bei den anderen Robotern größtenteils Plug\&Play.
+ist die Software für den Guide ebenso wie bei den anderen Robotern sehr schnell zusammengestellt.
 
 \section{Tamerlan \& Bambi}
 \label{subsec:software_tamerlan}
