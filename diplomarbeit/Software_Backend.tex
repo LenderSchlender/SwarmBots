@@ -6,8 +6,8 @@
 \chapter{Software - Backend}
 \label{sec:software_backend}
 \initials{JS}
-Das Backend ist die Zentrale Rechenstelle, 
-welches in mehrere Komponenten aufgeteilt ist.
+Das Backend ist die zentrale Rechenstelle, 
+welche in mehrere Komponenten aufgeteilt ist.
 % generell zum backend
 
 \begin{figure}[H]
@@ -17,20 +17,21 @@ welches in mehrere Komponenten aufgeteilt ist.
 \end{figure}
 % grafik anpassen
 
-Wodurch es verantwortlich für die Kommunikation und Datenerfassung 
-zwischen allen Teilnehmern ist. 
-Dazu gehören die drei Roboter, welche uns die Daten liefern wie LiDAR, 
+Es ist verantwortlich für die Kommunikation und Datenerfassung 
+zwischen allen Teilnehmern. 
+Dazu gehören die drei Roboter, welche die Daten liefern wie LiDAR, 
 Beschleunigungssensor etc., und das Frontend, 
 zu dem die Daten zur Visualisierung und Mitverfolgung gesendet werden 
-und gegebenenfalls auch Befehle empfangen.
+und von dem gegebenenfalls auch Befehle empfangen werden.
 \\
-Weiters findet hier die Zentrale Datenverarbeitung und Verwaltung statt, 
-dies ist verantwortlich für die Erstellung der LiDAR-Map, 
-die Ermittlung der Roboterpositionen und gegebenenfalls Berechnung der Messwerte. 
+Weiters findet hier die zentrale Datenverarbeitung und Verwaltung statt, 
+diese ist verantwortlich für die Erstellung der LiDAR-Map, 
+die Ermittlung der Roboterpositionen und gegebenenfalls die Berechnung der Messwerte. 
 % im falle ineffizient etc
 \\
-Und Steuerung der Roboter mithilfe eines Erkennungssystems, 
-welches bestimmte Kennzeichen in den erhaltenen Daten Ausschau hält 
+Eine weitere Aufgabe des Backends 
+ist die Steuerung der Roboter mithilfe eines Erkennungssystems, 
+welches nach bestimmten Kennzeichen in den erhaltenen Daten Ausschau hält 
 und darauf Kennzeichen für die einzelnen Bots erkennt und verfolgt, 
 um entsprechend die Positionen aller Bots relativ zur LiDAR-Map ausfindig zu machen.
 % 
@@ -39,35 +40,33 @@ um entsprechend die Positionen aller Bots relativ zur LiDAR-Map ausfindig zu mac
 % % stattdessen weiterleitung und fernsteuerung
 % TODO 
 \\
-Und letztendlich die Datenbank, 
-welche die etwaigen Daten speichert von der Datenverarbeitung und Erkennungssystems, 
+Letztendlich verwaltet das Backend die Datenbank, 
+welche die etwaigen Daten der Datenverarbeitung und des Erkennungssystems speichert, 
 dazu gehört insbesondere die LiDAR-Map.
 
-Für das Backend wurde Python gewählt, 
-welches von seiner Vielzahl von Standardpaketen 
-und großer Anzahl an externen Paketen 
+Für die Programmierung des Backends wurde die Sprache Python gewählt, 
+welche mit ihrer Vielzahl von Standardpaketen 
+und großen Anzahl an externen Paketen 
 und Frameworks eine effiziente und schnelle Programmierung unterstützt, 
 auch durch eine aktive Community.
 % 
 Für dieses Projekt wurde es gewählt aufgrund seiner Vielseitigkeit, 
 speziell in Bezug auf die unterschiedlichen Tasks, 
 die ausgeführt werden müssen, 
-hauptsächlich der Kommunikation und Datenverarbeitungsfelder, 
+hauptsächlich in Bezug auf Kommunikation und Datenverarbeitung, 
 in denen Python üblicherweise verwendet wird.
 % 
-Darauf müssen auch mehrere Verbindungen offen bleiben und verwaltet werden, 
-und dies schnell mithilfe von Paketen realisiert werden, 
-die uns ermöglichen, aufs wesentliche zu fokussieren.
+Dabei müssen auch mehrere Verbindungen offen bleiben und verwaltet werden, 
+und diese wesentlichen Eigenschaften für einen Server 
+schnell mithilfe von Paketen realisiert wurde. 
 % 
-Eine schnelle Programmierung und Modifizierung, 
-weil das Backend voraussichtlich mit dem zum zeitigen Projektstand wächst, 
-ist ganz wichtig für die Datenverarbeitung und Steuerung 
-da diese sich im Laufe des Projekts stark ändern kann, aufgrund dessen, 
-dass die Methoden und Systeme nicht endgültig feststehen 
-und teilweise noch definiert werden müssen.
+Die uns ermöglichen, aufs wesentliche zu fokussieren.
 % 
-Und letzteres auch wegen Erfahrungen mit dem Vorgänger-Projekt, 
-denn ein wesentlicher Teil davon bestand auf der Kommunikation über Websockets.
+Effiziente Programmierung und Modifizierung ist wesentlich, 
+weil der Backend-Code kontinuierlich wächst.
+% 
+Dies wurde auch durch Erfahrungen mit dem Vorgänger-Projekt untermauert, 
+denn ein wesentlicher Teil davon bestand aus der Kommunikation über Websockets.
 % Gelaber über python
 % wegen math Funktionen...
 % schnelle Modifizierung 
@@ -76,8 +75,8 @@ denn ein wesentlicher Teil davon bestand auf der Kommunikation über Websockets.
 \initials{JS}
 % drunter verschoben weil besseres layout?
 In diesem Abschnitt wird genauer 
-über die geplanten einzelnen Komponenten gesprochen 
-und deren Funktion.
+über die geplanten einzelnen Komponenten 
+und deren Funktion gesprochen.
 
 Zu beachten ist, dass nicht alle geplanten Systeme, die hier beschrieben sind, 
 implementiert wurden und manche noch in der Konzeptphase sind.
@@ -91,62 +90,62 @@ Für den tatsächlichen Stand siehe Abschnitt \ref{subsec:backend_aktueller_stan
 % Datenbank für lidar?
 % TODO
 
+% TODO bevor abgabe
+% womöglich löschen
 Dieser Abschnitt bespricht kurz den Datenablauf 
 zwischen den Teilnehmern und den internen Komponenten.
 % 
-Weil die Datenverarbeitung noch nicht realisiert ist, 
-kann noch nicht viel weiter zur Verwaltung gesprochen werden.
-
-Das Frontend und die Roboter kommunizieren hauptsächlich 
-über Websockets mit den Protobufs.
+Weil teile des Backends nicht realisiert sind ist ebenfalls 
+die Datenverarbeitung nicht realisiert,
+weswegen nicht viel weiter zur Verwaltung gesprochen werden kann.
 
 \subsection{Kommunikation}
 \label{subsec:Kommunikation}
 \initials{JS}
 Die drei Roboter sind aktive Teilnehmer in der Kommunikation, 
-das heißt, es ist zu erwarten, dass die Verbindung konstant aufrechtzuerhalten ist, 
-bidirektional und dies auch in einem zeitlichen Verhalten geschieht. 
-Insofern muss weiter sichergestellt werden, 
-dass ein konstanter Kommunikationsfluss ermöglicht bleibt.
+das heißt, die Verbindung ist permanent aufrechtzuerhalten, 
+bidirektional und zeitlich synchronisiert. 
 
 Zur Verbindung entschieden wir uns für das Kommunikations-Protokoll Websocket, 
-diese ermöglicht eine bidirektionale, 
-persistente Verbindung zwischen einem Client und einem Server,
-welches im Vergleich zu gewöhnlichen HTTP-Anfragen offen bleibt, 
+dieses ermöglicht eine bidirektionale, 
+persistente Verbindung zwischen Client und Server,
+welche im Vergleich zu gewöhnlichen HTTP-Anfragen offen bleibt, 
 wodurch Echtzeitkommunikation möglich ist.
 % könnte man mehr ausschreiben aber schau ma später
+
+Das Frontend und die Roboter kommunizieren hauptsächlich 
+über Websockets mit den Protobufs.
 
 \subsection{Datenverarbeitung}
 \initials{JS}
 % TODO
-Ein Teil des Servers ist die Verarbeitung der erhaltenen Daten, 
-die entweder zum Frontend weitergeleitet werden oder vom Server verarbeitet werden.
+Eine Aufgabe des Servers ist die Verarbeitung der erhaltenen Daten, 
+sowie die Weiterleitung zum Frontend.
 % 
-Um große Belastung mit Sensor daten Berechnung auf dem Roboter zu vermeiden, 
-werden einige Arbeiten auch auf dem Server entlastet.
-Ein weiterer Grund dafür ist, aufgrund dessen, 
-dass mit Python bereits ausgebaute Mathematik Pakete zur Verfügung stehen 
-und die Sensordaten zu bearbeiten.
-Und auch ausgebaute Datenanalyse und Manipulation Pakete.
+Um große Belastung durch die Auswertung von Sensordaten auf dem Roboter zu vermeiden, 
+werden einige Arbeiten auf den Server ausgelagert.
+Außerdem stehen in Python bereits ausgebaute Mathematik Pakete zur Verfügung 
+um die Sensordaten zu bearbeiten 
+ebenso wie Softwarepakete für Datenanalyse und -manipulation.
 
 
 \subsection{Erkennungssystem}
 \initials{JS}
-Geplant war, dass die erhaltenen Daten über das Datenverarbeitungssystem 
-über die Zeit hinaus eine Karte erstellt, sozusagen die LiDAR-Map, 
-welche in einer Datenbank abgespeichert werden.
+Geplant war, dass aus den erhaltenen Daten mit der Zeit eine Karte erstellt wird, 
+sozusagen die LiDAR-Map, 
+welche in einer Datenbank abgespeichert wird.
 % 
 Über die Zeit werden Datenpunkte gesammelt, 
-die sich mehr nach einem gewissen Muster sammeln 
+die sich nach einem gewissen Muster sammeln 
 und ein klareres Bild über die Form eines Raumes geben.
-Diese Muster, wie gerade Linien und Ecken, werden vom System erkannt 
+Diese Muster, z.B. gerade Linien und Ecken, werden vom System erkannt 
 und mit diesen Eigenschaften auch ermittelt, 
 wo ungefähr sich der Guide im Raum befindet.
 % 
-Dies wird mit einem weiteren Erkennungssystem für Tamerlan \& Bambi, 
-welches zuständig ist, die Position der zwei zu ermitteln.
-Indem die Bots identifizierbare reflektieren Objekte befestigt kriegen, 
-beispielsweise mehrere Zylinder, wodurch sie erkannt werden können.
+Dies wird mit einem weiteren Erkennungssystem für Tamerlan \& Bambi kombiniert, 
+welches zuständig ist, die Position der beiden zu ermitteln,
+indem auf den Bots identifizierbare reflektieren Objekte befestigt werden, 
+beispielsweise Zylinder, wodurch sie erkannt werden können.
 %
 Mit diesen Informationen kann die Steuerung der Roboter folgen.
 % füge skizzen hier oder erklär anderen Kapitel?
@@ -165,11 +164,11 @@ Zurzeit nicht realisiert.
 % Datenbank/ Datenbearbeitung
 
 Die Aufträge der einzelnen Bots 
-sind in den Entsprechenden Kapitel genauer beschrieben.
+sind in den entsprechenden Kapiteln genauer beschrieben.
 % schau was da steht und was speziell hier klargemacht werden muss
 
 Es sind zwei Steuerungen geplant, 
-die manuelle Steuerung und die Automatisierte.
+die manuelle Steuerung und die automatisierte.
 % 
 Die manuelle Steuerung geschieht über das Frontend, 
 womit man die Roboter mithilfe der Visualisierungen 
@@ -177,7 +176,7 @@ und oder Videoübertragung steuern kann.
 % 
 Die automatisierte Steuerung geschieht mithilfe des Erkennungssystems 
 und soll den Bots erlauben, die erstellte LiDAR Karte zu navigieren 
-und erlauben die zwei Blinden Bots Tamerlan \& Bambi, dem Guide zu folgen.
+und erlauben den zwei blinden Bots Tamerlan \& Bambi, dem Guide zu folgen.
 % verwendung von code vom vorgänger Projekt
 
 \section{Aktueller Stand}
@@ -185,32 +184,30 @@ und erlauben die zwei Blinden Bots Tamerlan \& Bambi, dem Guide zu folgen.
 \initials{JS}
 % Womöglich Teile zu Ergebnisse verschieben?
 Zum Zeitpunkt dieser Diplomarbeitsabgabe 
-sind nicht alle geplanten Features für das Backend zeitlich zusammengekommen.
+sind nicht alle geplanten Features für das Backend implementiert,
 Wodurch der Großteil der Backendserver-Seite nicht realisiert werden konnte.
 
 Zur Überbrückung wurde der Kommunikationsteil so realisiert, 
-dass es als Weitergabe fungieren soll.
-Dies wurde so realisiert, indem die Daten 
+dass es als Weitergabe fungiert.
+Dies wurde so realisiert, dass die Daten 
 zwischen einem Bot und dem Server weitergegeben werden, essenziell ein Router. 
 Der nächste Schritt besteht dann, über eine Prototyp Steuerung 
 Befehle zu den einzelnen Bots zu senden.
 
 Die Prototyp Steuerung ist realisiert als eine manuelle Steuerung, 
-wo der gewählte Roboter manuell von einem Bediener bedient.
+wo der gewählte Roboter manuell von einem User bedient wird.
 In Zukunft kann die manuelle Steuerung als eine weitere Option beibehalten werden, 
 die die automatisierte Steuerung überschreiben kann. 
 Dies kann verwendet werden, 
-um beispielsweise den Guide manuell in bestimmte Bereiche zu führen.
-Anderes falls auch für Test und Debug Zwecke, 
-sowie manuell eine neue Datenerfassung zu erzwingen.
+um beispielsweise den Guide manuell in bestimmte Bereiche zu führen,
+andernfalls auch für Test und Debugging, 
+sowie um eine neue Datenerfassung zu erzwingen.
 
 \section{Backend - Code}
 \initials{JS}
-In diesem Abschnitt wird genauer zum Code des Backend Prototyps eingegangen 
-und dessen technischen Realisierung. 
-Was genau die einzelnen Teile des Backends zu erledigen haben, 
-wie diese Probleme bewältigt und realisiert wurden.
-Weiters werden auch beschrieben, welche Pakete und Werkzeuge verwendet wurden. 
+In diesem Abschnitt wird genauer auf den Code des Backend Prototyps eingegangen 
+und auf dessen technische Realisierung. 
+Weiters wird auch beschrieben, welche Pakete und Werkzeuge verwendet wurden. 
 
 \subsection{Zusätzlich verwendete Tools und Workflow}
 \initials{JS}
@@ -220,28 +217,28 @@ Weiters werden auch beschrieben, welche Pakete und Werkzeuge verwendet wurden.
 \subsubsection{Formatter und Linter} 
 \initials{JS}
 Um gute Lesbarkeit zu gewährleisten, 
-ist eine ordentliche Struktur und Format in jedem Code zu erwarten, 
-jedoch ist es schwierig, eine gute Konsistent beizubehalten, 
-weshalb Formatierungstool und Linters häufig Verwendung finden. 
+ist eine ordentliche Struktur und Formatierung in jedem Code notwendig, 
+jedoch ist es schwierig, eine gute Konsistenz beizubehalten, 
+weshalb Formatierungstools und Linters häufig Verwendung finden. 
 % 
-Linters sind Tools, welche automatisch den Code überprüfen, um auf Fehler zu prüfen, 
-stilistische Fehler und Einhaltung von Codierung Standards festzustellen.
-Diese soll helfen, die code Qualität zu verbessern 
-und womögliche Fehler vorzeitig zu erkennen.
+Linters sind Tools, welche automatisch den Code überprüfen, 
+um stilistische Fehler und Einhaltung von Codierung Standards sicherzustellen.
+Dies soll helfen, die Code-Qualität zu verbessern 
+und eventuelle Fehler frühzeitig zu erkennen.
 
-Die Standard Erweiterung für Python von Visual Studio Code 
-beinhaltet kein Standard Formatierungstool.
+Die Standard-Erweiterung für Python von Visual Studio Code 
+beinhaltet kein Formatierungstool.
 Dafür wurde der Formatter \texttt{autopep8} verwendet, 
 weil er die Eigenschaft hat, den Originalstil des Schreibers beizubehalten
-und nur hauptsächlich Änderungen für die Lesbarkeit durchzuführen. 
-Dazu passend ist der Linter \texttt{Flake8} welcher standardmäßig 
+und nur Änderungen für die Lesbarkeit durchzuführen. 
+Dazu passend ist der Linter \texttt{Flake8}, welcher standardmäßig 
 dem gleichen Styleguide \text{PEP 8} folgt.
 % weil vscode es standart mäßig Formatierung nicht mitliefert
-\subsubsection{venv/environment management}
-\initials{JS}
-% TODO
-Falls sich nicht viel ändert, ist dieser Abschnitt wahrscheinlich nicht nötig, 
-da nicht viel besonders ist.
+% \subsubsection{venv/environment management}
+% \initials{JS}
+% % TODO
+% Falls sich nicht viel ändert, ist dieser Abschnitt wahrscheinlich nicht nötig, 
+% da nicht viel besonders ist.
 
 
 \subsection{Python Packages}
@@ -256,24 +253,24 @@ Welche zu diesem Stand verwendet wurden, ist in diesem Abschnitt erklärt.
 Für Python ist ein Websocket Paket namens 'websockets' vorhanden, 
 welches die Client-Server Kommunikation um ein Vielfaches vereinfacht, 
 da man sich keine Sorge über Handshakes, Ping Pongs, 
-oder anderes verhalten der Websocket Spezifikation, 
+oder anderes Verhalten der Websocket Spezifikation machen muss, 
 da es alles von dem Paket behandelt wird 
 und man sich mehr auf die Applikation fokussieren kann. 
-Es sind dennoch einige Parameter zur Verfügung gestellt zur Modifizierung, 
-falls benötigt.
+Es sind dennoch einige Parameter zur Verfügung gestellt, 
+um das Verhalten zu modifizieren.
 % code beispiele?
 
 % erklärung zu den packet Webscoket
 Websockets Standard Implementierung basiert auf asyncio.
 %  
-Asyncio ist die eingebaute Implementierung von Koroutinen in Python,
+Asyncio ist die eingebaute Implementierung von Co-Routinen in Python,
 dies erlaubt das Schreiben von asynchronen Frameworks, 
-öfters verwendet für I/O limitierte Netzwerk Codes.
+öfters verwendet für I/O-limitierte Netzwerk Codes.
 % snippet zu asyncio, könnte mehr schreiben?
 Alternative ist eine threading Implementierung verfügbar für Websockets, 
 die üblichere Implementierung von mehreren Tasks, 
-jedoch würde für den zum zeitigen Prototyp Entwicklung-Stand dagegen entschieden,
-aufgrund der möglichen erweiterten Komplexität von Thread sicheren Code Ausführung.
+jedoch wurde für den derzeitigen Entwicklung-Stand dagegen entschieden,
+aufgrund der möglichen erweiterten Komplexität von Thread-sicherer Code-Ausführung.
 % warum nicht? kann später bei optimierungsmöglichkeiten erklärt werden
 Eine Sans-I/O Implementierung ist auch vorhanden, 
 jedoch für dieses Projekt zurzeit irrelevant.
@@ -283,10 +280,10 @@ jedoch für dieses Projekt zurzeit irrelevant.
 Das Besondere an der protobuf Implementierung hier in Python ist,
 dass sehr viel von dem protobuf Paket selbst erledigt wird.
 Im Vergleich zum Vorgänger Projekt, wo die Datenpakete manuell hergerichtet werden
-und zum richtigen Byte Format konvertiert, wird mit Protobuf ein Objekt erstellt 
+und zum richtigen Byte Format konvertiert werden mussten, 
+wird mit Protobuf ein Objekt erstellt 
 und jeweils die gegebenen Variablen angesprochen, 
-diese mit einem einzelnen Befehl ins sende Format formatiert und genauso zurück
-und von den gegebenen Tasks weiterverarbeitet werden kann.
+diese mit einem einzelnen Befehl ins Sende-Format konvertiert und umgekehrt.
 % verhalten in python
 % wie anders
 
