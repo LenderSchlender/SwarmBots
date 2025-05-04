@@ -21,8 +21,8 @@ Da wir die Roboter stattdessen über WLAN steuern wollten,
 und die Tumbller-Kits standardmäßig nur ein Bluetooth-Modul eingebaut haben,
 haben wir die mitgelieferten Arduino Nano durch ESP32-Boards im Arduino Nano-Format ersetzt.
 Doch der Arduino Nano arbeitet mit 5V Logic Level,
-während der Arduino Nano ESP32 nur 3.3V Logic Level verwendet und nicht 5V-tolerant ist.
-Wodurch dann einige Modifikationen nötig waren, siehe Abschnitt \ref{subsec:hardware_modifikationen}.
+während der  ESP32 nur 3.3V Logic Level verwendet und nicht 5V-tolerant ist.
+Dadurch wurden einige Modifikationen nötig, siehe Abschnitt \ref{subsec:hardware_modifikationen}.
 \begin{figure}[H]
     \includegraphics[width=0.7\textwidth, center]{img/elegoo_tumbller.png}
     \caption{Rendering des Elegoo Tumbller}
@@ -75,30 +75,21 @@ Die einzelnen Komponenten müssen nur noch in die vorgesehenen Sockel gesteckt w
 %
 \subsubsection{Technische Umsetzung}
 \initials{MS}
-Die Leiterplatte im originalen Elegoo Tumbller besteht aus mehreren Leiterbahnen
-die feine Kupferstreifen sind
-und dafür sorgen,
-dass alle elektronischen Bauteile miteinander verbunden sind.
+Die Leiterplatte im originalen Elegoo Tumbller verbindet die folgenden Komponenten und Sub-Systeme:
 %
 Auf der PCB befinden sich alle wichtigen Anschlüsse und Lötpunkte,
 die für den Betrieb des Roboters notwendig sind. Dazu gehören:
 \begin{itemize}
-    \item Steckplätze für den Arduino Nano
-    \item Anschlussbuchsen für die beiden Motoren
-    \item Steckplätze für die Sensoren (MPU6050, Ultraschallsensor, Infrarot-Sensoren)
-    \item Anschluss für das Bluetooth-Modul (HC-06)
+    \item Arduino Nano
+    \item Motoren (2x)
+    \item Sensoren: MPU6050, Ultraschallsensor, Infrarot-Sensoren
+    \item Bluetooth-Modul (HC-06)
     \item Taster für die Modus-Auswahl
     \item LEDs zur Anzeige des Betriebszustands
-    \item Lötpads für die Stromversorgung (Li-Ion Akku)
-    \item Anschluss für den AMS1117 Spannungsregler
+    \item Li-Ion Akku
+    \item AMS1117 Spannungsregler
 \end{itemize}
-Die Leiterbahnen sind so angeordnet,
-dass der Strom von der Stromquelle als auch die Siganle,
-zu allen Bauteilen auf der Platine verteilt werden
-und dabei so EMV sicher wie möglich sind.
-%
-Außerdem hat die PCB eigene Lötpunkte für die Motorsteuerung.
-%
+Die PCB verbindet alle Komponenten mit der Stromversorgung und ist unter Berücksichtigung von EMV-Aspekten ausgelegt.
 Der TB6612FNG Motortreiber ist direkt auf der Platine verlötet und sorgt dafür,
 dass die beiden Motoren in beide Richtungen gesteuert werden können.
 %
@@ -125,7 +116,7 @@ gibt es weniger Möglichkeiten für Wackelkontakte oder lockere Verbindungen.
 Die PCB des originalen Tumbller ist nur für die mitgelieferten Komponenten ausgelegt.
 %
 Wenn man zusätzliche Sensoren oder einen anderen Mikrocontroller (wie im SwarmBots-Projekt) verwenden möchte,
-muss die die Platine modifiziert werden,
+muss die Platine modifiziert werden,
 was schnell zu einer komplexen Aufgabe werden kann.
 %
 Siehe Abbildung \ref{fig:elegoo_tumbller_original_circuit} auf Seite \pageref{fig:elegoo_tumbller_original_circuit}.
@@ -143,7 +134,7 @@ Siehe Abbildung \ref{fig:elegoo_tumbller_original_circuit} auf Seite \pageref{fi
 \subsubsection{Allgemein}
 \initials{MS}
 Der MPU6050 ist ein 6-Achsen-Sensor \cite{adafruit-mpu6050},
-der aus einem Drehratensensor (Gyroskop, welcher Drehbewegungen in 3 Achsen misst)
+der aus einem Drehratensensor (Gyroskop, welcher Drehbewegungen in 3 Achsen misst) besteht
 und einem Beschleunigungssensor (Accelerometer, welcher lineare Beschleunigungen in 3 Achsen misst),
 wie in Abbildung \ref{fig:mpu6050} zu sehen ist.
 \subsubsection{Technische Daten}
@@ -165,7 +156,7 @@ Accelerometer: 16.384 LSB( least significant bit/ niedrigstes Bit)/g (bei ±2g))
 %
 Die Genauigkeit der beiden liegt bei ca. ±0,01 °/s für den Gyroskop-Sensor und ca. ±0,005g für den Accelerometer.
 %
-Der MPU6050 über eine Abtastrate von bis zu 1kHz und über einen integrierten DMP (Digital Motion Processor),
+Der MPU6050 verfügt über eine Abtastrate von bis zu 1kHz und über einen integrierten DMP (Digital Motion Processor),
 welcher es ermöglicht, Datenfusion durchzuführen.
 %
 \subsubsection{Einschränkungen}
@@ -181,9 +172,9 @@ wodurch Messfehler entstehen können.
 %
 \subsubsection{Allgemein}
 \initials{MS}
-Der TB6612FNG ist ein Dual-H-Brücke-Motortreiber  \cite{toshiba-tb6612fng},
+Der TB6612FNG ist ein Motortreiber mit zwei H-Brücken \cite{toshiba-tb6612fng},
 welcher verwendet wird,
-um einen Schrittmotor oder zwei Gleichstrommotoren wie beim Tumbler zu steuern.
+um einen Schrittmotor oder zwei Gleichstrommotoren (wie beim Tumbller) zu steuern.
 %
 Der Motortreiber ermöglicht es,
 Gleichstrommotoren in zwei Richtungen zu betreiben,
@@ -197,7 +188,7 @@ wie in Abbildung \ref{fig:motortreiber} dargestellt.
     \caption{TB6612FNG Motortreiber}
     \label{fig:motortreiber}
 \end{figure}
-Als Versorgungsspannung für Motoren kann der TB6612FNG 2,5V bis 13,5V ausgeben,
+Als Versorgungsspannung für die Motoren kann der TB6612FNG 2,5V bis 13,5V ausgeben,
 für die Logik ist die Versorgungsspannung 2,7V bis 5,5V.
 %
 Der maximale Ausgangsstrom ist 1,2 A (kontinuierlich), 3 A (kurzzeitig pro Kanal),
@@ -207,10 +198,10 @@ Zudem besitzt er eine integrierte Schutzschaltung,
 die vor Überstromschutz, Übertemperaturschutz und Kurzschlussschutz schützt. 
 %
 Die Verlustleistung ist sehr gering,
-da der Motortreiber die MOSFET-Technologie verwendet.
+da der Motortreiber MOSFET-Technologie verwendet.
 %
-(MOSFET (Metal Oxide Semiconductor Field Effect Transistor) ist ein elektronisches Bauteil, 
-das wie ein elektronischer Schalter funktioniert und in der Motorsteuerung verwendet wird,
+(MOSFET (Metal Oxide Semiconductor Field Effect Transistor) ist eine Halbleitertechnologie, die 
+das wie ein elektronischer Schalter funktioniert und unter anderem für Motorsteuerungen verwendet wird,
 um mit einem kleinen Steuersignal einen großen Stromfluss für Motoren zu kontrollieren)
 \subsubsection{Belegung}
 \initials{MS}
@@ -257,9 +248,7 @@ der aus einer höheren Eingangsspannung eine stabile kleinere Ausgansspannung (3
 Im Elegoo Tumbller wird er verwendet,
 um die Spannung auf 3,3 Volt zu reduzieren.
 %
-Diese Spannung brauchen einige Bauteile,
-wie zum Beispiel das Bluetooth-Modul,
-damit sie nicht kaputtgehen.
+Diese Spannung wird von einigen Baugruppen, wie z.B. dem BT-Modul, benötigt.
 %
 Wie in Abbildung \ref{fig:ams1117} dargestellt,
 ist der Spannungsregler direkt auf der Platine integriert.
