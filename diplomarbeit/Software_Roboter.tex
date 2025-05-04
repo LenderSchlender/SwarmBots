@@ -526,7 +526,6 @@ die Regelabweichung so gut wie möglich zu minimieren.
     \label{fig:allgemeiner-regelkreis}
 \end{figure}
 Digitale (bzw. diskrete) PID-Regler lassen sich sehr einfach implementieren:
-
 % P
 \begin{equation}
     u_P[k] = e[k]
@@ -543,7 +542,7 @@ Digitale (bzw. diskrete) PID-Regler lassen sich sehr einfach implementieren:
 \begin{equation}
     u[k] = k_P * u_P[k] + k_I * u_I[k] + k_D * u_D[k]
 \end{equation}
-
+%
 Hierbei ist $e[k]$ die aktuelle Regelabweichung,
 während $u[k]$ die Stellgröße repräsentiert.
 %
@@ -554,7 +553,7 @@ auf das Ausgangssignal $u[k]$ variiert wird.
 %
 Diese drei Konstanten richtig zu wählen,
 ist notwendig,
-damit der Regler optimal funktioniert. 
+damit der Regler optimal funktioniert.
 %
 Die Größe $\Delta t$ bezeichnet die Abtastzeit und wird zur zeitdiskreten
 Berechnung des Integral- und Differentialanteils benötigt.
@@ -595,6 +594,39 @@ jegliche Zeiteinheit zu verwenden.
 %
 Der Code zum PID-Regler wurde absichtlich so abstrakt wie möglich gehalten,
 um die Möglichkeit zur Verwendung in vielen unterschiedlichen Situationen zu gewährleisten.
+
+\subsubsection{Dimensionierung}
+Zur Bestimmung der Reglerparameter $k_P$, $k_I$ und $k_D$
+kann das Verfahren nach Ziegler und Nichols verwendet werden.
+%
+Hierbei wird zuerst ein rein proportionaler Regler verwendet,
+dessen Regelverstärkung $k$ solange erhöht wird,
+bis der Regelkreis ins Schwingen kommt.
+%
+Anhand der Periode $T_{krit}$, mit der die Schwingung auftritt,
+und der Regelverstärkung $k_{krit}$, bei der die Schwingung auftritt,
+kann man dann den einen P-, PI- oder PID-Regler wie in Tabelle \ref{tab:ziegler_nichols} dimensioneren.
+%
+Hierzu wird 
+\begin{table}[H]
+    \centering
+    \begin{tabular}{c|c|c|c}
+    Reglertyp & $k_R$ & $T_N$ & $T_V$ \\ \hline
+    P   & $0.5 k_{krit}$  &        --       & -- \\ \hline
+    PI  & $0.45 k_{krit}$ & $0.85 T_{krit}$ & -- \\ \hline
+    PID & $0.6 k_{krit}$  & $0.5 T_{krit}$  & $0.12 T_{krit}$ \\
+    \end{tabular}
+    \caption{Einstellregeln nach Ziegler und Nichols}
+    \label{tab:ziegler_nichols}
+\end{table}
+%
+Diese Werte kann man dann in die Übertragungsfunktion $F_R(s)$ des PID-Reglers einsetzen:
+%
+\begin{equation}
+    F_R(s) = k_R*\left(1 + \frac{1}{s T_N} + s T_V\right)
+\end{equation}
+%
+%TODO wie kommen wir von k_r, T_N und T_V auf die Verstärkungen?
 
 \section{Guide}
 \label{subsec:software_guide}
