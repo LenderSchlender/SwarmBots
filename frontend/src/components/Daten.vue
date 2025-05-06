@@ -27,8 +27,6 @@ function senden() {
   </p> 
   <p>
     <Chart />
-  </p>
-  <p>
     <Map />
   </p>
 </template>

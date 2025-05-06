@@ -25,6 +25,6 @@ export default {
   }
   .HTL_Logo{
       position: absolute;
-      margin-left: 777px;
+      margin-left: 755px;
     }
 </style> 
