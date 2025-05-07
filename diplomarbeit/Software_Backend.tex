@@ -182,6 +182,13 @@ und erlauben den zwei blinden Bots Tamerlan \& Bambi, dem Guide zu folgen.
 \section{Aktueller Stand}
 \label{subsec:backend_aktueller_stand}
 \initials{JS}
+
+\begin{figure}[H]
+    \includegraphics[width=0.7\textwidth, center]{img/Backend/backend-aktuell.png}
+    \caption{Backend Aktuell}
+    \label{fig:backend_konzept}
+\end{figure}
+
 % Womöglich Teile zu Ergebnisse verschieben?
 Zum Zeitpunkt dieser Diplomarbeitsabgabe 
 sind nicht alle geplanten Features für das Backend implementiert,
@@ -292,6 +299,12 @@ diese mit einem einzelnen Befehl ins Sende-Format konvertiert und umgekehrt.
 % und alle Informationen hauptsächlich von der Anleitungen zu Wünschen übrig lässt.
 % Ich hatte einfach ein wenig probleme es anfänglich zu kapieren aber ging schnell
 
+\subsubsection{pygame}
+\initials{JS}
+Dieses Paket wird ausschließlich für die manuelle Steuerung verwendet.
+Hauptsächlich wird es zum Entwickeln von Spielen in Python genutzt,
+doch in diesem Projekt dient es der einfachen Konfiguration von Controllern.
+
 \subsection{Kommunikation - test\_server\_passby.py}
 \initials{JS}
 In diesem Abschnitt wird über die Kommunikation 
@@ -351,13 +364,20 @@ dies geschieht, indem sie mit dem 'await' Befehl freiwillig die Kontrolle abgebe
 wenn sie auf etwas warten, z.B. dass Daten vom Websocket ankommen.
 Während dessen wird der Event Loop andere Task durchführen, 
 solange der erste Task wartet.
-% 
+
 Im Gegensatz zu üblichem Multitasking,
 wo jeder Task eine feste Zeit vom Betriebssystem zugeschrieben bekommt, 
 und es entscheidet, wenn ein Task an der Reihe ist.
 % 
 Der Größte Unterschied jedoch ist das asyncio Tasks sich alle einen Thread teilen,
-dies bedeutet das Asyncio Programme auf einen Kern limitiert sind.
+dies bedeutet das Asyncio Programme auf einen einzelnen Kern limitiert sind.
+% 
+Während threading z.B. viel mehr CPU-Overhead besitzt, 
+weil es auf mehreren Threads laufen kann, 
+bringt es auch eigene Herausforderungen mit.
+% 
+Davon können wir jedoch bei derzeit nur 4 Teilnehmern nicht profitieren.
+Deshalb haben wir uns für die Effizienz und Skalierbarkeit von asyncio entschieden.
 
 % TODO Womöglich weiter beschreiben, wie asyncio genau funktioniert?
 % Frag ob das so passt jetzt?
@@ -398,6 +418,9 @@ um im Laufe des Projekts ins Frontend integriert oder neu implementiert wird.
 % TODO
 \subsubsection{Controller Steuerung}
 \initials{JS}
+Dafür wird das Paket pygame verwendet,
+das für die Verbindung mit den Controllern verantwortlich ist,
+unabhängig davon, ob sie verkabelt oder über Bluetooth verbunden sind.
 
 \subsubsection{Begrenzung Änderungsrate}
 \initials{JS}
