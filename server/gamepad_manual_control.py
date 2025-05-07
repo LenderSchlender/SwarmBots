@@ -1,3 +1,4 @@
+"sends steer and speed commands to the server, via the analog joystick from a gamepad"
 import time
 import asyncio
 import pygame

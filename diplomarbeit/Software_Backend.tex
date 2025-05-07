@@ -292,43 +292,47 @@ diese mit einem einzelnen Befehl ins Sende-Format konvertiert und umgekehrt.
 % und alle Informationen hauptsächlich von der Anleitungen zu Wünschen übrig lässt.
 % Ich hatte einfach ein wenig probleme es anfänglich zu kapieren aber ging schnell
 
-\subsection{Prototyp Kommunikation - test\_server\_passby.py}
+\subsection{Kommunikation - test\_server\_passby.py}
 \initials{JS}
-In diesem Abschnitt wird über den zu zeitigen Prototyp der Kommunikation 
+In diesem Abschnitt wird über die Kommunikation 
 und bestimmte technischen Implementierungen angesprochen.
 
-Der Prototyp hat die Funktion, zwei Typen von Verbindungen zu bearbeiten.
+Der Prototyp hat die Funktion, zwei Typen von Verbindungen zu bearbeiten: \\
+%
+1. Die der Bots, welche als Server agieren; 
+das bedeutet, 
+dass sich dieser Backend-Server mit den drei Robotern verbinden muss, 
+während das Frontend standardmäßig als Client fungiert. 
+Das heißt, dass die Clients eine Verbindung mit dem Backend Server herstellen. \\
 % 
-Einerseits die der Bots, welche als Server agieren, 
-dies Bedeuten, dass dieser Backend Server muss sich mit den drei Robotern verbinden.
-Während das Frontend standardmäßig als Client fungiert, 
-dies Bedeutet, dass die Clients eine Verbindung mit dem Backend Server herstellen.
-% 
-Andererseits die Verbindung mit dem Frontend, 
+2. Die Verbindung mit dem Frontend, 
 welche vom Server für einkommende Verbindungen bereitgestellt werden muss.
 % 
 Die Daten, die von der jeweiligen Seite kommen, 
-werden zurzeit zur gegenseitigen Stelle weitergeleitet.
+werden zurzeit zur anderen Stelle weitergeleitet.
 
 Dementsprechend ist die Kommunikation auf zwei Tasks aufgeteilt,
 die des Frontends und die der Roboter.
+% 
 Beide Tasks starten einen weiteren Subtask, welcher nebenbei laufen wird, 
-dieser hat entsprechend die Aufgabe, solange die Websocket Verbindung offen ist,
-die ankommenden Pakete erwartet und diese entsprechend in eine Queue Puffer ablegt, 
+dieser hat entsprechend die Aufgabe, 
+solange die Websocket Verbindung offen ist,
+die ankommenden Pakete zu erwarten 
+und diese entsprechend in eine Queue Puffer abzulegen, 
 um weiter verarbeitet zu werden. 
 
 Beide Tasks verarbeiten die Queues, 
 in denen eine bestimmte Anzahl der Elemente im Puffer 
 einzeln geholt und die Protobuf Wrapper verarbeitet werden.
 % 
-Im zum zeitigen Prototyp werden die Daten in die Konsole ausgegeben,
+Im derzeitigen Prototyp werden die Daten in die Konsole ausgegeben,
 und zur Sendung der Gegenseite in eine weitere Queue 
 für einen beliebigen Roboter bereitgestellt, 
-oder im Fall beim zum zeitigen Roboter-Handler 
+oder im Code des derzeitigen Roboter-Handler 
 an alle verbundenen Frontends gesendet.
 % 
-Dies symbolisiert in den nächsten Iterationen die Weitergabe 
-in die Datenbank und Datenverarbeitung.
+Dies ist eine Vorbereitung auf die nächsten Iterationen 
+(Weitergabe in die Datenbank und Datenverarbeitung).
 
 % übersichtsgrafik über teilnehmer und wie datenablauf funktioniert
 % asyncio - warum
@@ -338,26 +342,36 @@ in die Datenbank und Datenverarbeitung.
 \subsubsection{asyncio}
 \initials{JS}
 % erklärung zu asyncio
-Um mehrere separate Tasks auszuführen wurde Asyncio,
-die eingebaute Implementierung von Koroutinen in Python verwendet.
+Um mehrere separate Tasks auszuführen, wurde asyncio,
+die eingebaute Implementierung von Koroutinen in Python, verwendet.
 % 
-Asyncio funktioniert, indem Tasks sich den Event Loop nehmen und mit dem 'await' 
-Befehl anderen Tasks erlaubt, sich den Event Loop zu nehmen, 
-im Vergleich zu üblichem Multitasking,
-wo jeder Task eine feste Zeit vom Betriebssystem zugeschrieben bekommt.
+Asyncio funktioniert, 
+indem Tasks sich die gleiche CPU-Zeit teilen über den Event Loop,
+dies geschieht, indem sie mit dem 'await' Befehl freiwillig die Kontrolle abgeben,
+wenn sie auf etwas warten, z.B. dass Daten vom Websocket ankommen.
+Während dessen wird der Event Loop andere Task durchführen, 
+solange der erste Task wartet.
+% 
+Im Gegensatz zu üblichem Multitasking,
+wo jeder Task eine feste Zeit vom Betriebssystem zugeschrieben bekommt, 
+und es entscheidet, wenn ein Task an der Reihe ist.
+% 
+Der Größte Unterschied jedoch ist das asyncio Tasks sich alle einen Thread teilen,
+dies bedeutet das Asyncio Programme auf einen Kern limitiert sind.
 
-TODO Womöglich weiter beschreiben, wie asyncio genau funktioniert?
+% TODO Womöglich weiter beschreiben, wie asyncio genau funktioniert?
+% Frag ob das so passt jetzt?
 
 \subsubsection{Queue Buffers}
 \initials{JS}
 % FIFO Queues
 % Wichtigkeit nicht blockierendes verhalten um asynchrones workflow zu gewährleisten
-Damit die Prozesse im Backend nicht gezwungen sind, immer zu bearbeiten, 
-wenn und falls Einkommen Nachrichten zu bearbeiten sind, 
-wird der Empfang von Websockets abgekoppelt von der backend Logik.
-Dafür wurden Queues, realisiert als FIFO, verwendet, also ein zwischen speicher, 
+Damit keine Nachrichten verloren gehen, 
+weil die adressierten Prozesse gerade nicht aktiv sind,  
+wird der Empfang von Websockets abgekoppelt von der Backend-Logik.
+Dafür werden Queues, realisiert als FIFO, verwendet, also ein Zwischenspeicher, 
 wo die erhaltenen Daten von den Websockets landen, 
-um dann entsprechen weiter zu bearbeiten.
+um dann später weiterverarbeitet zu werden.
 % 
 Somit können wir einen Prozess starten, 
 welcher auf eingehende Nachrichten warten kann,
@@ -368,65 +382,94 @@ während unser Backend andere Prozesse ausführt.
 
 \subsection{Prototyp manuelle Steuerung}
 \initials{JS}
-Die Prototyp Steuerung soll einem Bediener erlauben, manuell den Bot zu steuern,
-indem wir mit einer Eingabe bewegen können. 
+Die Steuerung soll einem Bediener erlauben, manuell die Bots zu steuern. 
 % 
 Dafür verwenden wir einen Controller, 
-aufgrund dessen, dass wir bereits im Vorgängerprojekt
-eine Form solcher Steuerung realisiert haben. 
+weil wir bereits im Vorgängerprojekt
+eine solche Steuerung realisiert haben. 
 Deshalb ist ein Großteil der Arbeit hier die Anpassung an das neue Datenformat, 
 Verwendung neuer Websocket Pakete und Modifizierung der Berechnungen.
 % 
-Anfänglich ist geplant, es als einzelnes Skript zu realisieren, 
-welches den Platz des Frontends nimmt, 
-und im Laufe des Projekts ins Frontend integriert oder neu implementiert wird.
+Es ist geplant, dies zuerst als einzelnes Skript zu realisieren, 
+welches den Platz des Frontends einnimmt, 
+um im Laufe des Projekts ins Frontend integriert oder neu implementiert wird.
 
 % TODO aktualisiere dies entsprechend
-Zum Zeitpunkt des Schreibens dieses Abschnitt der Diplomarbeit 
-ist dies mitten in der Bearbeitung.
 % TODO
-\subsubsection{Vorgänger Code}
+\subsubsection{Controller Steuerung}
 \initials{JS}
-Erklärung, was der alte Code alles macht.
-\subsubsection{Anpassung}
+
+\subsubsection{Begrenzung Änderungsrate}
 \initials{JS}
-Wie es angepasst wurde.
+Ein zusätzlicher Teil der Steuerung ist die Begrenzung der Änderungsrate, 
+die unabhängig von der Laufzeit des Codes arbeitet.
+% 
+Diese wurde implementiert, weil zu starke Sprünge der Werte in der Motorsteuerung 
+im Vorgängerprojekt die Motorsteuerung überlasteten.
+% 
+Im aktuellen Projekt sorgt sie nun für ein sanfteres Verhalten für den Benutzer 
+und eine bessere Balancierung.
+\begin{lstlisting}[language=python, gobble=4]
+    max_expected_change = int(2147483647*0.75)  # per second based on +-
+
+    def change_dampening(current_value, past_value,
+                     current_time, past_time,
+                     max_expected_change):
+    # used for limiting the maximum rate of change in the detected time window
+    delta_t = current_time - past_time
+
+    relativevalue_change = (current_value - past_value)/(delta_t)
+    relativeexpected_change = (max_expected_change/(delta_t))
+
+    if (relativevalue_change) > relativeexpected_change:
+        # catches exceeded positive change
+        past_value = past_value + relativeexpected_change * delta_t
+        past_time = current_time
+    elif (relativevalue_change) < -relativeexpected_change:
+        # catches exceeded negative change
+        past_value = past_value - relativeexpected_change * delta_t
+        past_time = current_time
+    else:
+        # passes value through
+        past_value = current_value
+
+    return past_value, past_time
+\end{lstlisting}
 
 \subsection{Konsolen Ausgabe}
 \initials{JS}
 % siehe print_wrapper_content.py
 Der Skript \texttt{print\_wrapper\_content.py} hat die simple Funktion, 
 die Daten von einem Protobuf Wrapper in die Konsole auszugeben, 
-in eine einfache Menschlich lesbare Struktur. 
+in einer für User lesbaren Struktur. 
 Hauptsächlich genutzt für Debug und Entwicklungsschritte.
 
 \begin{figure}[H]
     \includegraphics[width=0.5\textwidth, center]{img/Backend/print_wrapper_all.png}
-    \caption{Python - Protobuf Konsolen Ausgabe}
+    \caption{Python - Protobuf Konsolenausgabe}
     \label{fig:py_konsole_o}
 \end{figure}
 
-In Zukunft kann dies durch die Datenbank oder ein CSV Log abgelöst werden 
-und somit auch bessere Systeme implementiert werden.
+In Zukunft kann dies durch die Datenbank oder ein CSV Log abgelöst werden.
 % 
-Diese könnten automatisch für sonderbare Änderungen suchen 
+Diese könnten automatisch nach Auffälligkeiten suchen 
 und entsprechend melden und in einem Log abspeichern.
 
-\section{Protobuf Generierung}
-\initials{JS}
-% TODO
-Zurzeit nicht implementiert.
+% \section{Protobuf Generierung}
+% \initials{JS}
+% % TODO
+% Zurzeit nicht implementiert.
 
-Ein kleines Skript, welcher die Protobuff Dateien generiert
-und die Imports richtig setzt. 
+% Ein kleines Skript, welcher die Protobuff Dateien generiert
+% und die Imports richtig setzt. 
 
-\section{Konfiguration Datei}
-\initials{JS}
-% TODO 
-Zurzeit nicht implementiert.
+% \section{Konfiguration Datei}
+% \initials{JS}
+% % TODO 
+% Zurzeit nicht implementiert.
 
-Bestimmte Konfigurationen wie die Roboter Adressen 
-sollten in einer eigenen Konfigurations Datei landen und nicht im Code gesetzt sein.
+% Bestimmte Konfigurationen wie die Roboter Adressen 
+% sollten in einer eigenen Konfigurations Datei landen und nicht im Code gesetzt sein.
 
 
 \subsection{Optimierungsmöglichkeiten}
@@ -436,28 +479,28 @@ sollten in einer eigenen Konfigurations Datei landen und nicht im Code gesetzt s
 \initials{JS}
 % uvloop - drop in replacement
 % https://github.com/MagicStack/uvloop
-uvloop ist ein schneller drop-in Ersetzung von der eingebauten asyncio Event Loop, 
-dieser ist entsprechend in Cython entwickelt 
-(Cython ist entsprechend Python, aber als Performanten C code compiliert).
+uvloop ist ein schneller Drop-in-Ersatz für die in asyncio integrierte Event-Loop. 
+Dieser ist entsprechend in Cython entwickelt 
+(Cython ist eigentlich Python, aber als Performanten C code compiliert).
 Ziel dieser Ersetzung ist es, asyncio um einiges schneller zu machen, 
-aber nicht von der Referenz verhalten von asyncio abzuweichen. 
-Als drop-in Ersetzung geht dies so weit, 
+aber nicht von dem in asyncio gegebenen Verhalten abzuweichen. 
+Als drop-in Ersatz geht dies so weit, 
 dass die Abweichungen als Fehler kategorisiert werden.
 % 
 Während der Prototyp Phase dieses Projekts 
-ist man auf der Standard Implementierung geblieben, aufgrund Stabilität
-und weil uvloop bis später im Projekt unbekannt geblieben ist.
+sind wir bei der Standard Implementierung geblieben, 
+weil wir erst später im Projekt von uvloop erfahren haben.
 In Zukunft wird jedoch eine Implementierung in Betracht gezogen,
-aufgrund der vorhin genannten Eigenschaften.
-% 
-Insbesondere, wenn die nachfolgenden Projekte weiter skalieren.
+aufgrund der vorhin genannten Eigenschaften,
+insbesondere, wenn die nachfolgenden Projekte weiter skalieren.
 
 % compelierung python code
 \subsubsection{Kompilierung}
 \initials{JS}
 Es ist möglich, Python Code genauso wie jedes andere Programm zu kompilieren,
 jedoch ist dies standardmäßig nicht nötig, 
-da der Interpreter Cpython automatisch Python byte code kompeliert (in PYC Dateien).
+da der Interpreter CPython (die Implementierung von der Python Programmiersprache) 
+automatisch Python quell code zu byte code kompiliert (in PYC Dateien).
 Das prekompilieren wird hauptsächlich dafür verwendet, 
 um die Startzeit zu verringern 
 und um den Code für die gewählte Platform einfacher zu verteilen,
@@ -465,23 +508,24 @@ weil man keine weiteren Pakete installieren muss,
 sondern nur die PYC Datei allein genügt.
 % Dies ist jedoch für dieses Projekt irrelevant.
 
-\subsection{threading vs asyncio}
-\initials{JS}
-% TODO threading warum nicht streng nötig 
-% (hauptsächlich limitiert über Wifi I/O nicht anzahl an geräten & )
-% falls anzahl größer wird dann villeicht
-Unsicher, ob dieser abschnitt nötig ist.
+% \subsection{threading vs asyncio}
+% \initials{JS}
+% % TODO threading warum nicht streng nötig 
+% % (hauptsächlich limitiert über Wifi I/O nicht anzahl an geräten & )
+% % falls anzahl größer wird dann villeicht
+% Eine andere Option um separate Task auszuführen ist die threading Implementierung.
+% Diese erlaubt, dass ein Programm auf mehreren Threads ausgeführt werden kann. 
 
 \section{Probleme}
 \initials{JS}
 \subsection{Linux Modifikationen}
 \initials{JS}
 Es kam das Problem auf, 
-dass die lokale IP suche auf Linux Ubuntu nicht funktionierte.
-Dies lag daran, dass die vorherige Variante, 
-welche mithilfe der Domain Name auf die lokale IP-Adresse findig wurde.
-Jedoch wurde auf Linux eine andere Adresse zurückgeliefert, 
-zwar die Loopback-Adresse \texttt{127.0.1.1}. 
+dass die lokale IP-Suche auf Linux Ubuntu nicht funktioniert.
+Dies lag daran, 
+dass die vorherige Variante mithilfe des Domain-Namens die lokale IP-Adresse findet.
+In Linux wird jedoch eine andere Adresse zurückgeliefert, 
+und zwar die Loopback-Adresse \texttt{127.0.1.1}. 
 Diese Adresse wird verwendet, um dem \texttt{host\_name} eine Adresse zuzuweisen,
 im Falle, dass kein Netzwerk vorhanden ist. 
 Sonst kann eine permanente IP-Adresse hier zugewiesen werden.
@@ -489,7 +533,7 @@ Sonst kann eine permanente IP-Adresse hier zugewiesen werden.
 % /what-is-difference-between-localhost-address-127-0-0-1-and-127-0-1-1
 
 Als Lösung öffnet das Programm temporär ein Socket 
-und findet mit dieser die lokale IP-Adresse, und dadurch Plattform unabhängig.
+und findet mit diesem die lokale IP-Adresse, wodurch es plattformunabhängig wird.
 \begin{lstlisting}[language=python, gobble=4]
     import socket
 
@@ -511,40 +555,38 @@ und findet mit dieser die lokale IP-Adresse, und dadurch Plattform unabhängig.
     return IP
 \end{lstlisting}
 
-\subsection{Potenzielles blockierendes verhalten}
+\subsection{Potenzielles blockierendes Verhalten}
 \initials{JS}
 % bot_handler und server nicht separat gestartet werden.
-Obwohl die Kommunikation in hauptsächlich zwei Teile aufgeteilt ist, 
+Obwohl die Kommunikation in zwei Teile aufgeteilt ist, 
 mit Bot-Handler und Server, 
 jedoch werden sie zu diesem Zeitpunkt gesammelt und gemeinsam gestartet.
-Dies führt zu einer womöglich ungewollten Konsequenz,
+Dies führt zu einer ungewollten Konsequenz,
 dass, falls der Bot-Handler sich frühzeitig oder ungewollt beendet, 
-nicht neu gestartet wird, bis sich einen neuer Client verbindet.
+nicht neu gestartet wird, bis sich ein neuer Client verbindet.
 % 
 Da jedoch für diese Diplomarbeit zu erwarten ist, 
 dass die Bots stets zur Verfügung stehen sollten,
-wird der Prozess, bei einer geschlossenen Verbindung,
-für eine gewisse Zeit pausiert, bevor ein neuer Verbindungsversuch gestartet wird.
+wird der Prozess, bei einer geschlossenen Verbindung für eine gewisse Zeit pausiert,
+bevor ein neuer Verbindungsversuch gestartet wird.
 
 In den nächsten Iterationen sollten jedoch 
 die zwei Aufträge unabhängig gestartet werden können, 
-um die Situation zu vermeiden, 
+um zu vermeiden, 
 dass die ganze Kommunikation neu gestartet werden muss.
 
 \subsection{Protobuf Generierung}
 \initials{JS}
 % siehe server/README.md
 % verlege zu Backend probleme?
-Während des migrieren vom Vorentwicklungsordner, 
-aufgrund dessen, dass es noch nicht klar war, wie mit Protobuf 
-und der neuen Websocket Implementation zu hantieren ist, 
+Während der Migration vom Vorentwicklungsordner, 
 wurde für eine gewisse Zeit in einem Testordner experimentiert.
-Dies führte dazu, dass der generierte Protobuf code nicht funktionierte,
-da der Wrapper nicht über den Unterordner Standort \text{protobuf/}, 
-der weiteren Protobuf-dateien informiert wurde.
-Da das Kompilieren der Protobuf Dateien für Python unabhängig vom Standort
-der Python Umgebung geschieht. 
-Wodurch die Importe im generierten \text{wrapper\_pb2.py}
+Dies führte dazu, dass der generierte Protobuf-Code nicht funktionierte,
+da der Wrapper nicht über den Unterordner Standort \text{protobuf} 
+der weiteren Protobuf-Dateien informiert wurde,
+da das Kompilieren der Protobuf-Dateien für Python unabhängig vom Standort
+der Python Umgebung geschieht, 
+wodurch die Importe im generierten \text{wrapper\_pb2.py}
 mit dem Ordner vorangestellt werden müssen.
 
 \begin{lstlisting}[language=python, gobble=4]
@@ -558,35 +600,36 @@ mit dem Ordner vorangestellt werden müssen.
 
 \section{Test Codes}
 \initials{JS}
-Es wurden weitere allgemeinere Test Codes geschrieben, 
-welche die Funktion dienten, die Kommunikationskanäle und Datenbearbeitung innerhalb 
+Es wurde auch Testcode geschrieben, 
+um die Kommunikationskanäle und Datenbearbeitung innerhalb 
 und außerhalb des Backends zu testen und gegebenenfalls 
-von anderen Teammitgliedern modifiziert.
+von anderen Teammitgliedern modifiziert zu werden.
 % 
-Aber auch für die Fehlersuche 
-und sind im Allgemeinen eine schnelle Option, 
+Aber auch für die Fehlersuche ist Testcode eine schnelle Option, 
 um die Kommunikation und Datentausch zu testen.
 
-Diese Codes haben große Ähnlichkeiten mit der Prototyp Kommunikation, 
+Dieser Code hat große Ähnlichkeiten mit der Prototyp Kommunikation, 
 deshalb wird in diesem Abschnitt hauptsächlich auf deren Nutzen eingegangen.
 
 \subsection{Einzelverbindung - Robot\_ws\_test.py}
 \initials{JS}
 Dieser Testcode ist verantwortlich, sich mit den Bots zu verbinden 
 und dessen Daten zu lesen.
-Es wurde mit einigen Konfigurationen erweitert und modifiziert 
-und wird im Laufe des Projekts angepasst, wenn nötig.
-Zurzeit wurde es bereits verwendet, um die Kommunikation zu testen, 
-die Bearbeitung von erhaltenen Daten vom Bot und generelle Fehler suche.
+Er wurde mit einigen Konfigurationen erweitert und modifiziert 
+und wird im Laufe des Projekts angepasst.
+Zurzeit wurde es bereits verwendet, 
+um die Kommunikation zu testen 
+für die Bearbeitung von erhaltenen Daten vom Bot 
+und für generelle Fehlersuche.
 
 \subsection{Client und Server}
 \initials{JS}
 Dazu gehören \texttt{test\_wrap\_client.py} (als das Frontend) 
 und \texttt{test\_wrap\_bot\_transceiver.py} (als die Bots).
-Diese sind einfache Codes, welche Client uns Server (Bots und Server) emuliert, 
-indem sich beide Protobuf Pakete zueinander schicken. 
-Diese dienen hauptsächlich zum Testen der Websocket Kommunikation 
-und auch zur Übung, wie Protobuf in Python zu verwenden sind, 
-und nehmen die Position des Frontends und Bots.
+Dies ist einfacher Code, welcher Client und Server (Bots und Server) emuliert, 
+indem sich beide Protobuf Pakete zuschicken. 
+Dieser Code dient hauptsächlich dem Testen der Websocket-Kommunikation 
+und auch zur Übung, wie Protobuf in Python zu verwenden ist, 
+und nimmt die Position des Frontends und Bots ein.
 Die zwei Senden und Empfangen die Protobuf Wrapper über die Backend Kommunikation 
 und geben diese in die Konsole aus.
