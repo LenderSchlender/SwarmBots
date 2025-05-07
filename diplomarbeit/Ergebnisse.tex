@@ -6,21 +6,31 @@ Der ursprüngliche Aufbau des Elegoo Tumbler wurde modifiziert, siehe \ref{subse
 Da durch den Austausch vom Arduino Nano zum ESP32 Nano und dem Einbau des LiDAR am Guide
 mehrere Modifikationen nötig waren,
 wie es auch im Abschnitt \ref{subsec:hardware_modifikationen} und \ref{sec:probleme} nachlesbar ist.
+
 \section{Software}
 
 \subsection{Roboter}
 \initials{LG}
-Die Software der Roboter wurde größtenteils fertiggestellt.
+Die Software der Roboter wurde,
+bis auf die Anwendung der Core-Bibliothek auf Tamerlan und Bambi,
+größtenteils fertiggestellt.
 %
 Die alte Core-Bibliothek von der Projektwoche 2023/24 (Abschnitt \ref{subec:robots_core})
 wurde erfolgreich auf die Verwendung mit dem Elegoo Tumbller modifiziert.
 %
 Die Kommunikation und Steuerung mittels Protocol Buffers,
 welche über WebSockets versendet werden,
-wurde auf Seiten der Roboter ebenfalls vollständig implementiert.
+wurde auf Seiten der Roboter ebenfalls implementiert.
+%
+Die Implementierung des Balancieren wurde nicht abgeschlossen.
+%
+Dementsprechend wurden die PID-Regler auch nicht dimensioniert.
 % TODO ist balancieren fertig geworden?
 %
-Die Steuerung der standardmäßig im Tumbller eingebauten LEDs wurde nicht fertiggestellt.
+Die Anwendung der Robota-Bibliothek auf Tamerlan und Bambi ist sich nicht mehr ausgegangen.
+%
+Das Bonusfeature zur Steuerung der standardmäßig im Tumbller eingebauten LEDs wurde nicht fertiggestellt.
+
 \subsection{Server}
 \initials{JS}
 Die Software des Backends ist größtenteils in der Entwicklung 
@@ -38,6 +48,7 @@ auf Seite \pageref{subsec:backend_aktueller_stand}.
 % Verschiebe teile zu Ergebnisse?
 % 
 % Wie ist das bereitstellen des Frontends über den Server geregelt? - JS
+
 \subsection{Frontend}
 \initials{AB}
 Der Code des Frontends ist nahezu vollständig implementiert.
@@ -52,7 +63,7 @@ Das Frontend hat eine Startseite, welche als Einführung in die Diplomarbeit die
 
 \subsection{Kameras}
 \initials{LG}
-Die (relativ simple) Software der ESP32-CAM Module (Abschnitt \ref{subsec:robots_cams})
-wurde wie geplant ausgearbeitet.
+Die Software der ESP32-CAM Module (Abschnitt \ref{subsec:robots_cams})
+wurde wie geplant ausgearbeitet und fertiggestellt.
 %
 Der Code dazu kann in Abschnitt \ref{lstsec:incl-cam} auf Seite \pageref{lstsec:incl-cam} gefunden werden.
