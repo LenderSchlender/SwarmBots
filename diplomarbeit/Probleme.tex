@@ -149,15 +149,10 @@ Mehr dazu siehe Abschnitt \ref{subsec:gestoert_boot}.
 \subsection{Gestörter Boot Prozess}
 \label{subsec:gestoert_boot}
 \initials{JS}
-In unseren nächsten Test nachdem wir das Bluetooth-Modul entfernt haben 
-und erfolgreich code laden konnten, verweigerte der ESP wieder den Programmierungprozess.
-% TODO Bild und erkläarung zu fehlersuche
-TODO
-
-Dieser Pin 13 welcher ursprünglich als Reset agierte war nun verantwortlich für GPIO0. 
-Jedoch sollte dies keine Probleme bescheren da der Pin offen liegt, weil der Schalter ein Schließer ist,
-und nach ESP ein internen Pull-up Widerstand am GPIO0 liegt, kamen es trotzdem zu Störungen.
-% https://docs.espressif.com/projects/esptool/en/latest/esp32/advanced-topics/boot-mode-selection.html#gpio0
-Daraufhin haben wir den Pin entfernt, um die Störungen komplett zu vermeiden. 
-Dies hatte die Folge das bei den Boards wo, die Bluetooth-Module noch nicht entfernt wurden,
-jetzt auch neu programmiert werden konnte, ohne jegliche Modifikationen zum Bluetooth-Modul.
+Nachdem wir den Pin 13 entfernt haben, 
+um die Störungen komplett zu vermeiden. 
+% 
+Hatte dies die Folge das bei den Boards wo, 
+die Bluetooth-Module noch nicht entfernt wurden,
+jetzt auch neu programmiert werden konnte,
+ohne jegliche Modifikationen an den Bluetooth-Modul.
