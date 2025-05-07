@@ -29,7 +29,6 @@ Dadurch wurden einige Modifikationen nötig, siehe Abschnitt \ref{subsec:hardwar
     \label{fig:elegoo_tumbller}
 \end{figure}
 
-% ETODO der ganze Absatz muss neu strukturiert werden????
 Wie in Abbildung \ref{fig:elegoo_tumbller} zu sehen ist,
 besteht der unmodifizierte Elegoo Tumbler aus einem Arduino Nano,
 der zur Steuerung des gesamten Roboters verwendet wird.
@@ -123,7 +122,7 @@ Siehe Abbildung \ref{fig:elegoo_tumbller_original_circuit} auf Seite \pageref{fi
 %
 \begin{sidewaysfigure}
     \includegraphics[width=\textwidth, center]{img/elegoo_tumbller_original_circuit.pdf}
-    \caption{Originaler Schaltplan des Tumbllers (ETODO: neu zeichnen)}
+    \caption{Originaler Schaltplan des Tumbllers }
     \label{fig:elegoo_tumbller_original_circuit}
 \end{sidewaysfigure}
 %
@@ -273,7 +272,7 @@ Es gibt einen integrierten Übertemperatur- und Kurzschlussschutz.
 \initials{MS}
 Das HC-06 ist ein Bluetooth-Modul \cite{hc06-datasheet},
 das es ermöglicht,
-mittels Bluetooth Daten zu übertragen.
+mittels des Bluetooth-Standards Daten zu übertragen.
 %
 Wie in Abbildung \ref{fig:hc06} zu sehen ist,
 ist das Modul sehr kompakt aufgebaut.
@@ -285,20 +284,15 @@ ist das Modul sehr kompakt aufgebaut.
     \caption{HC-06 Bluetooth-Modul}
     \label{fig:hc06}
 \end{figure}
-Das Bluetooth Modul wird mit einer Betriebsspannung von 3,3V betrieben.
-Als Kommunikationsmethode verwendet es UART 
-(UART (Universal Asynchronous Receiver Transmitter) ist eine serielle Schnittstelle,
-die Daten bitweise und ohne Taktsignal zwischen zwei Geräten über nur zwei Leitungen (TX und RX) überträgt.).
-%
-Die Version, die es unterschütz ist, Bluetooth 2.0 + EDR, es hat eine Reichweite von bis zu ca. 10m und hat eine Datenrate von bis zu 2,1 Mbps.
-%
-Als Funkfrequenz verwendet es sdas 2,4 GHz Band, die Sicherheitsfunktion,
-die man einschalten kann, erfordert es einen Pin-Code vor der Verbindung einzugeben.
-%
-Das HC-06 ferfügt nur über den Slave-Modus.
-%
-(Der Slave-Modus bedeutet, dass ein Gerät keine Verbindung selbst starten kann,
-sondern nur auf Verbindungsanfragen von anderen Geräten wartet und dann darauf reagiert.)
+Das Bluetooth-Modul wurde mit einer Betriebsspannung von 3,3V betrieben. Als Kommunikationsmethode verwendete es UART.
+UART (Universal Asynchronous Receiver Transmitter) ist eine serielle Schnittstelle, die Daten bitweise und ohne Taktsignal zwischen zwei Geräten über nur zwei Leitungen (TX und RX) überträgt.
+
+Unterstützt wurde Bluetooth 2.0 + EDR. Das Modul hatte eine Reichweite von bis zu ca. 10m und eine Datenrate von bis zu 2,1Mbps. Es nutzte das 2,4GHz-Funkband. Zur Sicherheit konnte eine Funktion aktiviert werden, bei der vor der Verbindung ein PIN-Code eingegeben werden musste.
+
+Das HC-06 Modul war nur im sogenannten Slave-Modus nutzbar.
+(Der Slave-Modus bedeutet, dass ein Gerät keine Verbindung selbst starten kann, sondern nur auf Verbindungsanfragen von anderen Geräten wartet und dann darauf reagiert.)
+
+Im aktuellen Aufbau wurde das Bluetooth-Modul jedoch vollständig entfernt. Die Kommunikation erfolgt nun ausschließlich über andere Schnittstellen, da Bluetooth in der späteren Entwicklung nicht mehr benötigt wurde.
 \subsubsection{Belegung}
 \initials{MS}
 \begin{table}[h]
@@ -327,9 +321,7 @@ und es besteht eine höhere Störanfälligkeit als bei modernen Standards.
 %
 \subsubsection{Allgemein}
 \initials{MS}
-Der Arduino Nano ist einer der kleineren (ca. 18 x 45 mm) uC (Mikrocontroller) \cite{arduino-nano},
-dieser wurde verwendet, um alle elektronischen Bauteile im Tumbler zu steuern.
-%
+Der Arduino Nano ist einer der kleineren (ca. 18 x 45 mm) uC (Mikrocontroller) [1], dieser wurde verwendet, um alle elektronischen Bauteile im Tumbler zu steuern. Wie in Abbildung 4.7 zu sehen ist, wird der Arduino Nano direkt auf der PCB eingesteckt und bildet die zentrale Steuerungseinheit des Roboters. In der finalen Version wurde der Arduino Nano jedoch durch den ESP32 Nano ersetzt. Beide Mikrocontroller haben sehr ähnliche Grundfunktionen, jedoch bietet der ESP32 Nano einige Erweiterungen und kleine Unterschiede, wie man in Kapitel 4.3. Modifikationen/Austausch des Mikrocontrollers sehen kann.%
 Wie in Abbildung \ref{fig:arduino_nano} zu sehen ist,
 wird der Arduino Nano direkt auf der PCB eingesteckt und bildet die zentrale Steuerungseinheit des Roboters.
 \subsubsection{Technische Daten}
@@ -340,49 +332,17 @@ wird der Arduino Nano direkt auf der PCB eingesteckt und bildet die zentrale Ste
     \caption{Arduino Nano Mikrocontroller}
     \label{fig:arduino_nano}
 \end{figure}
-Der Arduino Nano hat einen ATmega328P als Prozessor und eine Taktfrequenz von 16MHz.
-%
-Die Betriebsspannung beträgt 5V (Versorgungspannung über den Pin VIN 7V bis 12V). 
-Er besitzt 14 Digitale i/O Pins (Input/Output),
-wobei 6 davon PWM fähig sind.
-%
-Zudem besitz er 8 Analoge Pins und einen Flash-Speicher von 32KB (davon 2 KB für Bootloader). 
-%
-Der SRAM hat 2KB und das EEPROM 1KB. Die Schnittstellen, die er unterschützt, sind UART, I2C, SPI.
-%
-UART (Universal Asynchronous Receiver Transmitter)
-UART ist eine serielle Schnittstelle, die Daten bitweise über zwei Leitungen (TX für Senden und RX für Empfangen) überträgt.
-%
-Dabei wird kein Taktsignal verwendet -- beide Geräte müssen die gleiche Geschwindigkeit (Baudrate) eingestellt haben.
-%
-I2C (Inter-Integrated Circuit)
-I2C ist ein Kommunikationsprotokoll,
-das mehrere Geräte über nur zwei Leitungen verbindet:
-eine Datenleitung (SDA) und eine Taktleitung (SCL).
-%
-Ein Gerät ist der Master (Steuergerät), die anderen sind Slaves (empfangen Befehle).
-%
-SPI (Serial Peripheral Interface)
-SPI ist eine serielle Schnittstelle für den schnellen Datenaustausch zwischen einem Master und einem oder mehreren Slave-Geräten.
-%
-Es werden vier Leitungen verwendet:
-MOSI (Daten vom Master zum Slave),
-MISO (Daten vom Slave zum Master),
-SCK (Taktsignal)
-und SS (Slave Select, Auswahl des Geräts).
-\newpage
-\subsubsection{Belegung}
-\initials{MS}
-(ETODO Bild)
+Der Arduino Nano hat einen ATmega328P als Prozessor und eine Taktfrequenz von 16\,MHz. Die Betriebsspannung beträgt 5\,V (Versorgungsspannung über den Pin VIN 7\,V bis 12\,V). Er besitzt 14 digitale I/O Pins (Input/Output), wobei 6 davon PWM-fähig sind. Zudem besitzt er 8 analoge Pins und einen Flash-Speicher von 32\,KB (davon 2\,KB für den Bootloader). Der SRAM hat 2\,KB und das EEPROM 1\,KB. Die Schnittstellen, die er unterstützt, sind UART, I2C und SPI. Diese Schnittstellen werden auch vom ESP32 Nano unterstützt, der zusätzlich über integriertes WLAN und Bluetooth verfügt. Dadurch ergeben sich neue Möglichkeiten für drahtlose Kommunikation, während die grundlegenden Steuerfunktionen ähnlich geblieben sind. Weitere technische Unterschiede sind in Abschnitt 4.3 beschrieben.
+
+\textbf{Serielle Schnittstellen:}
+\begin{itemize}
+  \item \textbf{UART (Universal Asynchronous Receiver Transmitter):} Eine serielle Schnittstelle, die Daten bitweise über zwei Leitungen (TX für Senden und RX für Empfangen) überträgt. Dabei wird kein Taktsignal verwendet – beide Geräte müssen die gleiche Geschwindigkeit (Baudrate) eingestellt haben.
+  \item \textbf{I2C (Inter-Integrated Circuit):} Ein Kommunikationsprotokoll, das mehrere Geräte über nur zwei Leitungen verbindet: eine Datenleitung (SDA) und eine Taktleitung (SCL). Ein Gerät ist der Master (Steuergerät), die anderen sind Slaves (empfangen Befehle).
+  \item \textbf{SPI (Serial Peripheral Interface):} Eine serielle Schnittstelle für den schnellen Datenaustausch zwischen einem Master und einem oder mehreren Slave-Geräten. Es werden vier Leitungen verwendet: MOSI (Daten vom Master zum Slave), MISO (Daten vom Slave zum Master), SCK (Taktsignal) und SS (Slave Select, Auswahl des Geräts).
+\end{itemize}
 \subsubsection{Einschränkungen}
 \initials{MS}
-Der Arduino-Nano besitzt ein kleiner Speicher was ihn nicht geeignet macht für komplexen Programmen, die viel Speicher benötigen.
-%
-Zudem hat er nur einen 8-Bit-Prozessor, was ihn auch in der Rechenleistung stark begrenzt.
-%
-Außerdem hat er kein integriertes WLAN-Modul, 
-was es nur ermöglicht ihn  über Kabel oder Bluetooth zu verwenden.
-%
+Der Arduino Nano besitzt einen kleinen Speicher, was ihn nicht geeignet macht für komplexe Programme, die viel Speicher benötigen. Zudem hat er nur einen 8-Bit-Prozessor, was ihn auch in der Rechenleistung stark begrenzt. Außerdem hat er kein integriertes WLAN-Modul, was es nur ermöglicht, ihn über Kabel oder Bluetooth zu verwenden. Diese Einschränkungen führten letztendlich dazu, dass der Arduino Nano durch den ESP32 Nano ersetzt wurde. Der ESP32 Nano bietet mehr Speicher, einen stärkeren Prozessor und integrierte Funkmodule, bleibt aber in seinen Grundfunktionen dem Arduino Nano sehr ähnlich. Die Unterschiede zwischen den beiden Mikrocontrollern werden genauer in Kapitel 4.3 beschrieben.
 \subsection{SR04 (Ultraschallsensor)}
 \initials{MS}
 %
