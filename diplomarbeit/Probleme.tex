@@ -5,8 +5,7 @@
 \section{Docker}
 \label{subsec:probleme_docker}
 \initials{LG}
-%TODO wording?
-Am Laptop von Herr Gastgeber war es am Beginn des Schuljahres nicht möglich,
+Am Laptop von Herrn Gastgeber war es am Beginn des Schuljahres nicht möglich,
 jegliche Geräte im Netzwerk der HTL zu erreichen.
 %
 Grund dafür war eine Software namens Docker,
@@ -37,11 +36,10 @@ wie in Listing \ref{lst:docker_address_pools} konfiguriert.
 \label{subsec:problem_tumbbler_mods}
 \initials{LG}
 Als das Projekt geplant wurde,
-war die Idee,
-einfach ein fertiges Kit ein bisschen zu modifizieren,
-fast schon zu schön um wahr zu sein -- und das war es dann auch.
+war es die Idee,
+einfach ein fertiges Kit minimal zu modifizieren.
 %
-Bei den Hardware-Modifikationen am Tumbller (siehe Kapitel \ref{subsec:elegoo_tumbller}) gab es zwei relativ große Probleme:
+Bei den Hardware-Modifikationen am Tumbller (siehe Kapitel \ref{subsec:elegoo_tumbller}) gab es jedoch zwei relativ große Probleme:
 
 \subsection{Falsche Betriebsspannungen}
 \label{subsec:problem_betriebsspannungen}
@@ -61,7 +59,7 @@ Um nicht das ganze Projekt von Grund auf neu aufbauen zu müssen,
 wurde entschieden,
 dieses kleine optische Detail fürs Erste auszulassen.
 %
-%TODO schaltplan
+% ETODO schaltplan
 In der originalen Beschaltung (siehe Abbildung \ref{fig:elegoo_tumbller_original_circuit})
 wurde das Bluetooth-Modul mithilfe des Spannungswandlers \texttt{U3} mit 3.3V versorgt.
 %
@@ -69,18 +67,18 @@ Dieser Spannungswandler wurde ausgebaut und $V_{in}$ wurde mittels einer Lötbr�
 Allerdings erwies sich das Bluetooth Modul später als problematisch (siehe Abschnitt \ref{subsec:problem_bluetooth_serial}),
 weshalb die Überbrückung eigentlich nicht notwendig ist.
 \\\\
-Außerdem war es beim Guide-Roboter aufgrund des Wechsels auf 3.3V nicht mehr möglich,
-den LiDAR-Sensor direkt mit dem Spannungswandler des Mikrocontroller-Boards zu versorgen.
+Außerdem war es aufgrund des Wechsels auf 3.3V nicht mehr möglich,
+die ESP-CAMs (und beim Guide den LiDAR-Sensor)
+direkt mit dem Spannungswandler des Mikrocontroller-Boards zu versorgen.
 %
-% TODO die CAMs brauchen auch 5V
-Deshalb wurde in den Guide einen zusätzlichen Step-Down-Konverter eingebaut,
-welcher die Versorgungsspannung des Akkus auf 5V für den LiDAR herunterregelt.
+Deshalb wurden zusätzliche Step-Down-Konverter verbaut,
+welche die Versorgungsspannung des Akkus (2S Li-Ion, also eine Nominalspannung von 7,4V) auf 5V reguliert.
 \subsection{Blockierte UART-Schnittstelle}
 \label{subsec:problem_bluetooth_serial}
 \initials{LG}
-Als das Problem der inkompatiblen Spannungen gelöst,
+Als das Problem der inkompatiblen Spannungen gelöst
 und die erste Version des Programmes zum Testen der einzelnen Komponenten geschrieben war,
-%TODO Formulierung: "großes Problem" hab ich schon vorher verwendet
+%
 ist auch schon die nächste Hürde aufgekommen:
 %
 Das externe Bluetooth-Modul,
@@ -99,7 +97,7 @@ wurde die mitgelieferte Platine durch Entfernen des Bluetooth-Moduls weiter modi
 Außerdem wurde der Transistor \texttt{Q1} und der Spannungsteiler,
 welcher aus \texttt{R9} und \texttt{R10} besteht,
 entfernt, um sicherzustellen,
-das die UART-Verbindung keinesfalls beeinflusst wird
+dass die UART-Verbindung keinesfalls beeinflusst wird
 (siehe Original-Schaltplan in Abbildung \ref{fig:elegoo_tumbller_original_circuit}).
 %TODO Bilder und Erläuterung zu Entfernen des Bluetooth Moduls
 
@@ -108,9 +106,9 @@ das die UART-Verbindung keinesfalls beeinflusst wird
 % TODO muss überarbeitet werden?
 \label{subsec:arduino_to_esp32}
 \initials{JS}
-Der Wechsel zum ESP32 Nano lief nicht reibungslos wie erhofft da,
-obwohl der ESP von Arduino das "gleiche Gehäuse" verwendet 
-es jedoch zu einigen Unterschieden in den Pins kommt. 
+Der Wechsel zum ESP32 Nano lief nicht wie erhofft reibungslos ab:
+Obwohl das verwendete ESP32-Board den gleichen Formfaktor wie der Arduino Nano besitzt,
+gibt es einige kleine Unterschiede in der Pinbelegung.
 
 % TODO änder die pins aufs wichtige
 \begin{figure}[H]
