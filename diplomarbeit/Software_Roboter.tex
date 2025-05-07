@@ -98,7 +98,8 @@ Die Klasse \texttt{Robota}%
         welche standardmäßig von der Arduino IDE inkludiert wird,
         zu vermeiden.
         %
-        Seit dem Wechsel von der Arduino IDE auf PlatformIO stellt dieser potentielle Konflikt kein Problem mehr da}
+        Seit dem Wechsel von der Arduino IDE auf PlatformIO stellt dieser potentielle Konflikt kein Problem mehr da.
+        }
 ist für das Management der Module zuständig.
 %
 Hierzu gibt es drei Variablen, welche für die Funktion zentral sind:
@@ -109,7 +110,7 @@ Hierzu gibt es drei Variablen, welche für die Funktion zentral sind:
         % t is in microseconds: ((2^32) - 1) * (t * (10^-6)) / (60 * 60 * 24)
         Bei einer durchschnittlichen Zeit von ungefähr $t_{tick}=2700\mu s$ pro Tick reichen 32 Bits aus,
         um die Roboter für etwas mehr als $t_{overflow}=134$ Tage zu betreiben,
-        was für die Zwecke dieses Projekts mehr als ausreichend sein sollte.
+        was für die Zwecke dieses Projekts mehr als ausreichend ist.
         \begin{equation*}
             t_{overflow} = (2^{32}-1) * t_{tick}
         \end{equation*}
@@ -165,7 +166,7 @@ Ein Paket mit Sensordaten besteht (neben den oben beschriebenem Header, Info-Byt
 aus der Geschwindigkeit des Messkopfes,
 dem Startwinkel der Messung,
 12 Messpunkten,
-dem Endwinkel der Messung,
+dem Endwinkel der Messung
 und einem Zeitstempel.
 %
 Die Messpunkte bestehen nur aus der gemessenen Entfernung und Intensität;
@@ -273,7 +274,8 @@ war der Aufwand hierfür eher gering.
 Das \texttt{MPU6050}-Modul sorgt also lediglich dafür,
 dass die Werte nicht mehrmals pro Tick schnell hintereinander ausgelesen werden.
 %
-Erreicht wird das, indem ausgelesene Werte zwischengespeichert werden,
+Dies wird erreicht,
+indem ausgelesene Werte zwischengespeichert werden,
 bis der aktuelle Tick vorbei ist.
 %
 Werden die Werte also mehrmals pro Tick abgefragt,
@@ -294,9 +296,11 @@ Hierzu wird anstatt den standardmäßigen Arduino-Funktionen
 direkt die ESP32 \texttt{ledc}-API verwendet,
 um bestmögliche Konfigurationsoptionen zu erreichen \cite{esp32-ledc}. %TODO not sure if this sounds good
 %
-Es gibt es sowohl die Möglichkeit den Duty-Cycle direkt einzustellen,
-oder anhand der erwünschten Breite des Impulses (in Mikrosekunden) zu berechnen;
-dies ist insbesondere zum Einstellen vom Servomotoren nützlich.
+Es gibt sowohl die Möglichkeit,
+den Duty-Cycle direkt einzustellen als auch,
+ihn anhand der gewünschten Impulsbreite (in Mikrosekunden) zu berechnen.
+%
+Dies ist insbesondere beim Einstellen von Servomotoren nützlich.
 %
 Das Modul wählt automatisch den bestmöglichen PWM-Kanal:
 %
@@ -407,7 +411,7 @@ Die Zugangsdaten des Netzwerks können während dem Kompilieren
 als Umgebungsvariablen zur Verfügung gestellt werden.
 %
 In der HTL Ettenreichgasse wird das \texttt{IoT}-Netzwerk verwendet.
-% TODO 13:50
+%
 Im Konstruktor des Moduls wird es mit dem erwünschtem Hostnamen des Geräts
 und den Details zur Verbindung mit dem WLAN-Netzwerk (SSID/Passwort) versorgt.
 %
@@ -452,7 +456,7 @@ Die konkrete Anwendung in diesem Projekt beschränkt sich auf die Berechnung
 der Neigung der Roboter basierend auf den relativ ungenauen Messdaten des MPU6050.
 %
 Hierbei werden die Daten des Gyroskops mit denen des Accelerometers kombiniert,
-um eine möglichst genaue Schätzung des Neigungswinkel zu erreichen\cite{digikey-kalman}.
+um eine möglichst genaue Schätzung des Neigungswinkel zu erreichen \cite{digikey-kalman}.
 %
 Diese sogenannte Sensorfusion ermöglicht es,
 die Messfehler der beiden Sensoren auszugleichen,
@@ -474,7 +478,7 @@ Im Kontext der Tumbller werden PID-Regler an zwei Stellen eingesetzt:
 
 \subsubsection{Theorie}
 \initials{LG}
-Im Model des Standardregelkreises ist der PID-Regler,
+Im Modell des Standardregelkreises ist der PID-Regler,
 wie der Name schon impliziert,
 an der Position des Reglers einzusetzen.
 %
@@ -551,8 +555,7 @@ mit denen man den Regler einstellen kann,
 indem der Einfluss der jeweiligen Anteile
 auf das Ausgangssignal $u[k]$ variiert wird.
 %
-Diese drei Konstanten richtig zu wählen,
-ist notwendig,
+Diese drei Konstanten richtig zu wählen ist notwendig,
 damit der Regler optimal funktioniert.
 %
 Die Größe $\Delta t$ bezeichnet die Abtastzeit und wird zur zeitdiskreten

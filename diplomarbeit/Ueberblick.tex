@@ -13,7 +13,7 @@
 Zur Versionskontrolle der Software und der Dokumentation einschließlich des vorliegenden Textes
 (siehe Abschnitt \ref{subsec:latex}) wurde Git eingesetzt.
 %
-Das Repository ist auf GitHub, aber aktuell privat.
+Das Repository befindet sich auf GitHub und ist unter \url{https://github.com/LenderSchlender/SwarmBots} öffentlich zugänglich (Stand \today).
 
 \subsection{Syncthing}
 \initials{LG}
@@ -43,7 +43,8 @@ welche Version die ``richtige'' ist.
 Zur Bearbeitung der Quellcodes und der Diplomarbeit wird Visual Studio Code (auch VSC oder VSCode)
 in Kombination mit mit einigen Erweiterungen verwendet.
 %
-Nützlich ist für uns auch die Git-Integration zur Versionskontrolle.
+Erwähnenswert ist hierbei auch die in VSC eingebaute Git-Integration zur Versionskontrolle,
+welche keine zusätzliche Erweiterung benötigt.
 \begin{table}[H]
     \centering
     \begin{tabular}{r|l}
@@ -87,7 +88,7 @@ Weiters ist es möglich, mit LaTeX das Dokument in mehrere Dateien aufzuteilen,
 was das Ganze um einiges übersichtlicher macht.
 %
 Der größte Vorteil von LaTeX ist aber wohl,
-dass die Formatierung einheitlich für den Author übernommen wird,
+dass die Formatierung einheitlich für den Autor übernommen wird,
 sodass sich dieser besser auf den Inhalt konzentrieren kann.
 
 \section{Funktionsbeschreibung}
@@ -116,16 +117,16 @@ Sie sind komplett von Anweisungen des Backends abhängig.
 Das Backend ist das ``Gehirn'' des Projekts.
 %
 Es empfangt die LiDAR-Daten vom Guide,
-verarbeitet sie,
+verarbeitet sie
 und sendet Befehle an die Roboter.
 %
 Die LiDAR-Daten und die Ergebnisse der Verarbeitung werden auch
 über eine Websocket-Verbindung ans Frontend weitergeleitet.
 %
-Außerdem empfängt es die Sensordaten der Gyroskope und Accelerometer der Roboter,
+Außerdem empfängt es die Sensordaten der Gyroskope und Accelerometer der Roboter
 und gibt diese auch an das Frontend weiter. 
 %
-Gegebenenfalls empfängt das Backend auch Befehle vom Frontend, und leitet diese an die Roboter weiter.
+Gegebenenfalls empfängt das Backend auch Befehle vom Frontend und leitet diese an die Roboter weiter.
 
 \subsection{Frontend}
 \initials{LG}
@@ -137,7 +138,7 @@ auf der auch die Ergebnisse der Hinderniserkennung am Backend zu sehen ist.
 Die Daten der Gyroskope und Accelerometer werden in einem sich laufend aktualisierendem X/Y Diagramm dargestellt.
 %
 Zusätzlich gibt es im Frontend die Möglichkeit für Nutzer,
-einen oder mehrere Roboter auf manuelle Steuerung umzuschalten,
+einen oder mehrere Roboter auf manuelle Steuerung umzuschalten
 und diese(n) dann fernzusteuern.
 %
 Das Frontend ist eigentlich zum autonomen Betrieb nicht nötig,
@@ -263,9 +264,9 @@ ist es möglich, die Größe der Nachricht auf 51 Bytes zu reduzieren.
 Das ist immer noch mehr als fünf mal so viel wie mit Protocol Buffers.
 
 Der Unterschied in Nachrichtengröße ist stark von der Nachricht selbst abhängig;
-Bei größeren Nachrichten schrumpft der Overhead von JSON,
-und damit der ``Vorsprung'' von Protocol Buffers,
-allerdings sind Protocol Buffers jedenfalls effizienter als JSON.
+Bei größeren Nachrichten schrumpft der Overhead von JSON
+und damit der ``Vorsprung'' von Protocol Buffers --
+allerdings sind Protocol Buffers dennoch effizienter als JSON.
 %
 Zu beachten ist auch,
 dass bei JSON die Länge der Variablennamen einen Einfluss auf die Nachrichtengröße hat.
@@ -284,11 +285,11 @@ wurde auf die Vorteile von JSON verzichtet.
 
 \subsubsection{Datenstruktur}
 \initials{LG}
-Die jeweiligen Nachrichten (``Payloads')
+Die jeweiligen Nachrichten (``Payloads'')
 werden vom Nachrichtensender gemeinsam mit einer Sequenznummer in einem \texttt{Wrapper} verpackt,
 welcher dann über die WebSocket-Verbindung an den Nachrichtenempfänger übertragen wird.
 %
-Der Empfänger speichert immer die letzte empfangene Sequenznummer,
+Der Empfänger speichert immer die letzte empfangene Sequenznummer
 und verwirft Nachrichten,
 welche eine niedrigere Sequenznummer als die gespeicherte haben.
 %
