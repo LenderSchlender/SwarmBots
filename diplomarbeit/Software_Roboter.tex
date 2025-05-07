@@ -124,7 +124,7 @@ Hierzu gibt es drei Variablen, welche für die Funktion zentral sind:
         %
         Mit \texttt{addModule} können Einträge hinzugefügt werden.
 \end{itemize}
-%TODO: Robota funktionen; insb. init() und tick()
+%ETODO: Robota funktionen; insb. init() und tick()
 
 \subsection{Sensoren}
 \subsubsection{LD20 LiDAR}
@@ -294,7 +294,7 @@ um einen PWM-Ausgang anzusteuern.
 %
 Hierzu wird anstatt den standardmäßigen Arduino-Funktionen
 direkt die ESP32 \texttt{ledc}-API verwendet,
-um bestmögliche Konfigurationsoptionen zu erreichen \cite{esp32-ledc}. %TODO not sure if this sounds good
+um bestmögliche Konfigurationsoptionen zu erreichen \cite{esp32-ledc}.
 %
 Es gibt sowohl die Möglichkeit,
 den Duty-Cycle direkt einzustellen als auch,
@@ -333,7 +333,7 @@ Zur Berechnung der höchstmöglichen Auflösung $R_{max}$ wird $N=1$ gesetzt und
 %
 Zu beachten ist hierbei,
 dass alle Ergebnisse auf einen Maximalwert von 20 limitiert sind.
-% ^ TODO komische docs
+% ^ komische docs
 %
 Tatsächlich gibt es auch eine minimale Auflösung,
 wobei es ja immer möglich ist,
@@ -399,8 +399,9 @@ welcher mittels zwei \texttt{SingleMotorOutput}s die beiden Motoren kontrolliert
 %
 Als Führungsgröße wird hier zusätzlich die gewollte Geschwindigkeit und Auslenkung eingegeben,
 welche vom Server an die Roboter gesendet wird.
-
-TODO mehr Beschreibung 
+%
+Leider ist das Konzept des \texttt{BalanceController} zum Zeitpunkt der Abgabe dieser Diplomarbeit nicht vollständig ausgearbeitet,
+dementsprechend kann diese Beschreibung nicht auf die genauen Details der Implementierung eingehen.
 
 \subsection{Interfaces}
 \subsubsection{WiFiConnection}
@@ -463,7 +464,7 @@ die Messfehler der beiden Sensoren auszugleichen,
 um einen genauen Wert zu erreichen.
 %
 Der verwendete Code zum Kalman-Filter basiert auf einem modifiziertem Beispielcode von Kristian Lauszus \cite{lauszus}.
-% TODO maths?
+% no time for maths :(
 
 \subsection{PIDController}
 \initials{LG}
@@ -610,7 +611,10 @@ Anhand der Periode $T_{krit}$, mit der die Schwingung auftritt,
 und der Regelverstärkung $k_{krit}$, bei der die Schwingung auftritt,
 kann man dann den einen P-, PI- oder PID-Regler wie in Tabelle \ref{tab:ziegler_nichols} dimensioneren.
 %
-Hierzu wird 
+Die Periode $T_{krit}$ wird bestimmt, indem die Zeit zwischen zwei aufeinanderfolgenden Nulldurchgängen
+der Regelabweichung gemessen wird.
+%
+Dies lässt sich digital ziemlich einfach realisieren. 
 \begin{table}[H]
     \centering
     \begin{tabular}{c|c|c|c}
