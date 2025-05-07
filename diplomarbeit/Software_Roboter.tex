@@ -257,11 +257,11 @@ und ISRs\footnote{Interrupt Service Routines}
 nicht Mitglieder einer instanziierten Klasse sein dürfen (bzw. können),
 muss zur Verwendung des \texttt{RotaryEncoder}-Moduls eine globale Funktion erstellt werden,
 welche als ISR dient.
-% TODO: function identifiers?
-Diese Funktion soll einzig und allein \texttt{RotaryEncoder\#pulse()} aufrufen
-und mittels \texttt{RotaryEncoder\#attachISR()} mit dem Trigger-Pin des Drehgebers ``verbunden'' werden.
 %
-\texttt{RotaryEncoder\#pulse()} regelt die Erhöhung der Zähler für alle Kanäle.
+Diese Funktion soll einzig und allein \texttt{RotaryEncoder::pulse()} aufrufen
+und mittels \texttt{RotaryEncoder::attachISR()} mit dem Trigger-Pin des Drehgebers ``verbunden'' werden.
+%
+\texttt{RotaryEncoder::pulse()} regelt die Erhöhung der Zähler für alle Kanäle.
 %
 Beim Auslesen eines Kanals werden sowohl der Zeitstempel als auch der Zähler automatisch zurückgesetzt.
 
