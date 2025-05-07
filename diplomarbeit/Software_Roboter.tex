@@ -48,7 +48,7 @@ bis hin zum Umschalten der einzelnen Pins zur Ansteuerung der Motortreiber.
 Die Programmierung der einzelnen Roboter beschränkt sich also darauf,
 die einzelnen Komponenten zu konfigurieren und miteinander zu verbinden.
 %
-Da Herr Gastgeber während der Projektwoche 2023/24 (Siehe Abschnitt \ref{sec:vorgeschichte}) bereits viel Zeit darin investiert hat,
+Da während der Projektwoche 2023/24 (Siehe Abschnitt \ref{sec:vorgeschichte}) bereits viel Zeit darin investiert wurde,
 die Bibliothek so modular und wiederverwendbar wie möglich zu gestalten,
 konnte diese mit nur wenigen Modifikationen für diese Diplomarbeit genutzt werden,
 obwohl ein ganz anderer Hardwareaufbau verwendet wird.
@@ -57,7 +57,7 @@ obwohl ein ganz anderer Hardwareaufbau verwendet wird.
 \label{subsec:software_common_modules}
 \initials{LG}
 Wie schon erwähnt,
-wurde die Core-Bibliothek so modular wie nur möglich gestaltet,
+wurde die Core-Bibliothek möglichst modular gestaltet,
 um so viele Anwendungsfälle wie möglich abzudecken.
 %
 Jedes Modul implementiert eine der folgenden Klassen:
@@ -175,8 +175,8 @@ der Winkel muss bei der Auswertung der Daten berechnet werden.
 Bei allen Einträgen, die mehr als ein Byte beanspruchen,
 wird das niederwertigste Byte zuerst übertragen.
 %
-Das Protokoll ist also little-endian,
-was bedeutet, dass die Rohdaten direkt in den Arbeitsspeicher von z.B. einem Arduino oder ESP32 übernommen werden können.
+Das Protokoll ist also little-endian --
+dies bedeutet, dass die Rohdaten direkt in den Arbeitsspeicher von z.B. einem Arduino oder ESP32 übernommen werden können.
 \begin{table}[H]
     \centering
     \begin{tabular}{l|l|l}
@@ -562,7 +562,7 @@ Die Größe $\Delta t$ bezeichnet die Abtastzeit und wird zur zeitdiskreten
 Berechnung des Integral- und Differentialanteils benötigt.
 
 \subsubsection{Praxis}
-In C-Code implementiert schaut das dann wie folgt aus:
+In C-Code kann man das dann wie folgt implementieren:
 \begin{lstlisting}[caption={Implementierung des PID-Reglers in C},label=lst:pid]
 float PIDController::pid(float error, float dt) {
   static float integral, previous;
