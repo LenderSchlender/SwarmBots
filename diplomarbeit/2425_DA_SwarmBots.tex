@@ -169,21 +169,18 @@
 
 % toc customization
 \RedeclareSectionCommand[
-	% TODO not sure if this is nice
 	tocnumwidth=1.2cm
 ]{section}
 
 % if WIP (work in progress)
 \newif\ifwip
 
-% TODO comment out in final version:
-\wiptrue
+% comment out in final version:
+%\wiptrue
 
 % makes the provided initials appear on the page margin
 \newcommand{\initials}[1]{
-	\ifwip
-		\marginpar{\footnotesize\textcolor{red}{#1}}
-	\fi
+	\marginpar{\scriptsize{#1}}
 }
 
 \begin{document}	
