@@ -78,7 +78,7 @@ und ein schön geregeltes System für externe Bibliotheken.
 \initials{LG}
 Anstatt von WYSIWYG\footnote{What You See Is What You Get}-Editoren
 wie Microsoft Word oder LibreOffice Writer wird zum Erstellen dieser Diplomarbeit
-ein plattformunabhängiges Plaintext-Format namens \LaTeX \cite{latex} verwendet.
+ein plattformunabhängiges Plaintext-Format namens LaTeX \cite{latex} verwendet.
 % TODO not happy with wording above
 Eine LaTeX-Datei ist (ähnlich wie Markdown) einfach nur eine Textdatei mit zusätzlichen Befehlen.
 Deshalb ist es möglich, \texttt{.tex}-Dateien sehr gut mit Versionskontrollsoftware wie Git zu verwenden
@@ -90,6 +90,15 @@ was das Ganze um einiges übersichtlicher macht.
 Der größte Vorteil von LaTeX ist aber wohl,
 dass die Formatierung einheitlich für den Autor übernommen wird,
 sodass sich dieser besser auf den Inhalt konzentrieren kann.
+%
+In LaTeX wurden auch einige Makros definiert.
+%
+So wird der aktuelle Source-Code des Projekts automatisch direkt aus den
+jeweiligen Dateien inkludiert (Siehe Abschnitt \ref{lstsec:incl-latex} auf Seite \pageref{lstsec:incl-latex}).
+%
+Außerdem wurde ein Makro definiert,
+welches verwendet wird,
+um am Anfang eines (Unter-)Kapitels die Initialien des zuständigen Hauptautors anzugeben. 
 
 \section{Funktionsbeschreibung}
 \label{subsec:funktionsbeschreibung}
