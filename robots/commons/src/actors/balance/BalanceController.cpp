@@ -11,7 +11,7 @@ BalanceController::BalanceController(SingleMotorOutput *left, SingleMotorOutput 
 
 void BalanceController::init() {
   kalman.setAngle(0);
-  pidLeft.setWeights(2,0,0);
+  pidLeft.setWeights(1,0,0);
   targetSpeed = 1 / 3.75 * INT16_MAX;
 }
 
@@ -26,11 +26,9 @@ void BalanceController::tick() {
     double lOut = pidLeft.pid(targetRps - rpsL, rotL.time / 1000.0);
     Serial.printf("%f rps; lOut: %f", rpsL, lOut);
     lOut = min(1.0, max(-1.0, lOut));
-    left->setSpeed(-(INT16_MAX));
-    Serial.printf("; ss: %f\n", lOut * (INT16_MAX-1));
+    left->setSpeed((int16_t) (lOut * INT16_MAX));
+    //Serial.printf("; ss: %d\n", (int16_t) (lOut * INT16_MAX));
   }
-  //pidLeft.pid(0,0);
-  //Serial.printf("Angle: %f\n", angle);
 }
 
 // Heavily inspired by https://github.com/TKJElectronics/KalmanFilter/blob/master/examples/MPU6050/MPU6050.ino
