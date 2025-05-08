@@ -137,22 +137,99 @@ wird der Pin deaktiviert und sollte keine 5V von der USB Schnittstelle liefern k
 % Mehr dazu und der anderen Betriebsspannung ist in Abschnitt \ref{subsec:problem_betriebsspannungen} zu finden.
 
 Pin 13 sollte keine Probleme machen, da er zu einem offenen Schalter geht,
-der ursprünglich den \texttt{RESET} Pin betätigt hätte und sonst offen liegt. 
+der ursprünglich den \texttt{RESET} Pin betätigt hätte und sonst offen liegt.
+%
 Beim ESP32 würde der Schalter dafür sorgen, 
 dass entweder zum Boot Mode gewechselt werden kann, 
-oder zu gewöhnliche Operationen mit \texttt{GPIO0}. 
+oder zu gewöhnliche Operationen mit \texttt{GPIO0}.
+%
 Jedoch kam es zu Störungen an diesem Pin, 
-weshalb wir den Pin entfernt haben. 
-Mehr dazu siehe Abschnitt \ref{subsec:gestoert_boot}.
+weshalb die Verbindung getrennt wurde,
+in dem der Pin am Header ausgebaut wurde.
 
-
-\subsection{Gestörter Boot Prozess}
-\label{subsec:gestoert_boot}
+\subsection{Linux Modifikationen}
 \initials{JS}
-Nachdem wir den Pin 13 entfernt haben, 
-um die Störungen komplett zu vermeiden. 
+Es kam das Problem auf, 
+dass die lokale IP-Suche auf Linux-Systemen nicht funktioniert.
+%
+Dies lag daran,
+dass die vorherige Variante mithilfe des Domain-Namens die lokale IP-Adresse findet.
+%
+In Linux wird jedoch eine andere Adresse zurückgeliefert, 
+und zwar die Loopback-Adresse \texttt{127.0.1.1}.
+%
+Diese Adresse wird verwendet,
+um dem \texttt{host\_name} eine Adresse zuzuweisen,
+im Falle, dass kein Netzwerk vorhanden ist.
+%
+Ansonsten kann eine permanente IP-Adresse hier zugewiesen werden.
+% https://askubuntu.com/questions/754213
+% /what-is-difference-between-localhost-address-127-0-0-1-and-127-0-1-1
+
+Als Lösung öffnet das Programm temporär einen Socket 
+und findet mit diesem die lokale IP-Adresse,
+wodurch es plattformunabhängig wird.
+\begin{lstlisting}[language=python, gobble=4]
+    import socket
+
+    def get_local_ip():
+    """
+    opens a temporary socket connection and retrieves the local IP
+    """
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        # doesn't even have to be reachable
+        s.connect(('10.255.255.255', 1))
+        IP = str(s.getsockname()[0])
+    except Exception as b:
+        print("error at figuring out local ip")
+        print(b)
+        exit
+    finally:
+        s.close()
+    return IP
+\end{lstlisting}
+
+\subsection{Potenzielles blockierendes Verhalten}
+\initials{JS}
+% bot_handler und server nicht separat gestartet werden.
+Obwohl die Kommunikation in zwei Teile aufgeteilt ist, 
+mit Bot-Handler und Server, 
+werden sie zu diesem Zeitpunkt gemeinsam gestartet.
+%
+Dies führt zu der ungewollten Konsequenz, dass,
+falls der Bot-Handler sich frühzeitig oder ungewollt beendet,
+dieser nicht neu gestartet wird, bis sich ein neuer Client verbindet.
 % 
-Hatte dies die Folge das bei den Boards wo, 
-die Bluetooth-Module noch nicht entfernt wurden,
-jetzt auch neu programmiert werden konnte,
-ohne jegliche Modifikationen an den Bluetooth-Modul.
+Da jedoch für diese Diplomarbeit zu erwarten ist, 
+dass die Bots stets zur Verfügung stehen sollten,
+wird der Prozess bei einer geschlossenen Verbindung für eine gewisse Zeit pausiert,
+bevor ein neuer Verbindungsversuch gestartet wird.
+%
+In den nächsten Iterationen sollten jedoch 
+die zwei Aufträge unabhängig gestartet werden können, 
+um zu vermeiden,
+dass die ganze Kommunikation neu gestartet werden muss.
+
+\subsection{Protobuf Generierung}
+\initials{JS}
+% siehe server/README.md
+% verlege zu Backend probleme?
+Während der Migration vom Vorentwicklungsordner, 
+wurde für eine gewisse Zeit in einem Testordner experimentiert.
+%
+Dies führte dazu, dass der generierte Protobuf-Code nicht funktionierte,
+da der Wrapper nicht über den Unterordner Standort \text{protobuf} 
+der weiteren Protobuf-Dateien ``informiert'' wurde.
+Dies war der Fall da das Kompilieren der Protobuf-Dateien für Python unabhängig vom Standort
+der Python-Umgebung geschieht, 
+wodurch die Importe im generierten \text{wrapper\_pb2.py}
+mit dem Ordner vorangestellt werden müssen.
+
+\begin{lstlisting}[language=python, gobble=4]
+    import protobuf.move_cmd_pb2 as move__cmd__pb2
+    import protobuf.led_cmd_pb2 as led__cmd__pb2
+    import protobuf.lidar_data_pb2 as lidar__data__pb2
+    import protobuf.encoder_data_pb2 as encoder__data__pb2
+    import protobuf.imu_data_pb2 as imu__data__pb2
+\end{lstlisting}
