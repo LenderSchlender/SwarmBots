@@ -130,7 +130,9 @@ Siehe Abschnitt \ref{subsec:robots_cams} auf Seite \pageref{subsec:robots_cams}
 \label{lstsec:incl-server}
 Siehe Abschnitt \ref{sec:software_backend} auf Seite \pageref{sec:software_backend}.
 \newline
-\LstInputDirIgn{-path '../server/*.py' -not -path '../server/protobuf/*'}
+% Only include top-level files
+% Everything else is auto-generated
+\LstInputDirIgn{-path '../server/*' -not -path '../server/*/*'}
 
 \section{Frontend}
 \label{lstsec:incl-frontend}
