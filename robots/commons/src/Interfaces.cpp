@@ -119,7 +119,7 @@ void WebSocketControls::send(uint8_t *message, size_t len) {
 }
 
 void WebSocketControls::send(Wrapper *message) {
-  uint8_t buffer[100];
+  uint8_t buffer[2048];
   // prepare the stream for writing to the ws send buffer
   pb_ostream_t writeStream = pb_ostream_from_buffer(buffer, sizeof(buffer));
   // Write the message to the buffer
@@ -139,7 +139,6 @@ void WebSocketControls::send(Wrapper *message) {
   }
 
   memcpy(wsBuffer->get(), buffer, writeStream.bytes_written);
-  
   ws.binaryAll(wsBuffer);
 }
 

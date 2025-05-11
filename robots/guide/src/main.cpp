@@ -32,6 +32,10 @@ using namespace TumbllerConstants;
 
 Robota robota;
 
+// how many LiDAR measurements to send in one 
+// it's best if this is a multiple of POINT_PER_PACK (12)
+// but it can be any value
+const int LIDAR_BATCH_SIZE = 12*4;
 LD20Sensor lidar(&Serial2);
 
 // Left Motor controls
@@ -58,6 +62,7 @@ WebSocketControls controls;
 
 void setup() {
   Serial.begin(115200);
+  delay(1500);
   Serial.println("Starting...");
   lidar.setCallback(lidarMeasurementHandler);
   robota.addModule(&lidar);
@@ -126,26 +131,51 @@ void websocketEventHandler(AsyncWebSocket *server, AsyncWebSocketClient *client,
   }
 }
 
+// encodes an array of LIDAR_BATCH_SIZE measurements
+bool encode_lidar_batch(pb_ostream_t *stream, const pb_field_t *field, void * const *arg) {    
+    for (int i = 0; i < LIDAR_BATCH_SIZE; i++) {
+      if (!pb_encode_tag_for_field(stream, field))
+          return false;
+
+      if (!pb_encode_submessage(stream, at_htlw10_swarmbots_LidarData_LidarMeasurement_fields,
+        *arg + (i * sizeof(LidarData_LidarMeasurement))))
+          return false;
+    }
+    return true;
+}
+
 void lidarMeasurementHandler(SingleLiDARMeasurement measurement) {
   // TODO new lidar measurement handler system
   //  featuring batching of measurements and sending them as protobufs
-  /*if (!controls.isConnected())
-    return;
-  static const uint8_t BUFFER_SIZE = 100;
-  static SingleLiDARMeasurement buffer[BUFFER_SIZE];
+  // Tx buffer
+  static LidarData_LidarMeasurement buffer[LIDAR_BATCH_SIZE];
   static uint8_t count = 0;
-  count = count++ % BUFFER_SIZE;
-  buffer[count] = measurement;
+  // fill measurement data
+  buffer[count] = LidarData_LidarMeasurement();
+  buffer[count].angle = measurement.angle;
+  buffer[count].distance = measurement.distance;
+  buffer[count].intensity = measurement.intensity;
+  // increase counter and rollover once it reaches LIDAR_BATCH_SIZE
+  count = (count + 1) % LIDAR_BATCH_SIZE;
+
+  if (!controls.isConnected())
+    return;
+
   if (count == 0 && controls.availableForWrite()) {
-    //Serial.printf("SENDING %d BYTES!\n", sizeof(buffer));
-    controls.send((uint8_t *)&buffer, sizeof(buffer)); //TODO apparently this gets interpreted as a ping by the python program
-  }*/
+    Wrapper msg = Wrapper_init_zero;
+    msg.seq = controls.seq();
+    msg.which_message = at_htlw10_swarmbots_Wrapper_lidar_data_tag;
+    msg.message.lidar_data.measurements.funcs.encode = &encode_lidar_batch;
+    msg.message.lidar_data.measurements.arg = buffer;
+    // Send
+    controls.send(&msg);
+  }
 }
 
 void moveCommandHandler(MoveCmd cmd) {
-  Serial.printf("MOVE for max. %d!\n", cmd.duration);
+  Serial.printf("Move for max. %d!\n", cmd.duration);
   Serial.printf("Speed: %d, Steer: %d\n", cmd.speed, cmd.steer);
-  balancer.setTarget(cmd.speed, cmd.steer);
+  //balancer.setTarget(cmd.speed, cmd.steer);
   // TODO move
 }
 
@@ -166,9 +196,4 @@ void loop() {
   if (controls.isConnected() && robota.getTicks() % 10000 == 0) {
     //TODO
   }
-
-
-  //if (controls.isConnected()) {
-  //  controls.send(&msg);
-  //}
 }

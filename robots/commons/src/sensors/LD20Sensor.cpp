@@ -12,7 +12,7 @@ LD20Sensor::LD20Sensor(HardwareSerial *serial) {
 
 void LD20Sensor::init() {
   if (!*serial) {
-    serial->begin(230400, SERIAL_8N1, 13, 12);
+    serial->begin(230400, SERIAL_8N1, D9, D8);
   } else {
     // Assume it has already been initialised -> do nothing
   }
@@ -59,7 +59,10 @@ void LD20Sensor::processPacket(uint8_t byte) {
       if (crc == pcdpkg_data_.crc8) {
         float step = (pcdpkg_data_.end_angle - pcdpkg_data_.start_angle) / (POINT_PER_PACK - 1.0);
         for (int i = 0; i < POINT_PER_PACK; i++) {
-          uint16_t angle = (uint16_t)(pcdpkg_data_.start_angle + step * i * 100);
+          uint16_t angle = (uint16_t)(pcdpkg_data_.start_angle + step * i);
+          while (angle > 36500) {
+            angle -= 36500;
+          }
           SingleLiDARMeasurement measurement;
           measurement.angle = angle;
           measurement.distance = pcdpkg_data_.point[i].distance;

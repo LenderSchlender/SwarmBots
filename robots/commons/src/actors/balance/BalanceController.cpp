@@ -18,17 +18,18 @@ void BalanceController::init() {
 void BalanceController::tick() {
   updateAngle();
   // max speed = 3.8 rps
-  if (robota->getTicks() % 10 == 0) {
+  // TODO
+  /*if (robota->getTicks() % 10 == 0) {
     RotationData rotL = leftEnc->get(0);
     // left speed [rps]
     float rpsL = RotaryEncoder::pulsesToRotations(rotL.pulses) / (rotL.time / 1000.0);
     float targetRps = targetSpeed / (float) INT16_MAX * 3.75;
     double lOut = pidLeft.pid(targetRps - rpsL, rotL.time / 1000.0);
-    Serial.printf("%f rps; lOut: %f", rpsL, lOut);
+    //Serial.printf("%f rps; lOut: %f\n", rpsL, lOut);
     lOut = min(1.0, max(-1.0, lOut));
     left->setSpeed((int16_t) (lOut * INT16_MAX));
     //Serial.printf("; ss: %d\n", (int16_t) (lOut * INT16_MAX));
-  }
+  }*/
 }
 
 // Heavily inspired by https://github.com/TKJElectronics/KalmanFilter/blob/master/examples/MPU6050/MPU6050.ino

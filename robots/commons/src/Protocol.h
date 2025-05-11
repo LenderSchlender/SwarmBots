@@ -19,6 +19,8 @@ typedef at_htlw10_swarmbots_LedCmd      LedCmd;
 typedef at_htlw10_swarmbots_LidarData   LidarData;
 typedef at_htlw10_swarmbots_MoveCmd     MoveCmd;
 typedef at_htlw10_swarmbots_Wrapper     Wrapper;
+// Shorter type names for subtypes
+typedef _at_htlw10_swarmbots_LidarData_LidarMeasurement LidarData_LidarMeasurement;
 
 // Shorter init defines
 #define EncoderData_init_zero   at_htlw10_swarmbots_EncoderData_init_zero
