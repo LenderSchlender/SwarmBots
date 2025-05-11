@@ -51,6 +51,7 @@ async def ws_recv_task(Queue, websocket):
 async def hello(websocket):
     a = 0
     i = 0
+    count = 0
 
     recv_for_bot1 = asyncio.Queue()
     asyncio.create_task(
@@ -91,11 +92,24 @@ async def hello(websocket):
             wrp_send.move_cmd.speed = 69
             wrp_send.move_cmd.duration = 30
 
+            sample_measurements = [
+                (90, 1500, 128),
+                (91, 1520, 130),
+                (92, 1490, 127),
+            ]
+
+            for angle, distance, intensity in sample_measurements:
+                measurement = wrp_send.lidar_data.measurements.add()
+                measurement.angle = angle + count
+                measurement.distance = distance
+                measurement.intensity = intensity
+                count+=5
+            # print("Hi")
             # print(i)
             # print("\n---------------send_to_server------------------")
             # print_wrp.seq(wrp_send)
             await websocket.send(wrp_send.SerializeToString())
-            # await asyncio.sleep(0.02)
+            await asyncio.sleep(0.25)
         else:
             await asyncio.sleep(0)
 

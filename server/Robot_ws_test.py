@@ -21,6 +21,8 @@ from websockets.exceptions import ConnectionClosed
 from protobuf.wrapper_pb2 import Wrapper
 import print_wrapper_content as print_wrp  # used for console prints
 
+import lidar_gui
+
 # some parameter for testing
 SEND_BACK = False  # sends the received data back
 CODE_IF_SOCKET_RECV = True  # if something has been received
@@ -47,8 +49,8 @@ def code_at_socket_recv(websocket_data):
 ip = get_ip.get_local_ip()
 
 
-# uri_bot1 = f"ws://{ip}:8083"  # bot1
-uri_bot1 = "ws://sb-guide.htlw10.at:80/ws"  # bot1
+uri_bot1 = f"ws://{ip}:8083"  # bot1
+# uri_bot1 = "ws://sb-guide.htlw10.at:80/ws"  # bot1
 
 
 # FIFO Buffers which are written to
@@ -90,6 +92,7 @@ async def bot1_handler1():
     wrp_recv = Wrapper()   # wrapper that has been received and to be processed
     wrp_send = Wrapper()
     recv_for_bot1 = asyncio.Queue()  # FIFO Buffer for received packs
+    lidar_que = asyncio.Queue()
 
     i = 0  # increment value
 
@@ -102,6 +105,9 @@ async def bot1_handler1():
                 # receive_task_bot1 =
                 asyncio.create_task(
                     ws_recv_task(recv_for_bot1, websocket))
+
+                asyncio.create_task(
+                    lidar_gui.main(True, lidar_que))
 
                 await sendto_bot1.put(wrp_recv)
 
@@ -138,6 +144,8 @@ async def bot1_handler1():
 
                             if SEND_BACK:
                                 await sendto_bot1.put(wrp_recv)
+
+                            await lidar_que.put(wrp_recv.lidar_data.measurements)
 
                         else:
                             break  # leave loop early if empty
