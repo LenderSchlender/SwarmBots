@@ -5,38 +5,6 @@ import math
 
 import asyncio
 
-# from protobuf.wrapper_pb2 import Wrapper
-# import print_wrapper_content as print_wrp  # used for console prints
-
-# # temporary in the place of front end
-# import websockets
-# from websockets.asyncio.client import connect
-# from websockets.exceptions import ConnectionClosed
-# import get_ip
-
-# async def ws_recv_task(Queue, websocket):
-#     """
-#     task which await packets to be received from the websocket connection
-#     and puts them in the defined buffer until the Connection is closed
-
-#     Args:
-#         Queue (): The buffer which is being written to
-#         websocket (): the defined websocket connection to be received from
-#     """
-#     # lock = asyncio.Lock()
-#     # global recv_for_bot1 # have to test if defining it is necessary
-
-#     while True:
-#         try:
-#             # async with lock:
-#             message = await websocket.recv()
-#             await Queue.put(message)
-#         except ConnectionClosed:
-#             print("Connection closed")
-#             break  # break to allow the task to close
-#         except TimeoutError:
-#             pass
-
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 # https://www.tutorialspoint.com/creating-a-radar-sweep-animation-using-pygame-in-python
@@ -51,10 +19,10 @@ running = True
 MAX_MEASUREMENTS = 1000
 count = 0
 # array of (angle, distance) with placeholders values
-measurements = [(0, -1) for x in range(MAX_MEASUREMENTS)]
-measurements[0] = (0, 50)
-measurements[1] = (90, 150)
-measurements[2] = (90, 500)
+measurements = [(0, -1, 255) for x in range(MAX_MEASUREMENTS)]
+measurements[0] = (0, 50, 255)
+measurements[1] = (90, 150, 255)
+measurements[2] = (90, 500, 255)
 
 radar_circle_radius = SCREEN_HEIGHT / 2 - 25
 radar_circle_center_x = int(SCREEN_WIDTH / 2)
@@ -70,7 +38,7 @@ def render():
     screen.blit(background, (0, 0))  # apply background
 
     # Draw radar sweep line
-    radar_sweep_angle, _ = measurements[count % MAX_MEASUREMENTS]
+    radar_sweep_angle, _, _ = measurements[count % MAX_MEASUREMENTS]
     x = (radar_circle_center_x + radar_circle_radius *
          math.sin(math.radians(radar_sweep_angle)))
     y = (radar_circle_center_y + radar_circle_radius *
@@ -80,14 +48,18 @@ def render():
 
     # Draw measurements
     for measurement in measurements:
-        angle, distance = measurement
+        angle, distance, intensity = measurement
         if distance <= 0:
             continue
+        if intensity <= 0:  # fallback
+            blue = 255
+        else:
+            blue = 0
         # TODO find unit for distance (assume mm for now)
         distancePx = distance / 20  # One px = 5cm
         x = distancePx * math.cos(math.radians(angle)) + radar_circle_center_x
         y = distancePx * math.sin(math.radians(angle)) + radar_circle_center_y
-        pygame.draw.circle(screen, (255, 0, 0), (x, y), 1)
+        pygame.draw.circle(screen, (intensity, 0, blue), (x, y), 1)
 
     # Flip the display
     pygame.display.flip()
@@ -124,12 +96,10 @@ async def main(running, Queue):
             while Queue.empty():
                 await asyncio.sleep(0)
             received = Queue.get_nowait()
-            
+
             for m in received:
-                vals = (m.angle, m.distance)
-                if len(vals) != 2:
-                    continue
-                angle, dist = vals
+                vals = (m.angle, m.distance, m.intensity)
+                # angle, dist = vals
 
                 measurements[count % MAX_MEASUREMENTS] = vals
                 if count % 10 == 0:  # update every 10 measurements
@@ -141,11 +111,10 @@ async def main(running, Queue):
             # ser.close()
             print('Keyboard Interrupt')
             break
-        
+
     pygame.quit()
 
-# Done! Time to quit.
-
+    # Done! Time to quit.
 
 
 if __name__ == "__main__":

@@ -95,21 +95,24 @@ async def hello(websocket):
             sample_measurements = [
                 (90, 1500, 128),
                 (91, 1520, 130),
-                (92, 1490, 127),
+                (92, 1490, 255),
+                (93, 1300, 9),
             ]
+            
+            b = random.randint(0, 4000)
 
             for angle, distance, intensity in sample_measurements:
                 measurement = wrp_send.lidar_data.measurements.add()
                 measurement.angle = angle + count
-                measurement.distance = distance
+                measurement.distance = distance + b
                 measurement.intensity = intensity
-                count+=5
+                count+=1
             # print("Hi")
             # print(i)
             # print("\n---------------send_to_server------------------")
             # print_wrp.seq(wrp_send)
             await websocket.send(wrp_send.SerializeToString())
-            await asyncio.sleep(0.25)
+            await asyncio.sleep(0.01)
         else:
             await asyncio.sleep(0)
 

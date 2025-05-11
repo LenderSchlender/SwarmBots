@@ -172,9 +172,9 @@ async def bot1_handler1():
                         # print("\n---------------send_to_server------------------")
                         # print_wrp.seq(wrp_send)
                         await websocket.send(wrp_send.SerializeToString())
-                        await asyncio.sleep(3)
+                        await asyncio.sleep(1)
                     else:
-                        await asyncio.sleep(3)
+                        await asyncio.sleep(0)
 
         except ConnectionClosed:
             print("closed :C")
