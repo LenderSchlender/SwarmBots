@@ -3,6 +3,9 @@
 #include "WiFi.h"
 #include "WiFiType.h"
 
+// uncomment this to see websocket messages:
+//#define DEBUG_WEBSOCKET
+
 WiFiConnection::WiFiConnection(const char *hostname, const char *ssid, const char *password) {
   strncpy(this->hostname, hostname, sizeof(this->hostname));
   strncpy(this->ssid, ssid, sizeof(this->ssid));
@@ -125,11 +128,13 @@ void WebSocketControls::send(Wrapper *message) {
   // Write the message to the buffer
   pb_encode(&writeStream, at_htlw10_swarmbots_Wrapper_fields, message);
   // Send the buffer to all connected clients
+#ifdef DEBUG_WEBSOCKET
   Serial.print("Tx:");
   for (int i = 0; i<writeStream.bytes_written; i++) {
     Serial.printf("%02x", buffer[i]);
   }
   Serial.println();
+#endif
   
   AsyncWebSocketMessageBuffer *wsBuffer = ws.makeBuffer(writeStream.bytes_written);
 
@@ -169,11 +174,13 @@ void WebSocketControls::_onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient 
   case WS_EVT_DATA:
     // Decode the stream into the prepared wrapper object
     if (pb_decode(&stream, at_htlw10_swarmbots_Wrapper_fields, &msg)) {
+#ifdef DEBUG_WEBSOCKET
       Serial.print("Rx: ");
       for (int i = 0; i < len; i++) {
         Serial.printf("%02x", data[i]);
       }
       Serial.println();
+#endif
       _handleReceivedMessage(client, msg);
     } else {
       Serial.println("ERROR: Received invalid data!");
