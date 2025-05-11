@@ -18,3 +18,4 @@ import protobuf.imu_data_pb2 as imu__data__pb2
 Python packages:
 - websockets
 - protobuf
+- pygame

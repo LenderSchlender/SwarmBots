@@ -25,8 +25,8 @@ import lidar_gui
 
 # some parameter for testing
 SEND_BACK = False  # sends the received data back
-CODE_IF_SOCKET_RECV = True  # if something has been received
-CODE_AT_QUEUE_EMPTY = True  # after queue being emptied
+CODE_IF_SOCKET_RECV = False  # if something has been received
+CODE_AT_QUEUE_EMPTY = False  # after queue being emptied
 
 
 def code_at_queue_empty(protobuff_wrapper):
@@ -98,6 +98,10 @@ async def bot1_handler1():
 
     while True:
         # try to reattempt connection whit bot
+
+        asyncio.create_task(
+            lidar_gui.main(True, lidar_que))
+
         try:
             print("connecting bot1")
             async with connect(uri_bot1) as websocket:
@@ -105,9 +109,6 @@ async def bot1_handler1():
                 # receive_task_bot1 =
                 asyncio.create_task(
                     ws_recv_task(recv_for_bot1, websocket))
-
-                asyncio.create_task(
-                    lidar_gui.main(True, lidar_que))
 
                 await sendto_bot1.put(wrp_recv)
 
@@ -134,7 +135,11 @@ async def bot1_handler1():
                     for buffer in range(50):
                         if not recv_for_bot1.empty():
                             t = recv_for_bot1.get_nowait()
-                            wrp_recv.ParseFromString(t)
+                            try:
+                                wrp_recv.ParseFromString(t)
+                            except Exception as e:
+                                print(e)
+                                continue
 
                             if CODE_AT_QUEUE_EMPTY:
                                 # print here if necessary
@@ -145,6 +150,7 @@ async def bot1_handler1():
                             if SEND_BACK:
                                 await sendto_bot1.put(wrp_recv)
 
+                            # for the lidar gui
                             await lidar_que.put(wrp_recv.lidar_data.measurements)
 
                         else:
@@ -155,7 +161,7 @@ async def bot1_handler1():
                         await asyncio.sleep(0)
 
                     a = random.randint(0, 1)
-                    a = 1
+                    a = 0
                     if a == 1:
                         wrp_send = Wrapper()
                         i = i+1

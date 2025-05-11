@@ -98,7 +98,7 @@ async def hello(websocket):
                 (92, 1490, 255),
                 (93, 1300, 9),
             ]
-            
+
             b = random.randint(0, 4000)
 
             for angle, distance, intensity in sample_measurements:
@@ -106,7 +106,7 @@ async def hello(websocket):
                 measurement.angle = angle + count
                 measurement.distance = distance + b
                 measurement.intensity = intensity
-                count+=1
+                count += 1
             # print("Hi")
             # print(i)
             # print("\n---------------send_to_server------------------")

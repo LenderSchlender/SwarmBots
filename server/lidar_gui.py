@@ -98,7 +98,7 @@ async def main(running, Queue):
             received = Queue.get_nowait()
 
             for m in received:
-                vals = (m.angle, m.distance, m.intensity)
+                vals = (m.angle / 100, m.distance, m.intensity)
                 # angle, dist = vals
 
                 measurements[count % MAX_MEASUREMENTS] = vals
